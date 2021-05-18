@@ -1,0 +1,298 @@
+﻿
+namespace WindowsFormsApp2
+{
+    partial class MainWindow
+    {
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Windows Form Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        public void InitializeComponent()
+        {
+            this.components = new System.ComponentModel.Container();
+            this.OpenAddForm = new System.Windows.Forms.Button();
+            this.DeleteCostButton = new System.Windows.Forms.Button();
+            this.categoryFilterBox = new System.Windows.Forms.ComboBox();
+            this.searchNameInput = new System.Windows.Forms.TextBox();
+            this.costsTable = new System.Windows.Forms.DataGridView();
+            this.startDateDisplay = new System.Windows.Forms.DateTimePicker();
+            this.endDateDisplay = new System.Windows.Forms.DateTimePicker();
+            this.label1 = new System.Windows.Forms.Label();
+            this.savePdfButton = new System.Windows.Forms.Button();
+            this.editExpensButton = new System.Windows.Forms.Button();
+            this.selectedAccountBox = new System.Windows.Forms.ComboBox();
+            this.accountBalance = new System.Windows.Forms.Label();
+            this.DateBox = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.CategorysBox = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.priceBox = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.commentBox = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.button1 = new System.Windows.Forms.Button();
+            this.addAccountForm = new System.Windows.Forms.Button();
+            this.deleteAccountButton = new System.Windows.Forms.Button();
+            ((System.ComponentModel.ISupportInitialize)(this.costsTable)).BeginInit();
+            this.SuspendLayout();
+            // 
+            // OpenAddForm
+            // 
+            this.OpenAddForm.Location = new System.Drawing.Point(502, 165);
+            this.OpenAddForm.Name = "OpenAddForm";
+            this.OpenAddForm.Size = new System.Drawing.Size(75, 22);
+            this.OpenAddForm.TabIndex = 0;
+            this.OpenAddForm.Text = "Add expenes";
+            this.OpenAddForm.UseVisualStyleBackColor = true;
+            this.OpenAddForm.Click += new System.EventHandler(this.OpenAddForm_Click);
+            // 
+            // DeleteCostButton
+            // 
+            this.DeleteCostButton.Location = new System.Drawing.Point(502, 288);
+            this.DeleteCostButton.Name = "DeleteCostButton";
+            this.DeleteCostButton.Size = new System.Drawing.Size(75, 23);
+            this.DeleteCostButton.TabIndex = 1;
+            this.DeleteCostButton.Text = "Delete";
+            this.DeleteCostButton.UseVisualStyleBackColor = true;
+            this.DeleteCostButton.Click += new System.EventHandler(this.DeleteCostButton_Click);
+            // 
+            // categoryFilterBox
+            // 
+            this.categoryFilterBox.FormattingEnabled = true;
+            this.categoryFilterBox.Items.AddRange(new object[] {
+            "All costs",
+            "Traffic",
+            "Utilities",
+            "ServicesCommunication",
+            "MedicinesAndHygieneProducts",
+            "Food"});
+            this.categoryFilterBox.Location = new System.Drawing.Point(24, 87);
+            this.categoryFilterBox.Name = "categoryFilterBox";
+            this.categoryFilterBox.Size = new System.Drawing.Size(122, 21);
+            this.categoryFilterBox.TabIndex = 2;
+            this.categoryFilterBox.SelectedIndexChanged += new System.EventHandler(this.CategoryFilter_SelectedIndexChanged);
+            // 
+            // searchNameInput
+            // 
+            this.searchNameInput.Location = new System.Drawing.Point(403, 91);
+            this.searchNameInput.Name = "searchNameInput";
+            this.searchNameInput.Size = new System.Drawing.Size(105, 20);
+            this.searchNameInput.TabIndex = 3;
+            this.searchNameInput.TextChanged += new System.EventHandler(this.NameSearch_TextChanged);
+            // 
+            // costsTable
+            // 
+            this.costsTable.AllowUserToAddRows = false;
+            this.costsTable.BackgroundColor = System.Drawing.SystemColors.Control;
+            this.costsTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.costsTable.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.DateBox,
+            this.CategorysBox,
+            this.priceBox,
+            this.commentBox});
+            this.costsTable.Location = new System.Drawing.Point(24, 142);
+            this.costsTable.Name = "costsTable";
+            this.costsTable.RowHeadersVisible = false;
+            this.costsTable.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.costsTable.Size = new System.Drawing.Size(461, 217);
+            this.costsTable.TabIndex = 4;
+            this.costsTable.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.costsTable_CellContentDoubleClick);
+            // 
+            // startDateDisplay
+            // 
+            this.startDateDisplay.CustomFormat = "dd:MM:yyyy";
+            this.startDateDisplay.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.startDateDisplay.Location = new System.Drawing.Point(170, 88);
+            this.startDateDisplay.Name = "startDateDisplay";
+            this.startDateDisplay.Size = new System.Drawing.Size(91, 20);
+            this.startDateDisplay.TabIndex = 5;
+            this.startDateDisplay.ValueChanged += new System.EventHandler(this.dateTimePicker1_ValueChanged);
+            // 
+            // endDateDisplay
+            // 
+            this.endDateDisplay.CustomFormat = "dd:MM:yyyy";
+            this.endDateDisplay.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.endDateDisplay.Location = new System.Drawing.Point(289, 88);
+            this.endDateDisplay.Name = "endDateDisplay";
+            this.endDateDisplay.Size = new System.Drawing.Size(95, 20);
+            this.endDateDisplay.TabIndex = 6;
+            this.endDateDisplay.ValueChanged += new System.EventHandler(this.dateTimePicker2_ValueChanged);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label1.Location = new System.Drawing.Point(267, 86);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(16, 24);
+            this.label1.TabIndex = 7;
+            this.label1.Text = "-";
+            // 
+            // savePdfButton
+            // 
+            this.savePdfButton.Location = new System.Drawing.Point(502, 326);
+            this.savePdfButton.Name = "savePdfButton";
+            this.savePdfButton.Size = new System.Drawing.Size(75, 23);
+            this.savePdfButton.TabIndex = 8;
+            this.savePdfButton.Text = "Save PDF";
+            this.savePdfButton.UseVisualStyleBackColor = true;
+            this.savePdfButton.Click += new System.EventHandler(this.SavePdfButton_Click);
+            // 
+            // editExpensButton
+            // 
+            this.editExpensButton.Location = new System.Drawing.Point(502, 248);
+            this.editExpensButton.Name = "editExpensButton";
+            this.editExpensButton.Size = new System.Drawing.Size(75, 23);
+            this.editExpensButton.TabIndex = 9;
+            this.editExpensButton.Text = "Edit";
+            this.editExpensButton.UseVisualStyleBackColor = true;
+            // 
+            // selectedAccountBox
+            // 
+            this.selectedAccountBox.FormattingEnabled = true;
+            this.selectedAccountBox.Location = new System.Drawing.Point(24, 12);
+            this.selectedAccountBox.Name = "selectedAccountBox";
+            this.selectedAccountBox.Size = new System.Drawing.Size(157, 21);
+            this.selectedAccountBox.TabIndex = 10;
+            // 
+            // accountBalance
+            // 
+            this.accountBalance.AutoSize = true;
+            this.accountBalance.Location = new System.Drawing.Point(21, 54);
+            this.accountBalance.Name = "accountBalance";
+            this.accountBalance.Size = new System.Drawing.Size(35, 13);
+            this.accountBalance.TabIndex = 11;
+            this.accountBalance.Text = "label2";
+            // 
+            // DateBox
+            // 
+            this.DateBox.HeaderText = "Date";
+            this.DateBox.Name = "DateBox";
+            this.DateBox.ReadOnly = true;
+            this.DateBox.Width = 90;
+            // 
+            // CategorysBox
+            // 
+            this.CategorysBox.HeaderText = "Categorys";
+            this.CategorysBox.Name = "CategorysBox";
+            this.CategorysBox.ReadOnly = true;
+            this.CategorysBox.Width = 120;
+            // 
+            // priceBox
+            // 
+            this.priceBox.HeaderText = "Price";
+            this.priceBox.Name = "priceBox";
+            this.priceBox.ReadOnly = true;
+            this.priceBox.Width = 110;
+            // 
+            // commentBox
+            // 
+            this.commentBox.HeaderText = "Comment";
+            this.commentBox.Name = "commentBox";
+            this.commentBox.ReadOnly = true;
+            this.commentBox.Width = 110;
+            // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(502, 208);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 14;
+            this.button1.Text = "Add income";
+            this.button1.UseVisualStyleBackColor = true;
+            // 
+            // addAccountForm
+            // 
+            this.addAccountForm.Location = new System.Drawing.Point(215, 9);
+            this.addAccountForm.Name = "addAccountForm";
+            this.addAccountForm.Size = new System.Drawing.Size(75, 23);
+            this.addAccountForm.TabIndex = 15;
+            this.addAccountForm.Text = "Add account";
+            this.addAccountForm.UseVisualStyleBackColor = true;
+            this.addAccountForm.Click += new System.EventHandler(this.addAccountForm_Click);
+            // 
+            // deleteAccountButton
+            // 
+            this.deleteAccountButton.Location = new System.Drawing.Point(306, 8);
+            this.deleteAccountButton.Name = "deleteAccountButton";
+            this.deleteAccountButton.Size = new System.Drawing.Size(75, 23);
+            this.deleteAccountButton.TabIndex = 16;
+            this.deleteAccountButton.Text = "Delete Account";
+            this.deleteAccountButton.UseVisualStyleBackColor = true;
+            // 
+            // MainWindow
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(623, 450);
+            this.Controls.Add(this.deleteAccountButton);
+            this.Controls.Add(this.addAccountForm);
+            this.Controls.Add(this.button1);
+            this.Controls.Add(this.accountBalance);
+            this.Controls.Add(this.selectedAccountBox);
+            this.Controls.Add(this.editExpensButton);
+            this.Controls.Add(this.savePdfButton);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.endDateDisplay);
+            this.Controls.Add(this.startDateDisplay);
+            this.Controls.Add(this.costsTable);
+            this.Controls.Add(this.searchNameInput);
+            this.Controls.Add(this.categoryFilterBox);
+            this.Controls.Add(this.DeleteCostButton);
+            this.Controls.Add(this.OpenAddForm);
+            this.Name = "MainWindow";
+            this.Text = "Costs";
+            this.Load += new System.EventHandler(this.MainWindow_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.costsTable)).EndInit();
+            this.ResumeLayout(false);
+            this.PerformLayout();
+
+        }
+
+        #endregion
+
+        public System.Windows.Forms.Button OpenAddForm;
+        public System.Windows.Forms.Button DeleteCostButton;
+        public System.Windows.Forms.ComboBox categoryFilterBox;
+        public System.Windows.Forms.TextBox searchNameInput;
+        public System.Windows.Forms.DataGridView costsTable;
+        private System.Windows.Forms.DateTimePicker startDateDisplay;
+        private System.Windows.Forms.DateTimePicker endDateDisplay;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button savePdfButton;
+        private System.Windows.Forms.Button editExpensButton;
+        private System.Windows.Forms.ComboBox selectedAccountBox;
+        private System.Windows.Forms.Label accountBalance;
+        private System.Windows.Forms.DataGridViewTextBoxColumn DateBox;
+        private System.Windows.Forms.DataGridViewTextBoxColumn CategorysBox;
+        private System.Windows.Forms.DataGridViewTextBoxColumn priceBox;
+        private System.Windows.Forms.DataGridViewTextBoxColumn commentBox;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button addAccountForm;
+        private System.Windows.Forms.Button deleteAccountButton;
+    }
+}
+
