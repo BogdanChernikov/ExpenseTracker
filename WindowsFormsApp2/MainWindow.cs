@@ -12,15 +12,16 @@ namespace WindowsFormsApp2
 {
     public partial class MainWindow : Form
     {
-        List<Expenses> expenses = new List<Expenses>();
-        List<Expenses> filteredExpenses = new List<Expenses>();
+        List<Expense> expenses = new List<Expense>();
+        List<Expense> filteredExpenses = new List<Expense>();
         List<Account> accounts = new List<Account>();
         public delegate void CostRow();
-        
+
 
         public MainWindow()
         {
             InitializeComponent();
+            expensesTable.AutoGenerateColumns = false;
             categoryFilterBox.SelectedItem = "All costs";
             startDateDisplay.Value = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.MinValue.Day);
         }
@@ -28,8 +29,11 @@ namespace WindowsFormsApp2
         private void OpenAddForm_Click(object sender, EventArgs e)
         {
             AddCostForm addCostForm = new AddCostForm();
-            addCostForm.expenes = expenses;
-            addCostForm.tab = ShowCosts;
+            addCostForm.OnExpenseAdded = (expense) =>
+            {
+                expenses.Add(expense);
+                ShowCosts();
+            };
             addCostForm.Show();
         }
 
@@ -43,23 +47,29 @@ namespace WindowsFormsApp2
                 DataGridViewCell category = new DataGridViewTextBoxCell();
                 DataGridViewCell price = new DataGridViewTextBoxCell();
                 DataGridViewCell coment = new DataGridViewTextBoxCell();
-                price.Value = expenses[i].cost;
-                coment.Value = expenses[i].comment;
+                price.Value = expenses[i].Cost;
+                coment.Value = expenses[i].Comment;
                 category.Value = expenses[i].Category;
-                date.Value = expenses[i].date;
+                date.Value = expenses[i].Date;
 
                 DataGridViewRow row = new DataGridViewRow();
                 row.Cells.AddRange(date, category, price, coment);
-                costsTable.Rows.Add(row);
             }
+            FilterTable();
             SaveChanges();
         }
 
         private void DeleteCostButton_Click(object sender, EventArgs e)
         {
-            int row = costsTable.SelectedCells[0].RowIndex;
-            costsTable.Rows.RemoveAt(row);
-            expenses.RemoveAt(row);
+            foreach (DataGridViewRow row in this.expensesTable.SelectedRows)
+            {
+                var expense = row.DataBoundItem as Expense;
+                if (expense != null)
+                {
+                    expenses.Remove(expense);
+                }
+            }
+            FilterTable();
             SaveChanges();
         }
 
@@ -68,40 +78,23 @@ namespace WindowsFormsApp2
             FilterTable();
         }
 
-        private void NameSearch_TextChanged(object sender, EventArgs e)
+        private void CommentSearch_TextChanged(object sender, EventArgs e)
         {
             FilterTable();
         }
 
-        public void FillTable()
+        public void RefreshTable()
         {
-            int costCount = filteredExpenses.Count;
-            costsTable.Rows.Clear();
-            for (int i = 0; i < costCount; i++)
-            {
-                DataGridViewCell date = new DataGridViewTextBoxCell();
-                // DataGridViewCell name = new DataGridViewTextBoxCell();
-                DataGridViewCell category = new DataGridViewTextBoxCell();
-                DataGridViewCell price = new DataGridViewTextBoxCell();
-                DataGridViewCell coment = new DataGridViewTextBoxCell();
-                // name.Value = filteredExpenses[i].name;
-                price.Value = filteredExpenses[i].cost;
-                coment.Value = filteredExpenses[i].comment;
-                category.Value = filteredExpenses[i].Category;
-                date.Value = filteredExpenses[i].date;
-
-                DataGridViewRow row = new DataGridViewRow();
-                row.Cells.AddRange(date, category, price, coment);
-                costsTable.Rows.Add(row);
-            }
+            expensesTable.DataSource = null;
+            expensesTable.DataSource = filteredExpenses;
         }
 
-        private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
+        private void DateTimePicker1_ValueChanged(object sender, EventArgs e)
         {
             FilterTable();
         }
 
-        private void dateTimePicker2_ValueChanged(object sender, EventArgs e)
+        private void DateTimePicker2_ValueChanged(object sender, EventArgs e)
         {
             FilterTable();
         }
@@ -111,7 +104,6 @@ namespace WindowsFormsApp2
             filteredExpenses = expenses.ToList();
 
             //category Filtred
-
             var chosenCategory = Convert.ToString(categoryFilterBox.SelectedItem);
 
             if (chosenCategory != "All costs")
@@ -120,44 +112,35 @@ namespace WindowsFormsApp2
             }
 
             //name search
-
             if (!string.IsNullOrWhiteSpace(searchNameInput.Text))
             {
-
-                for (int i = 0; i < costsTable.Rows.Count; i++)
-                {
-                    if (!costsTable[3, i].FormattedValue.ToString().Contains(searchNameInput.Text.Trim()))
-                    {
-                        filteredExpenses.Remove(expenses[i]);
-                    }
-                }
+                filteredExpenses = filteredExpenses.Where(x => x.Comment.Contains(searchNameInput.Text.Trim())).ToList();
             }
 
             //data filrer1
-            filteredExpenses = filteredExpenses.Where(x => x.date >= startDateDisplay.Value).ToList();
+            filteredExpenses = filteredExpenses.Where(x => x.Date >= startDateDisplay.Value).ToList();
 
             //data filter2
-            filteredExpenses = filteredExpenses.Where(x => x.date <= endDateDisplay.Value).ToList();
+            filteredExpenses = filteredExpenses.Where(x => x.Date <= endDateDisplay.Value).ToList();
 
-            FillTable();
+            RefreshTable();
         }
 
         private void MainWindow_Load(object sender, EventArgs e)
         {
-
-            XmlSerializer ser = new XmlSerializer(typeof(List<Expenses>));
+            XmlSerializer ser = new XmlSerializer(typeof(List<Expense>));
             string path = "list.txt";
             var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-            expenses = (List<Expenses>)ser.Deserialize(stream);
+            expenses = (List<Expense>)ser.Deserialize(stream);
 
             stream.Close();
             filteredExpenses = expenses.ToList();
-            FillTable();
+            RefreshTable();
         }
 
         private void SaveChanges()
         {
-            XmlSerializer ser = new XmlSerializer(typeof(List<Expenses>));
+            XmlSerializer ser = new XmlSerializer(typeof(List<Expense>));
             string path = "list.txt";
             FileStream stream = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.ReadWrite);
             ser.Serialize(stream, expenses);
@@ -172,21 +155,20 @@ namespace WindowsFormsApp2
 
             doc.Open();
 
-            PdfPTable table = new PdfPTable(costsTable.Columns.Count);
+            PdfPTable table = new PdfPTable(expensesTable.Columns.Count);
 
-
-            for (int j = 0; j < costsTable.Columns.Count; j++)
+            for (int j = 0; j < expensesTable.Columns.Count; j++)
             {
-                var cell = new PdfPCell(new Phrase(costsTable.Columns[j].HeaderText));
+                var cell = new PdfPCell(new Phrase(expensesTable.Columns[j].HeaderText));
 
                 table.AddCell(cell);
             }
 
-            for (int j = 0; j < costsTable.Rows.Count; j++)
+            for (int j = 0; j < expensesTable.Rows.Count; j++)
             {
-                for (int k = 0; k < costsTable.Columns.Count; k++)
+                for (int k = 0; k < expensesTable.Columns.Count; k++)
                 {
-                    table.AddCell(new Phrase(costsTable[k, j].Value.ToString()));
+                    table.AddCell(new Phrase(expensesTable[k, j].Value.ToString()));
                 }
             }
 
@@ -202,11 +184,9 @@ namespace WindowsFormsApp2
             addAccountForm.Show();
         }
 
-       
-
         private void costsTable_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            EditDataForm editDataForm= new EditDataForm();
+            EditDataForm editDataForm = new EditDataForm();
             editDataForm.expenes = expenses;
             editDataForm.tab = ShowCosts;
             editDataForm.Show();

@@ -34,7 +34,7 @@ namespace WindowsFormsApp2
             this.DeleteCostButton = new System.Windows.Forms.Button();
             this.categoryFilterBox = new System.Windows.Forms.ComboBox();
             this.searchNameInput = new System.Windows.Forms.TextBox();
-            this.costsTable = new System.Windows.Forms.DataGridView();
+            this.expensesTable = new System.Windows.Forms.DataGridView();
             this.startDateDisplay = new System.Windows.Forms.DateTimePicker();
             this.endDateDisplay = new System.Windows.Forms.DateTimePicker();
             this.label1 = new System.Windows.Forms.Label();
@@ -42,15 +42,15 @@ namespace WindowsFormsApp2
             this.editExpensButton = new System.Windows.Forms.Button();
             this.selectedAccountBox = new System.Windows.Forms.ComboBox();
             this.accountBalance = new System.Windows.Forms.Label();
-            this.DateBox = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.CategorysBox = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.priceBox = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.commentBox = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.button1 = new System.Windows.Forms.Button();
             this.addAccountForm = new System.Windows.Forms.Button();
             this.deleteAccountButton = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.costsTable)).BeginInit();
+            this.DateBox = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.CategoryBox = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.costBox = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.commentBox = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            ((System.ComponentModel.ISupportInitialize)(this.expensesTable)).BeginInit();
             this.SuspendLayout();
             // 
             // OpenAddForm
@@ -95,25 +95,25 @@ namespace WindowsFormsApp2
             this.searchNameInput.Name = "searchNameInput";
             this.searchNameInput.Size = new System.Drawing.Size(105, 20);
             this.searchNameInput.TabIndex = 3;
-            this.searchNameInput.TextChanged += new System.EventHandler(this.NameSearch_TextChanged);
+            this.searchNameInput.TextChanged += new System.EventHandler(this.CommentSearch_TextChanged);
             // 
-            // costsTable
+            // expensesTable
             // 
-            this.costsTable.AllowUserToAddRows = false;
-            this.costsTable.BackgroundColor = System.Drawing.SystemColors.Control;
-            this.costsTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.costsTable.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.expensesTable.AllowUserToAddRows = false;
+            this.expensesTable.BackgroundColor = System.Drawing.SystemColors.Control;
+            this.expensesTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.expensesTable.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.DateBox,
-            this.CategorysBox,
-            this.priceBox,
+            this.CategoryBox,
+            this.costBox,
             this.commentBox});
-            this.costsTable.Location = new System.Drawing.Point(24, 142);
-            this.costsTable.Name = "costsTable";
-            this.costsTable.RowHeadersVisible = false;
-            this.costsTable.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.costsTable.Size = new System.Drawing.Size(461, 217);
-            this.costsTable.TabIndex = 4;
-            this.costsTable.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.costsTable_CellContentDoubleClick);
+            this.expensesTable.Location = new System.Drawing.Point(24, 142);
+            this.expensesTable.Name = "expensesTable";
+            this.expensesTable.RowHeadersVisible = false;
+            this.expensesTable.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.expensesTable.Size = new System.Drawing.Size(461, 217);
+            this.expensesTable.TabIndex = 4;
+            this.expensesTable.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.costsTable_CellContentDoubleClick);
             // 
             // startDateDisplay
             // 
@@ -123,7 +123,7 @@ namespace WindowsFormsApp2
             this.startDateDisplay.Name = "startDateDisplay";
             this.startDateDisplay.Size = new System.Drawing.Size(91, 20);
             this.startDateDisplay.TabIndex = 5;
-            this.startDateDisplay.ValueChanged += new System.EventHandler(this.dateTimePicker1_ValueChanged);
+            this.startDateDisplay.ValueChanged += new System.EventHandler(this.DateTimePicker1_ValueChanged);
             // 
             // endDateDisplay
             // 
@@ -133,7 +133,7 @@ namespace WindowsFormsApp2
             this.endDateDisplay.Name = "endDateDisplay";
             this.endDateDisplay.Size = new System.Drawing.Size(95, 20);
             this.endDateDisplay.TabIndex = 6;
-            this.endDateDisplay.ValueChanged += new System.EventHandler(this.dateTimePicker2_ValueChanged);
+            this.endDateDisplay.ValueChanged += new System.EventHandler(this.DateTimePicker2_ValueChanged);
             // 
             // label1
             // 
@@ -181,34 +181,6 @@ namespace WindowsFormsApp2
             this.accountBalance.TabIndex = 11;
             this.accountBalance.Text = "label2";
             // 
-            // DateBox
-            // 
-            this.DateBox.HeaderText = "Date";
-            this.DateBox.Name = "DateBox";
-            this.DateBox.ReadOnly = true;
-            this.DateBox.Width = 90;
-            // 
-            // CategorysBox
-            // 
-            this.CategorysBox.HeaderText = "Categorys";
-            this.CategorysBox.Name = "CategorysBox";
-            this.CategorysBox.ReadOnly = true;
-            this.CategorysBox.Width = 120;
-            // 
-            // priceBox
-            // 
-            this.priceBox.HeaderText = "Price";
-            this.priceBox.Name = "priceBox";
-            this.priceBox.ReadOnly = true;
-            this.priceBox.Width = 110;
-            // 
-            // commentBox
-            // 
-            this.commentBox.HeaderText = "Comment";
-            this.commentBox.Name = "commentBox";
-            this.commentBox.ReadOnly = true;
-            this.commentBox.Width = 110;
-            // 
             // contextMenuStrip1
             // 
             this.contextMenuStrip1.Name = "contextMenuStrip1";
@@ -242,6 +214,38 @@ namespace WindowsFormsApp2
             this.deleteAccountButton.Text = "Delete Account";
             this.deleteAccountButton.UseVisualStyleBackColor = true;
             // 
+            // DateBox
+            // 
+            this.DateBox.DataPropertyName = "Date";
+            this.DateBox.HeaderText = "Date";
+            this.DateBox.Name = "DateBox";
+            this.DateBox.ReadOnly = true;
+            this.DateBox.Width = 90;
+            // 
+            // CategoryBox
+            // 
+            this.CategoryBox.DataPropertyName = "Category";
+            this.CategoryBox.HeaderText = "Category";
+            this.CategoryBox.Name = "CategoryBox";
+            this.CategoryBox.ReadOnly = true;
+            this.CategoryBox.Width = 120;
+            // 
+            // costBox
+            // 
+            this.costBox.DataPropertyName = "Cost";
+            this.costBox.HeaderText = "Cost";
+            this.costBox.Name = "costBox";
+            this.costBox.ReadOnly = true;
+            this.costBox.Width = 110;
+            // 
+            // commentBox
+            // 
+            this.commentBox.DataPropertyName = "Comment";
+            this.commentBox.HeaderText = "Comment";
+            this.commentBox.Name = "commentBox";
+            this.commentBox.ReadOnly = true;
+            this.commentBox.Width = 110;
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -257,7 +261,7 @@ namespace WindowsFormsApp2
             this.Controls.Add(this.label1);
             this.Controls.Add(this.endDateDisplay);
             this.Controls.Add(this.startDateDisplay);
-            this.Controls.Add(this.costsTable);
+            this.Controls.Add(this.expensesTable);
             this.Controls.Add(this.searchNameInput);
             this.Controls.Add(this.categoryFilterBox);
             this.Controls.Add(this.DeleteCostButton);
@@ -265,7 +269,7 @@ namespace WindowsFormsApp2
             this.Name = "MainWindow";
             this.Text = "Costs";
             this.Load += new System.EventHandler(this.MainWindow_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.costsTable)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.expensesTable)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -277,7 +281,7 @@ namespace WindowsFormsApp2
         public System.Windows.Forms.Button DeleteCostButton;
         public System.Windows.Forms.ComboBox categoryFilterBox;
         public System.Windows.Forms.TextBox searchNameInput;
-        public System.Windows.Forms.DataGridView costsTable;
+        public System.Windows.Forms.DataGridView expensesTable;
         private System.Windows.Forms.DateTimePicker startDateDisplay;
         private System.Windows.Forms.DateTimePicker endDateDisplay;
         private System.Windows.Forms.Label label1;
@@ -285,14 +289,14 @@ namespace WindowsFormsApp2
         private System.Windows.Forms.Button editExpensButton;
         private System.Windows.Forms.ComboBox selectedAccountBox;
         private System.Windows.Forms.Label accountBalance;
-        private System.Windows.Forms.DataGridViewTextBoxColumn DateBox;
-        private System.Windows.Forms.DataGridViewTextBoxColumn CategorysBox;
-        private System.Windows.Forms.DataGridViewTextBoxColumn priceBox;
-        private System.Windows.Forms.DataGridViewTextBoxColumn commentBox;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button addAccountForm;
         private System.Windows.Forms.Button deleteAccountButton;
+        private System.Windows.Forms.DataGridViewTextBoxColumn DateBox;
+        private System.Windows.Forms.DataGridViewTextBoxColumn CategoryBox;
+        private System.Windows.Forms.DataGridViewTextBoxColumn costBox;
+        private System.Windows.Forms.DataGridViewTextBoxColumn commentBox;
     }
 }
 

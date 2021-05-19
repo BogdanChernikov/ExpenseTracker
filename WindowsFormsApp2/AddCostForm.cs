@@ -7,10 +7,7 @@ namespace WindowsFormsApp2
 {
     public partial class AddCostForm : Form
     {
-        Expenses cost = new Expenses();
-        public List<Expenses> expenes;
-        public DataGridView dataGridView1;
-        public CostRow tab;
+        public Action<Expense> OnExpenseAdded;
 
         public AddCostForm()
         {
@@ -24,24 +21,22 @@ namespace WindowsFormsApp2
 
         public void AddCostButton_Click(object sender, EventArgs e)
         {
-
-            //cost.name = newCostNameInput.Text;
-            cost.cost = Convert.ToDecimal(PriceInput.Value);
-            cost.comment = commentInput.Text;
+            Expense cost = new Expense();
+            cost.Cost = Convert.ToDecimal(PriceInput.Value);
+            cost.Comment = commentInput.Text;
             if (Convert.ToString(newCostCategory.SelectedItem) == "Traffic")
             { cost.Category = "Traffic"; }
             if (Convert.ToString(newCostCategory.SelectedItem) == "Utilities")
             { cost.Category = "Utilities"; }
             if (Convert.ToString(newCostCategory.SelectedItem) == "Services Communication")
-            { cost.Category = "Services Communication"; }
+            { cost.Category = "ServicesCommunication"; }
             if (Convert.ToString(newCostCategory.SelectedItem) == "Medicines And Hygiene Products")
-            { cost.Category = "Medicines And Hygiene Products"; }
+            { cost.Category = "MedicinesAndHygieneProducts"; }
             if (Convert.ToString(newCostCategory.SelectedItem) == "Food")
             { cost.Category = "Food"; }
-            cost.date = newCostDate.Value.Date;
-            
-            expenes.Add(cost);
-            tab();
+            cost.Date = newCostDate.Value.Date;
+
+            OnExpenseAdded(cost);
 
             this.Close();
         }

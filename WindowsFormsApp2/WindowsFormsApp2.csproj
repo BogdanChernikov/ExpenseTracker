@@ -79,7 +79,7 @@
     <Compile Include="EditDataForm.Designer.cs">
       <DependentUpon>EditDataForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Expenses.cs" />
+    <Compile Include="Expense.cs" />
     <Compile Include="CostsCategorys.cs" />
     <Compile Include="EditExpense.cs">
       <SubType>Form</SubType>
