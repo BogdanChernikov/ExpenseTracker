@@ -12,11 +12,11 @@ namespace WindowsFormsApp2
 {
     public partial class MainWindow : Form
     {
-        List<Expense> expenses = new List<Expense>();
-        List<Expense> filteredExpenses = new List<Expense>();
-        List<Account> accounts = new List<Account>();
+        private List<Expense> expenses = new List<Expense>();
+        private List<Expense> filteredExpenses = new List<Expense>();
+        private List<Account> accounts = new List<Account>();
         public delegate void CostRow();
-
+        public delegate void RefreshData();
 
         public MainWindow()
         {
@@ -32,32 +32,10 @@ namespace WindowsFormsApp2
             addCostForm.OnExpenseAdded = (expense) =>
             {
                 expenses.Add(expense);
-                ShowCosts();
             };
             addCostForm.Show();
         }
 
-        public void ShowCosts()
-        {
-            int costCount = expenses.Count;
-
-            for (int i = costCount - 1; i < costCount; i++)
-            {
-                DataGridViewCell date = new DataGridViewTextBoxCell();
-                DataGridViewCell category = new DataGridViewTextBoxCell();
-                DataGridViewCell price = new DataGridViewTextBoxCell();
-                DataGridViewCell coment = new DataGridViewTextBoxCell();
-                price.Value = expenses[i].Cost;
-                coment.Value = expenses[i].Comment;
-                category.Value = expenses[i].Category;
-                date.Value = expenses[i].Date;
-
-                DataGridViewRow row = new DataGridViewRow();
-                row.Cells.AddRange(date, category, price, coment);
-            }
-            FilterTable();
-            SaveChanges();
-        }
 
         private void DeleteCostButton_Click(object sender, EventArgs e)
         {
@@ -188,7 +166,6 @@ namespace WindowsFormsApp2
         {
             EditDataForm editDataForm = new EditDataForm();
             editDataForm.expenes = expenses;
-            editDataForm.tab = ShowCosts;
             editDataForm.Show();
         }
     }

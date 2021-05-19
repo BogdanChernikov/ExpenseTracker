@@ -46,8 +46,8 @@ namespace WindowsFormsApp2
             this.button1 = new System.Windows.Forms.Button();
             this.addAccountForm = new System.Windows.Forms.Button();
             this.deleteAccountButton = new System.Windows.Forms.Button();
-            this.DateBox = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.CategoryBox = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dateBox = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.categoryBox = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.costBox = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.commentBox = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.expensesTable)).BeginInit();
@@ -103,8 +103,8 @@ namespace WindowsFormsApp2
             this.expensesTable.BackgroundColor = System.Drawing.SystemColors.Control;
             this.expensesTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.expensesTable.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.DateBox,
-            this.CategoryBox,
+            this.dateBox,
+            this.categoryBox,
             this.costBox,
             this.commentBox});
             this.expensesTable.Location = new System.Drawing.Point(24, 142);
@@ -216,19 +216,19 @@ namespace WindowsFormsApp2
             // 
             // DateBox
             // 
-            this.DateBox.DataPropertyName = "Date";
-            this.DateBox.HeaderText = "Date";
-            this.DateBox.Name = "DateBox";
-            this.DateBox.ReadOnly = true;
-            this.DateBox.Width = 90;
+            this.dateBox.DataPropertyName = "Date";
+            this.dateBox.HeaderText = "Date";
+            this.dateBox.Name = "DateBox";
+            this.dateBox.ReadOnly = true;
+            this.dateBox.Width = 90;
             // 
             // CategoryBox
             // 
-            this.CategoryBox.DataPropertyName = "Category";
-            this.CategoryBox.HeaderText = "Category";
-            this.CategoryBox.Name = "CategoryBox";
-            this.CategoryBox.ReadOnly = true;
-            this.CategoryBox.Width = 120;
+            this.categoryBox.DataPropertyName = "Category";
+            this.categoryBox.HeaderText = "Category";
+            this.categoryBox.Name = "CategoryBox";
+            this.categoryBox.ReadOnly = true;
+            this.categoryBox.Width = 120;
             // 
             // costBox
             // 
@@ -293,8 +293,8 @@ namespace WindowsFormsApp2
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button addAccountForm;
         private System.Windows.Forms.Button deleteAccountButton;
-        private System.Windows.Forms.DataGridViewTextBoxColumn DateBox;
-        private System.Windows.Forms.DataGridViewTextBoxColumn CategoryBox;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dateBox;
+        private System.Windows.Forms.DataGridViewTextBoxColumn categoryBox;
         private System.Windows.Forms.DataGridViewTextBoxColumn costBox;
         private System.Windows.Forms.DataGridViewTextBoxColumn commentBox;
     }
