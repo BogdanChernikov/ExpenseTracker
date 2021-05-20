@@ -37,7 +37,7 @@ namespace WindowsFormsApp2
         }
 
 
-        private void DeleteCostButton_Click(object sender, EventArgs e)
+        private void DeleteExpense()
         {
             foreach (DataGridViewRow row in this.expensesTable.SelectedRows)
             {
@@ -155,17 +155,39 @@ namespace WindowsFormsApp2
             MessageBox.Show("Pdf seved");
         }
 
-        private void addAccountForm_Click(object sender, EventArgs e)
+        private void AddAccountForm_Click(object sender, EventArgs e)
         {
             AddNewAccount addAccountForm = new AddNewAccount();
             addAccountForm.Account = accounts;
             addAccountForm.Show();
         }
 
-        private void costsTable_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
+        private void ExpensesTable_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            EditDataForm editDataForm = new EditDataForm();
-            editDataForm.Show();
+            EditExpense();
+        }
+
+        private void EditExpensButton_Click(object sender, EventArgs e)
+        {
+            EditExpense();
+        }
+        private void EditExpense()
+        {
+            foreach (DataGridViewRow row in this.expensesTable.SelectedRows)
+            {
+                var expense = row.DataBoundItem as Expense;
+                EditDataForm editDataForm = new EditDataForm();
+                editDataForm.editExpense = expense;
+                editDataForm.expenses = expenses;
+                editDataForm.OnExpenseEdit = () =>
+                      {
+                          FilterTable();
+                          SaveChanges();
+                      };
+
+                editDataForm.Show();
+            }
+
         }
     }
 }
