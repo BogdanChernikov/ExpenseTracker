@@ -1,7 +1,7 @@
 ﻿
 namespace WindowsFormsApp2
 {
-    partial class AddCostForm
+    partial class AddExpenseForm
     {
         /// <summary>
         /// Required designer variable.

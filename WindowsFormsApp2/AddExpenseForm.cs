@@ -3,12 +3,11 @@ using System.Windows.Forms;
 
 namespace WindowsFormsApp2
 {
-    public partial class AddCostForm : Form
+    public partial class AddExpenseForm : Form
     {
         public Action<Expense> OnExpenseAdded;
-        public MainWindow.RefreshData refreshData;
 
-        public AddCostForm()
+        public AddExpenseForm()
         {
             InitializeComponent();
         }
@@ -36,7 +35,6 @@ namespace WindowsFormsApp2
             cost.Date = newCostDate.Value.Date;
 
             OnExpenseAdded(cost);
-            refreshData();
 
             this.Close();
         }
