@@ -15,8 +15,6 @@ namespace WindowsFormsApp2
         private List<Expense> expenses = new List<Expense>();
         private List<Expense> filteredExpenses = new List<Expense>();
         private List<Account> accounts = new List<Account>();
-        public delegate void CostRow();
-        public delegate void RefreshData();
 
         public MainWindow()
         {
@@ -28,10 +26,12 @@ namespace WindowsFormsApp2
 
         private void OpenAddForm_Click(object sender, EventArgs e)
         {
-            AddCostForm addCostForm = new AddCostForm();
+            AddExpenseForm addCostForm = new AddExpenseForm();
             addCostForm.OnExpenseAdded = (expense) =>
             {
                 expenses.Add(expense);
+                FilterTable();
+                SaveChanges();
             };
             addCostForm.Show();
         }
@@ -165,7 +165,6 @@ namespace WindowsFormsApp2
         private void costsTable_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             EditDataForm editDataForm = new EditDataForm();
-            editDataForm.expenes = expenses;
             editDataForm.Show();
         }
     }

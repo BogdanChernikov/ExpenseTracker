@@ -13,9 +13,6 @@ namespace WindowsFormsApp2
     public partial class EditDataForm : Form
     {
         Expense expenses = new Expense();
-        public List<Expense> expenes;
-        public DataGridView dataGridView1;
-        public MainWindow.CostRow tab;
 
         public EditDataForm()
         {

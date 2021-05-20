@@ -61,11 +61,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Account.cs" />
-    <Compile Include="AddCostForm.cs">
+    <Compile Include="AddExpenseForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AddCostForm.Designer.cs">
-      <DependentUpon>AddCostForm.cs</DependentUpon>
+    <Compile Include="AddExpenseForm.Designer.cs">
+      <DependentUpon>AddExpenseForm.cs</DependentUpon>
     </Compile>
     <Compile Include="AddNewAccount.cs">
       <SubType>Form</SubType>
@@ -97,8 +97,8 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="AddCostForm.resx">
-      <DependentUpon>AddCostForm.cs</DependentUpon>
+    <EmbeddedResource Include="AddExpenseForm.resx">
+      <DependentUpon>AddExpenseForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="AddNewAccount.resx">
       <DependentUpon>AddNewAccount.cs</DependentUpon>
