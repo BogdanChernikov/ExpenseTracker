@@ -66,6 +66,11 @@ namespace WindowsFormsApp2
             // initialBalance
             // 
             this.initialBalance.Location = new System.Drawing.Point(45, 135);
+            this.initialBalance.Maximum = new decimal(new int[] {
+            100000,
+            0,
+            0,
+            0});
             this.initialBalance.Name = "initialBalance";
             this.initialBalance.Size = new System.Drawing.Size(120, 20);
             this.initialBalance.TabIndex = 3;
@@ -78,7 +83,7 @@ namespace WindowsFormsApp2
             this.addNewAccountButton.TabIndex = 4;
             this.addNewAccountButton.Text = "Add";
             this.addNewAccountButton.UseVisualStyleBackColor = true;
-            this.addNewAccountButton.Click += new System.EventHandler(this.addNewAccountButton_Click);
+            this.addNewAccountButton.Click += new System.EventHandler(this.AddNewAccountButton_Click);
             // 
             // CanceledAddAccount
             // 

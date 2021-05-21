@@ -36,21 +36,6 @@ namespace WindowsFormsApp2
             addCostForm.Show();
         }
 
-
-        private void DeleteExpense()
-        {
-            foreach (DataGridViewRow row in this.expensesTable.SelectedRows)
-            {
-                var expense = row.DataBoundItem as Expense;
-                if (expense != null)
-                {
-                    expenses.Remove(expense);
-                }
-            }
-            FilterTable();
-            SaveChanges();
-        }
-
         private void CategoryFilter_SelectedIndexChanged(object sender, EventArgs e)
         {
             FilterTable();
@@ -100,7 +85,7 @@ namespace WindowsFormsApp2
 
             //data filter2
             filteredExpenses = filteredExpenses.Where(x => x.Date <= endDateDisplay.Value).ToList();
-
+            ShowAccount();
             RefreshTable();
         }
 
@@ -110,10 +95,16 @@ namespace WindowsFormsApp2
             string path = "list.txt";
             var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
             expenses = (List<Expense>)ser.Deserialize(stream);
-
             stream.Close();
             filteredExpenses = expenses.ToList();
             RefreshTable();
+
+            XmlSerializer acc = new XmlSerializer(typeof(List<Account>));
+            string accou = "account.txt";
+            var stream1 = new FileStream(accou, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            accounts = (List<Account>)acc.Deserialize(stream1);
+            ShowAccount();
+            stream.Close();
         }
 
         private void SaveChanges()
@@ -123,16 +114,19 @@ namespace WindowsFormsApp2
             FileStream stream = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.ReadWrite);
             ser.Serialize(stream, expenses);
             stream.Close();
+
+            XmlSerializer acc = new XmlSerializer(typeof(List<Account>));
+            string accou = "account.txt";
+            FileStream stream1 = new FileStream(accou, FileMode.Create, FileAccess.Write, FileShare.ReadWrite);
+            acc.Serialize(stream1, accounts);
+            stream.Close();
         }
 
         private void SavePdfButton_Click(object sender, EventArgs e)
         {
             iTextSharp.text.Document doc = new iTextSharp.text.Document();
-
             PdfWriter.GetInstance(doc, new FileStream("pdfTables.pdf", FileMode.Create));
-
             doc.Open();
-
             PdfPTable table = new PdfPTable(expensesTable.Columns.Count);
 
             for (int j = 0; j < expensesTable.Columns.Count; j++)
@@ -149,7 +143,6 @@ namespace WindowsFormsApp2
                     table.AddCell(new Phrase(expensesTable[k, j].Value.ToString()));
                 }
             }
-
             doc.Add(table);
             doc.Close();
             MessageBox.Show("Pdf seved");
@@ -158,7 +151,13 @@ namespace WindowsFormsApp2
         private void AddAccountForm_Click(object sender, EventArgs e)
         {
             AddNewAccount addAccountForm = new AddNewAccount();
-            addAccountForm.Account = accounts;
+            addAccountForm.accountBox = selectedAccountBox;
+            addAccountForm.OnAccountAdded = (account) =>
+            {
+                accounts.Add(account);
+                SaveChanges();
+                ShowAccount();
+            };
             addAccountForm.Show();
         }
 
@@ -171,23 +170,35 @@ namespace WindowsFormsApp2
         {
             EditExpense();
         }
+
         private void EditExpense()
         {
             foreach (DataGridViewRow row in this.expensesTable.SelectedRows)
             {
                 var expense = row.DataBoundItem as Expense;
                 EditDataForm editDataForm = new EditDataForm();
-                editDataForm.editExpense = expense;
-                editDataForm.expenses = expenses;
+                editDataForm.TargetExpense = expense;
+                editDataForm.Expenses = expenses;
                 editDataForm.OnExpenseEdit = () =>
                       {
                           FilterTable();
                           SaveChanges();
                       };
-
                 editDataForm.Show();
             }
+        }
 
+        private void SelectedAccountBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ShowAccount();
+        }
+
+        private void ShowAccount()
+        {
+            selectedAccountBox.DataSource = null;
+            selectedAccountBox.DataSource = accounts;
+            selectedAccountBox.DisplayMember = "name";
+            selectedAccountBox.Refresh();
         }
     }
 }

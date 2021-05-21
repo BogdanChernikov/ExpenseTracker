@@ -31,7 +31,6 @@ namespace WindowsFormsApp2
         {
             this.components = new System.ComponentModel.Container();
             this.OpenAddForm = new System.Windows.Forms.Button();
-            this.DeleteCostButton = new System.Windows.Forms.Button();
             this.categoryFilterBox = new System.Windows.Forms.ComboBox();
             this.searchNameInput = new System.Windows.Forms.TextBox();
             this.expensesTable = new System.Windows.Forms.DataGridView();
@@ -45,12 +44,14 @@ namespace WindowsFormsApp2
             this.savePdfButton = new System.Windows.Forms.Button();
             this.editExpensButton = new System.Windows.Forms.Button();
             this.selectedAccountBox = new System.Windows.Forms.ComboBox();
+            this.accountBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.accountBalance = new System.Windows.Forms.Label();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.button1 = new System.Windows.Forms.Button();
             this.addAccountForm = new System.Windows.Forms.Button();
             this.deleteAccountButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.expensesTable)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.accountBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // OpenAddForm
@@ -62,15 +63,6 @@ namespace WindowsFormsApp2
             this.OpenAddForm.Text = "Add expenes";
             this.OpenAddForm.UseVisualStyleBackColor = true;
             this.OpenAddForm.Click += new System.EventHandler(this.OpenAddForm_Click);
-            // 
-            // DeleteCostButton
-            // 
-            this.DeleteCostButton.Location = new System.Drawing.Point(502, 288);
-            this.DeleteCostButton.Name = "DeleteCostButton";
-            this.DeleteCostButton.Size = new System.Drawing.Size(75, 23);
-            this.DeleteCostButton.TabIndex = 1;
-            this.DeleteCostButton.Text = "Delete";
-            this.DeleteCostButton.UseVisualStyleBackColor = true;
             // 
             // categoryFilterBox
             // 
@@ -178,7 +170,7 @@ namespace WindowsFormsApp2
             // 
             // savePdfButton
             // 
-            this.savePdfButton.Location = new System.Drawing.Point(502, 326);
+            this.savePdfButton.Location = new System.Drawing.Point(502, 298);
             this.savePdfButton.Name = "savePdfButton";
             this.savePdfButton.Size = new System.Drawing.Size(75, 23);
             this.savePdfButton.TabIndex = 8;
@@ -203,6 +195,11 @@ namespace WindowsFormsApp2
             this.selectedAccountBox.Name = "selectedAccountBox";
             this.selectedAccountBox.Size = new System.Drawing.Size(157, 21);
             this.selectedAccountBox.TabIndex = 10;
+            this.selectedAccountBox.SelectedIndexChanged += new System.EventHandler(this.SelectedAccountBox_SelectedIndexChanged);
+            // 
+            // accountBindingSource
+            // 
+            this.accountBindingSource.DataSource = typeof(WindowsFormsApp2.Account);
             // 
             // accountBalance
             // 
@@ -264,12 +261,12 @@ namespace WindowsFormsApp2
             this.Controls.Add(this.expensesTable);
             this.Controls.Add(this.searchNameInput);
             this.Controls.Add(this.categoryFilterBox);
-            this.Controls.Add(this.DeleteCostButton);
             this.Controls.Add(this.OpenAddForm);
             this.Name = "MainWindow";
             this.Text = "Costs";
             this.Load += new System.EventHandler(this.MainWindow_Load);
             ((System.ComponentModel.ISupportInitialize)(this.expensesTable)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.accountBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -278,7 +275,6 @@ namespace WindowsFormsApp2
         #endregion
 
         public System.Windows.Forms.Button OpenAddForm;
-        public System.Windows.Forms.Button DeleteCostButton;
         public System.Windows.Forms.ComboBox categoryFilterBox;
         public System.Windows.Forms.TextBox searchNameInput;
         public System.Windows.Forms.DataGridView expensesTable;
@@ -297,6 +293,7 @@ namespace WindowsFormsApp2
         private System.Windows.Forms.DataGridViewTextBoxColumn commentBox;
         private System.Windows.Forms.DataGridViewTextBoxColumn DateBox;
         private System.Windows.Forms.DataGridViewTextBoxColumn CategoryBox;
+        private System.Windows.Forms.BindingSource accountBindingSource;
     }
 }
 

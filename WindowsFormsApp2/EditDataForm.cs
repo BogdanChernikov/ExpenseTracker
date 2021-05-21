@@ -1,11 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace WindowsFormsApp2
@@ -13,9 +7,9 @@ namespace WindowsFormsApp2
     public partial class EditDataForm : Form
     {
         public Action OnExpenseEdit;
-        public Expense editExpense;
-        public List<Expense> expenses;
-        
+        public Expense TargetExpense;
+        public List<Expense> Expenses;
+
 
         public EditDataForm()
         {
@@ -24,10 +18,10 @@ namespace WindowsFormsApp2
 
         private void EditDataForm_Load(object sender, EventArgs e)
         {
-            PriceInput.Value = editExpense.Cost;
-            commentInput.Text = editExpense.Comment;
-            expenseCategory.SelectedItem = editExpense.Category;
-            expensetDate.Value = editExpense.Date;
+            costInput.Value = TargetExpense.Cost;
+            commentInput.Text = TargetExpense.Comment;
+            expenseCategory.SelectedItem = TargetExpense.Category;
+            expensetDate.Value = TargetExpense.Date;
         }
 
         private void CancelEditButton_Click(object sender, EventArgs e)
@@ -37,9 +31,9 @@ namespace WindowsFormsApp2
 
         private void DeleteDataButton_Click(object sender, EventArgs e)
         {
-            if (editExpense != null)
+            if (TargetExpense != null)
             {
-                expenses.Remove(editExpense);
+                Expenses.Remove(TargetExpense);
             }
             OnExpenseEdit();
             this.Close();
@@ -47,10 +41,10 @@ namespace WindowsFormsApp2
 
         private void EditDataButton_Click(object sender, EventArgs e)
         {
-            editExpense.Cost = PriceInput.Value;
-            editExpense.Comment = commentInput.Text;
-            //editExpense.Category = expenseCategory.SelectedItem;
-            editExpense.Date = expensetDate.Value;
+            TargetExpense.Cost = costInput.Value;
+            TargetExpense.Comment = commentInput.Text;
+            TargetExpense.Category = Convert.ToString(expenseCategory.SelectedItem);
+            TargetExpense.Date = expensetDate.Value;
             OnExpenseEdit();
             this.Close();
         }

@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace WindowsFormsApp2
 {
     public partial class AddNewAccount : Form
     {
-        Account account = new Account();
-        public List<Account> Account;
-        public Label accountStatus;
-        public ComboBox selectedAccountBox;
+        public Action<Account> OnAccountAdded;
+        public ComboBox accountBox;
 
         public AddNewAccount()
         {
@@ -21,13 +18,12 @@ namespace WindowsFormsApp2
             this.Close();
         }
 
-        private void addNewAccountButton_Click(object sender, EventArgs e)
+        private void AddNewAccountButton_Click(object sender, EventArgs e)
         {
+            var account = new Account();
             account.initialBalance = initialBalance.Value;
             account.name = newAccountName.Text;
-            Account.Add(account);
-            selectedAccountBox.Items.Add(account.name);
-
+            OnAccountAdded(account);
             this.Close();
         }
     }

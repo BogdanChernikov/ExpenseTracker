@@ -35,10 +35,10 @@ namespace WindowsFormsApp2
             this.CancelEditButton = new System.Windows.Forms.Button();
             this.EditDataButton = new System.Windows.Forms.Button();
             this.commentInput = new System.Windows.Forms.TextBox();
-            this.PriceInput = new System.Windows.Forms.NumericUpDown();
+            this.costInput = new System.Windows.Forms.NumericUpDown();
             this.expenseCategory = new System.Windows.Forms.ComboBox();
             this.deleteDataButton = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.PriceInput)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.costInput)).BeginInit();
             this.SuspendLayout();
             // 
             // expensetDate
@@ -97,15 +97,15 @@ namespace WindowsFormsApp2
             // 
             // PriceInput
             // 
-            this.PriceInput.Location = new System.Drawing.Point(49, 116);
-            this.PriceInput.Maximum = new decimal(new int[] {
+            this.costInput.Location = new System.Drawing.Point(49, 116);
+            this.costInput.Maximum = new decimal(new int[] {
             10000,
             0,
             0,
             0});
-            this.PriceInput.Name = "PriceInput";
-            this.PriceInput.Size = new System.Drawing.Size(120, 20);
-            this.PriceInput.TabIndex = 11;
+            this.costInput.Name = "PriceInput";
+            this.costInput.Size = new System.Drawing.Size(120, 20);
+            this.costInput.TabIndex = 11;
             // 
             // expenseCategory
             // 
@@ -144,12 +144,12 @@ namespace WindowsFormsApp2
             this.Controls.Add(this.CancelEditButton);
             this.Controls.Add(this.EditDataButton);
             this.Controls.Add(this.commentInput);
-            this.Controls.Add(this.PriceInput);
+            this.Controls.Add(this.costInput);
             this.Controls.Add(this.expenseCategory);
             this.Name = "EditDataForm";
             this.Text = "EditDataForm";
             this.Load += new System.EventHandler(this.EditDataForm_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.PriceInput)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.costInput)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -163,7 +163,7 @@ namespace WindowsFormsApp2
         private System.Windows.Forms.Button CancelEditButton;
         private System.Windows.Forms.Button EditDataButton;
         private System.Windows.Forms.TextBox commentInput;
-        private System.Windows.Forms.NumericUpDown PriceInput;
+        private System.Windows.Forms.NumericUpDown costInput;
         private System.Windows.Forms.ComboBox expenseCategory;
         private System.Windows.Forms.Button deleteDataButton;
     }
