@@ -2,7 +2,7 @@
 {
     public class Account
     {
-        public decimal initialBalance { get; set; }
-        public string name { get; set; }
+        public decimal InitialBalance { get; set; }
+        public string Name { get; set; }
     }
 }

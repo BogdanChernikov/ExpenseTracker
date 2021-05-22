@@ -21,9 +21,10 @@ namespace WindowsFormsApp2
         private void AddNewAccountButton_Click(object sender, EventArgs e)
         {
             var account = new Account();
-            account.initialBalance = initialBalance.Value;
-            account.name = newAccountName.Text;
+            account.InitialBalance = initialBalanceInput.Value;
+            account.Name = newAccountNameTextBox.Text;
             OnAccountAdded(account);
+            
             this.Close();
         }
     }

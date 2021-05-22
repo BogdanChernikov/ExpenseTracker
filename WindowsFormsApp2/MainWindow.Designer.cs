@@ -49,7 +49,7 @@ namespace WindowsFormsApp2
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.button1 = new System.Windows.Forms.Button();
             this.addAccountForm = new System.Windows.Forms.Button();
-            this.deleteAccountButton = new System.Windows.Forms.Button();
+            this.editAccountButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.expensesTable)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.accountBindingSource)).BeginInit();
             this.SuspendLayout();
@@ -234,21 +234,22 @@ namespace WindowsFormsApp2
             this.addAccountForm.UseVisualStyleBackColor = true;
             this.addAccountForm.Click += new System.EventHandler(this.AddAccountForm_Click);
             // 
-            // deleteAccountButton
+            // editAccountButton
             // 
-            this.deleteAccountButton.Location = new System.Drawing.Point(306, 8);
-            this.deleteAccountButton.Name = "deleteAccountButton";
-            this.deleteAccountButton.Size = new System.Drawing.Size(75, 23);
-            this.deleteAccountButton.TabIndex = 16;
-            this.deleteAccountButton.Text = "Delete Account";
-            this.deleteAccountButton.UseVisualStyleBackColor = true;
+            this.editAccountButton.Location = new System.Drawing.Point(309, 10);
+            this.editAccountButton.Name = "editAccountButton";
+            this.editAccountButton.Size = new System.Drawing.Size(75, 23);
+            this.editAccountButton.TabIndex = 16;
+            this.editAccountButton.Text = "Edit";
+            this.editAccountButton.UseVisualStyleBackColor = true;
+            this.editAccountButton.Click += new System.EventHandler(this.EditAccountButton_Click);
             // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(623, 450);
-            this.Controls.Add(this.deleteAccountButton);
+            this.Controls.Add(this.editAccountButton);
             this.Controls.Add(this.addAccountForm);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.accountBalance);
@@ -288,7 +289,7 @@ namespace WindowsFormsApp2
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button addAccountForm;
-        private System.Windows.Forms.Button deleteAccountButton;
+        private System.Windows.Forms.Button editAccountButton;
         private System.Windows.Forms.DataGridViewTextBoxColumn costBox;
         private System.Windows.Forms.DataGridViewTextBoxColumn commentBox;
         private System.Windows.Forms.DataGridViewTextBoxColumn DateBox;

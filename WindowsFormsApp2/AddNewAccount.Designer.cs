@@ -30,12 +30,12 @@ namespace WindowsFormsApp2
         private void InitializeComponent()
         {
             this.label1 = new System.Windows.Forms.Label();
-            this.newAccountName = new System.Windows.Forms.TextBox();
+            this.newAccountNameTextBox = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.initialBalance = new System.Windows.Forms.NumericUpDown();
+            this.initialBalanceInput = new System.Windows.Forms.NumericUpDown();
             this.addNewAccountButton = new System.Windows.Forms.Button();
             this.CanceledAddAccount = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.initialBalance)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.initialBalanceInput)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -49,10 +49,10 @@ namespace WindowsFormsApp2
             // 
             // newAccountName
             // 
-            this.newAccountName.Location = new System.Drawing.Point(45, 58);
-            this.newAccountName.Name = "newAccountName";
-            this.newAccountName.Size = new System.Drawing.Size(128, 20);
-            this.newAccountName.TabIndex = 1;
+            this.newAccountNameTextBox.Location = new System.Drawing.Point(45, 58);
+            this.newAccountNameTextBox.Name = "newAccountName";
+            this.newAccountNameTextBox.Size = new System.Drawing.Size(128, 20);
+            this.newAccountNameTextBox.TabIndex = 1;
             // 
             // label2
             // 
@@ -65,15 +65,15 @@ namespace WindowsFormsApp2
             // 
             // initialBalance
             // 
-            this.initialBalance.Location = new System.Drawing.Point(45, 135);
-            this.initialBalance.Maximum = new decimal(new int[] {
+            this.initialBalanceInput.Location = new System.Drawing.Point(45, 135);
+            this.initialBalanceInput.Maximum = new decimal(new int[] {
             100000,
             0,
             0,
             0});
-            this.initialBalance.Name = "initialBalance";
-            this.initialBalance.Size = new System.Drawing.Size(120, 20);
-            this.initialBalance.TabIndex = 3;
+            this.initialBalanceInput.Name = "initialBalance";
+            this.initialBalanceInput.Size = new System.Drawing.Size(120, 20);
+            this.initialBalanceInput.TabIndex = 3;
             // 
             // addNewAccountButton
             // 
@@ -102,13 +102,13 @@ namespace WindowsFormsApp2
             this.ClientSize = new System.Drawing.Size(270, 262);
             this.Controls.Add(this.CanceledAddAccount);
             this.Controls.Add(this.addNewAccountButton);
-            this.Controls.Add(this.initialBalance);
+            this.Controls.Add(this.initialBalanceInput);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.newAccountName);
+            this.Controls.Add(this.newAccountNameTextBox);
             this.Controls.Add(this.label1);
             this.Name = "AddNewAccount";
             this.Text = "AddNewAccount";
-            ((System.ComponentModel.ISupportInitialize)(this.initialBalance)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.initialBalanceInput)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -117,9 +117,9 @@ namespace WindowsFormsApp2
         #endregion
 
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox newAccountName;
+        private System.Windows.Forms.TextBox newAccountNameTextBox;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.NumericUpDown initialBalance;
+        private System.Windows.Forms.NumericUpDown initialBalanceInput;
         private System.Windows.Forms.Button addNewAccountButton;
         private System.Windows.Forms.Button CanceledAddAccount;
     }

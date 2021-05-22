@@ -24,6 +24,7 @@ namespace WindowsFormsApp2
             startDateDisplay.Value = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.MinValue.Day);
         }
 
+
         private void OpenAddForm_Click(object sender, EventArgs e)
         {
             AddExpenseForm addCostForm = new AddExpenseForm();
@@ -105,6 +106,10 @@ namespace WindowsFormsApp2
             accounts = (List<Account>)acc.Deserialize(stream1);
             ShowAccount();
             stream.Close();
+
+            selectedAccountBox.DataSource = accounts;
+            selectedAccountBox.DisplayMember = "Name";
+            selectedAccountBox.SelectedIndexChanged += selectedAccountBox_SelectedIndexChanged;
         }
 
         private void SaveChanges()
@@ -120,6 +125,10 @@ namespace WindowsFormsApp2
             FileStream stream1 = new FileStream(accou, FileMode.Create, FileAccess.Write, FileShare.ReadWrite);
             acc.Serialize(stream1, accounts);
             stream.Close();
+            selectedAccountBox.DataSource = accounts;
+            selectedAccountBox.DisplayMember = "Name";
+            selectedAccountBox.SelectedIndexChanged += selectedAccountBox_SelectedIndexChanged;
+
         }
 
         private void SavePdfButton_Click(object sender, EventArgs e)
@@ -190,7 +199,6 @@ namespace WindowsFormsApp2
 
         private void SelectedAccountBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            ShowAccount();
         }
 
         private void ShowAccount()
@@ -198,7 +206,26 @@ namespace WindowsFormsApp2
             selectedAccountBox.DataSource = null;
             selectedAccountBox.DataSource = accounts;
             selectedAccountBox.DisplayMember = "name";
-            selectedAccountBox.Refresh();
         }
+        public void selectedAccountBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Account account = (Account)selectedAccountBox.SelectedItem;
+
+        }
+        private void EditAccountButton_Click(object sender, EventArgs e)
+        {
+            Account account = (Account)selectedAccountBox.SelectedItem;
+            EditAccount editAccountForm = new EditAccount();
+            editAccountForm.TargetAccount = account;
+            editAccountForm.Accounts = accounts;
+            editAccountForm.OnAccountEdit = () =>
+            {
+                ShowAccount();
+                SaveChanges();
+            };
+            editAccountForm.Show();
+            SaveChanges();
+        }
+
     }
 }
