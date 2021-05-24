@@ -23,7 +23,6 @@ namespace WindowsFormsApp2
             expensesTable.AutoGenerateColumns = false;
             categoryFilterBox.SelectedItem = "All costs";
             startDateDisplay.Value = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.MinValue.Day);
-
         }
 
         private void CategoryFilter_SelectedIndexChanged(object sender, EventArgs e)
@@ -55,7 +54,6 @@ namespace WindowsFormsApp2
         private void FilterTable()
         {
             targetAccount = (Account)selectedAccountBox.SelectedItem;
-            //filteredExpenses = expenses.ToList();
             filteredExpenses = expenses.Where(x => x.Account.Name == targetAccount.Name).ToList();
 
             //category Filtred
@@ -194,7 +192,6 @@ namespace WindowsFormsApp2
             selectedAccountBox.DataSource = accounts;
             selectedAccountBox.DisplayMember = "Name";
             selectedAccountBox.SelectedItem = targetAccount;
-            //this.selectedAccountBox.SelectedIndexChanged += new System.EventHandler(this.SelectedAccountBox_SelectedIndexChanged);
         }
 
         public void SelectedAccountBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -207,15 +204,15 @@ namespace WindowsFormsApp2
 
         public void ShowBalance()
         {
+            var accountExpense = expenses.Where(x => x.Account.Name == targetAccount.Name).ToList();
+
             Account account = (Account)selectedAccountBox.SelectedItem;
             decimal costSum = 0;
-            for (int i = 0; i < filteredExpenses.Count; i++)
+            for (int i = 0; i < accountExpense.Count; i++)
             {
-                costSum += filteredExpenses[i].Cost; ;
+                costSum += accountExpense[i].Cost; ;
             }
-
             accountBalance.Text = Convert.ToString(account.InitialBalance - costSum);
-
         }
 
         private void AddAccountForm_Click(object sender, EventArgs e)
