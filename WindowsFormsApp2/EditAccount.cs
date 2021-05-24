@@ -9,6 +9,7 @@ namespace WindowsFormsApp2
         public Action OnAccountEdit;
         public Account TargetAccount;
         public List<Account> Accounts;
+        public ComboBox accountBox;
 
         public EditAccount()
         {
@@ -21,7 +22,7 @@ namespace WindowsFormsApp2
             editInitialBalanceInput.Value = TargetAccount.InitialBalance;
         }
 
-        private void SaveEditedAccountButton_Click(object sender, EventArgs e)
+        public void SaveEditedAccountButton_Click(object sender, EventArgs e)
         {
             TargetAccount.Name = editAccountNameInput.Text;
             TargetAccount.InitialBalance = editInitialBalanceInput.Value;
@@ -39,8 +40,11 @@ namespace WindowsFormsApp2
             if (TargetAccount != null)
             {
                 Accounts.Remove(TargetAccount);
+                
             }
+            accountBox.SelectedIndex = 0;
             OnAccountEdit();
+            
             this.Close();
         }
     }

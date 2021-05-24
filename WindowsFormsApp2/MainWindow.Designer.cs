@@ -62,7 +62,7 @@ namespace WindowsFormsApp2
             this.OpenAddForm.TabIndex = 0;
             this.OpenAddForm.Text = "Add expenes";
             this.OpenAddForm.UseVisualStyleBackColor = true;
-            this.OpenAddForm.Click += new System.EventHandler(this.OpenAddForm_Click);
+            this.OpenAddForm.Click += new System.EventHandler(this.AddExpenseForm_Click);
             // 
             // categoryFilterBox
             // 

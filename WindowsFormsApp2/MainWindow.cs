@@ -15,6 +15,7 @@ namespace WindowsFormsApp2
         private List<Expense> expenses = new List<Expense>();
         private List<Expense> filteredExpenses = new List<Expense>();
         private List<Account> accounts = new List<Account>();
+        private Account targetAccount;
 
         public MainWindow()
         {
@@ -22,19 +23,7 @@ namespace WindowsFormsApp2
             expensesTable.AutoGenerateColumns = false;
             categoryFilterBox.SelectedItem = "All costs";
             startDateDisplay.Value = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.MinValue.Day);
-        }
 
-
-        private void OpenAddForm_Click(object sender, EventArgs e)
-        {
-            AddExpenseForm addCostForm = new AddExpenseForm();
-            addCostForm.OnExpenseAdded = (expense) =>
-            {
-                expenses.Add(expense);
-                FilterTable();
-                SaveChanges();
-            };
-            addCostForm.Show();
         }
 
         private void CategoryFilter_SelectedIndexChanged(object sender, EventArgs e)
@@ -65,7 +54,9 @@ namespace WindowsFormsApp2
 
         private void FilterTable()
         {
-            filteredExpenses = expenses.ToList();
+            targetAccount = (Account)selectedAccountBox.SelectedItem;
+            //filteredExpenses = expenses.ToList();
+            filteredExpenses = expenses.Where(x => x.Account.Name == targetAccount.Name).ToList();
 
             //category Filtred
             var chosenCategory = Convert.ToString(categoryFilterBox.SelectedItem);
@@ -86,7 +77,6 @@ namespace WindowsFormsApp2
 
             //data filter2
             filteredExpenses = filteredExpenses.Where(x => x.Date <= endDateDisplay.Value).ToList();
-            ShowAccount();
             RefreshTable();
         }
 
@@ -104,15 +94,15 @@ namespace WindowsFormsApp2
             string accou = "account.txt";
             var stream1 = new FileStream(accou, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
             accounts = (List<Account>)acc.Deserialize(stream1);
-            ShowAccount();
+
             stream.Close();
 
+            selectedAccountBox.DataSource = null;
             selectedAccountBox.DataSource = accounts;
             selectedAccountBox.DisplayMember = "Name";
-            selectedAccountBox.SelectedIndexChanged += selectedAccountBox_SelectedIndexChanged;
         }
 
-        private void SaveChanges()
+        public void SaveChanges()
         {
             XmlSerializer ser = new XmlSerializer(typeof(List<Expense>));
             string path = "list.txt";
@@ -125,10 +115,6 @@ namespace WindowsFormsApp2
             FileStream stream1 = new FileStream(accou, FileMode.Create, FileAccess.Write, FileShare.ReadWrite);
             acc.Serialize(stream1, accounts);
             stream.Close();
-            selectedAccountBox.DataSource = accounts;
-            selectedAccountBox.DisplayMember = "Name";
-            selectedAccountBox.SelectedIndexChanged += selectedAccountBox_SelectedIndexChanged;
-
         }
 
         private void SavePdfButton_Click(object sender, EventArgs e)
@@ -157,19 +143,6 @@ namespace WindowsFormsApp2
             MessageBox.Show("Pdf seved");
         }
 
-        private void AddAccountForm_Click(object sender, EventArgs e)
-        {
-            AddNewAccount addAccountForm = new AddNewAccount();
-            addAccountForm.accountBox = selectedAccountBox;
-            addAccountForm.OnAccountAdded = (account) =>
-            {
-                accounts.Add(account);
-                SaveChanges();
-                ShowAccount();
-            };
-            addAccountForm.Show();
-        }
-
         private void ExpensesTable_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             EditExpense();
@@ -178,6 +151,22 @@ namespace WindowsFormsApp2
         private void EditExpensButton_Click(object sender, EventArgs e)
         {
             EditExpense();
+        }
+
+        private void AddExpenseForm_Click(object sender, EventArgs e)
+        {
+            AddExpenseForm addCostForm = new AddExpenseForm();
+            Account account = (Account)selectedAccountBox.SelectedItem;
+            addCostForm.expenseAccount = account;
+            addCostForm.OnExpenseAdded = (expense) =>
+            {
+                expense.Account = (Account)selectedAccountBox.SelectedItem;
+                expenses.Add(expense);
+                FilterTable();
+                ShowBalance();
+                SaveChanges();
+            };
+            addCostForm.Show();
         }
 
         private void EditExpense()
@@ -191,41 +180,70 @@ namespace WindowsFormsApp2
                 editDataForm.OnExpenseEdit = () =>
                       {
                           FilterTable();
+                          ShowBalance();
                           SaveChanges();
                       };
                 editDataForm.Show();
             }
         }
 
-        private void SelectedAccountBox_SelectedIndexChanged(object sender, EventArgs e)
+        private void RefreshAccount()
         {
-        }
-
-        private void ShowAccount()
-        {
+            targetAccount = (Account)selectedAccountBox.SelectedItem;
             selectedAccountBox.DataSource = null;
             selectedAccountBox.DataSource = accounts;
-            selectedAccountBox.DisplayMember = "name";
+            selectedAccountBox.DisplayMember = "Name";
+            selectedAccountBox.SelectedItem = targetAccount;
+            //this.selectedAccountBox.SelectedIndexChanged += new System.EventHandler(this.SelectedAccountBox_SelectedIndexChanged);
         }
-        public void selectedAccountBox_SelectedIndexChanged(object sender, EventArgs e)
+
+        public void SelectedAccountBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (selectedAccountBox.SelectedIndex == -1)
+                selectedAccountBox.SelectedIndex = 0;
+            FilterTable();
+            ShowBalance();
+        }
+
+        public void ShowBalance()
         {
             Account account = (Account)selectedAccountBox.SelectedItem;
+            decimal costSum = 0;
+            for (int i = 0; i < filteredExpenses.Count; i++)
+            {
+                costSum += filteredExpenses[i].Cost; ;
+            }
+
+            accountBalance.Text = Convert.ToString(account.InitialBalance - costSum);
 
         }
+
+        private void AddAccountForm_Click(object sender, EventArgs e)
+        {
+            AddNewAccount addAccountForm = new AddNewAccount();
+            addAccountForm.OnAccountAdded = (account) =>
+            {
+                accounts.Add(account);
+                RefreshAccount();
+                SaveChanges();
+            };
+            addAccountForm.Show();
+        }
+
         private void EditAccountButton_Click(object sender, EventArgs e)
         {
             Account account = (Account)selectedAccountBox.SelectedItem;
             EditAccount editAccountForm = new EditAccount();
             editAccountForm.TargetAccount = account;
             editAccountForm.Accounts = accounts;
+            editAccountForm.accountBox = selectedAccountBox;
             editAccountForm.OnAccountEdit = () =>
             {
-                ShowAccount();
+                RefreshAccount();
+                ShowBalance();
                 SaveChanges();
             };
             editAccountForm.Show();
-            SaveChanges();
         }
-
     }
 }

@@ -6,7 +6,6 @@ namespace WindowsFormsApp2
     public partial class AddNewAccount : Form
     {
         public Action<Account> OnAccountAdded;
-        public ComboBox accountBox;
 
         public AddNewAccount()
         {
@@ -24,7 +23,7 @@ namespace WindowsFormsApp2
             account.InitialBalance = initialBalanceInput.Value;
             account.Name = newAccountNameTextBox.Text;
             OnAccountAdded(account);
-            
+
             this.Close();
         }
     }
