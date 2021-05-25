@@ -73,6 +73,12 @@
     <Compile Include="AddNewAccount.Designer.cs">
       <DependentUpon>AddNewAccount.cs</DependentUpon>
     </Compile>
+    <Compile Include="AddNewIncomeForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddNewIncomeForm.Designer.cs">
+      <DependentUpon>AddNewIncomeForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="EditAccount.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -107,6 +113,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="AddNewAccount.resx">
       <DependentUpon>AddNewAccount.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AddNewIncomeForm.resx">
+      <DependentUpon>AddNewIncomeForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="EditAccount.resx">
       <DependentUpon>EditAccount.cs</DependentUpon>

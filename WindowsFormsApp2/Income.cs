@@ -2,10 +2,11 @@
 
 namespace WindowsFormsApp2
 {
-    class Income
+    public class Income
     {
         public string comment { get; set; }
         public decimal amount { get; set; }
         public DateTime date { get; set; }
+        public Account account { get; set; }
     }
 }

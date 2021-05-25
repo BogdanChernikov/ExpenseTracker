@@ -30,13 +30,13 @@ namespace WindowsFormsApp2
         private void InitializeComponent()
         {
             this.incomesesTable = new System.Windows.Forms.DataGridView();
+            this.DateBox = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Amount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Comment = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label1 = new System.Windows.Forms.Label();
             this.addIncomeButton = new System.Windows.Forms.Button();
             this.deleteIncomeButton = new System.Windows.Forms.Button();
             this.editIncomeButton = new System.Windows.Forms.Button();
-            this.Date = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Amount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Comment = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.incomesesTable)).BeginInit();
             this.SuspendLayout();
             // 
@@ -45,7 +45,7 @@ namespace WindowsFormsApp2
             this.incomesesTable.AllowUserToAddRows = false;
             this.incomesesTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.incomesesTable.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Date,
+            this.DateBox,
             this.Amount,
             this.Comment});
             this.incomesesTable.Location = new System.Drawing.Point(12, 54);
@@ -53,6 +53,30 @@ namespace WindowsFormsApp2
             this.incomesesTable.RowHeadersVisible = false;
             this.incomesesTable.Size = new System.Drawing.Size(306, 183);
             this.incomesesTable.TabIndex = 0;
+            // 
+            // DateBox
+            // 
+            this.DateBox.DataPropertyName = "Date";
+            this.DateBox.HeaderText = "Date";
+            this.DateBox.Name = "DateBox";
+            this.DateBox.ReadOnly = true;
+            this.DateBox.Width = 90;
+            // 
+            // Amount
+            // 
+            this.Amount.DataPropertyName = "Amount";
+            this.Amount.HeaderText = "Amount";
+            this.Amount.Name = "Amount";
+            this.Amount.ReadOnly = true;
+            this.Amount.Width = 90;
+            // 
+            // Comment
+            // 
+            this.Comment.DataPropertyName = "Comment";
+            this.Comment.HeaderText = "Comment";
+            this.Comment.Name = "Comment";
+            this.Comment.ReadOnly = true;
+            this.Comment.Width = 90;
             // 
             // label1
             // 
@@ -71,6 +95,7 @@ namespace WindowsFormsApp2
             this.addIncomeButton.TabIndex = 2;
             this.addIncomeButton.Text = "Add";
             this.addIncomeButton.UseVisualStyleBackColor = true;
+            this.addIncomeButton.Click += new System.EventHandler(this.AddIncomeButton_Click);
             // 
             // deleteIncomeButton
             // 
@@ -90,22 +115,7 @@ namespace WindowsFormsApp2
             this.editIncomeButton.Text = "Edit";
             this.editIncomeButton.UseVisualStyleBackColor = true;
             // 
-            // Date
-            // 
-            this.Date.HeaderText = "Date";
-            this.Date.Name = "Date";
-            // 
-            // Amount
-            // 
-            this.Amount.HeaderText = "Amount";
-            this.Amount.Name = "Amount";
-            // 
-            // Comment
-            // 
-            this.Comment.HeaderText = "Comment";
-            this.Comment.Name = "Comment";
-            // 
-            // Incomes
+            // IncomeForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -115,8 +125,9 @@ namespace WindowsFormsApp2
             this.Controls.Add(this.addIncomeButton);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.incomesesTable);
-            this.Name = "Incomes";
+            this.Name = "IncomeForm";
             this.Text = "Incomes";
+            this.Load += new System.EventHandler(this.IncomeForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.incomesesTable)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -133,5 +144,6 @@ namespace WindowsFormsApp2
         private System.Windows.Forms.DataGridViewTextBoxColumn Date;
         private System.Windows.Forms.DataGridViewTextBoxColumn Amount;
         private System.Windows.Forms.DataGridViewTextBoxColumn Comment;
+        private System.Windows.Forms.DataGridViewTextBoxColumn DateBox;
     }
 }

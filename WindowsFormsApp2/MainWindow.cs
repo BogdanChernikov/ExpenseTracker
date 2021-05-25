@@ -16,6 +16,8 @@ namespace WindowsFormsApp2
         private List<Expense> filteredExpenses = new List<Expense>();
         private List<Account> accounts = new List<Account>();
         private Account targetAccount;
+        private List<Income> incomes = new List<Income>();
+
 
         public MainWindow()
         {
@@ -113,6 +115,12 @@ namespace WindowsFormsApp2
             FileStream stream1 = new FileStream(accou, FileMode.Create, FileAccess.Write, FileShare.ReadWrite);
             acc.Serialize(stream1, accounts);
             stream.Close();
+
+            XmlSerializer inc = new XmlSerializer(typeof(List<Income>));
+            string inco = "income.txt";
+            FileStream ino = new FileStream(inco, FileMode.Create, FileAccess.Write, FileShare.ReadWrite);
+            inc.Serialize(ino, incomes);
+            ino.Close();
         }
 
         private void SavePdfButton_Click(object sender, EventArgs e)
@@ -246,6 +254,13 @@ namespace WindowsFormsApp2
         private void OpenIncomsesFormButton_Click(object sender, EventArgs e)
         {
             IncomeForm incomeForm = new IncomeForm();
+            incomeForm.Incomes = incomes;
+            incomeForm.TargetAccount = targetAccount;
+            incomeForm.addIncome=(income)=>
+            {
+                incomes.Add(income);
+                SaveChanges();
+            };
             incomeForm.Show();
         }
     }
