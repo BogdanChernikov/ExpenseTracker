@@ -7,6 +7,5 @@ namespace WindowsFormsApp2
         public string comment { get; set; }
         public decimal amount { get; set; }
         public DateTime date { get; set; }
-        public IncomeCategory incomeCategory { get; set; }
     }
 }

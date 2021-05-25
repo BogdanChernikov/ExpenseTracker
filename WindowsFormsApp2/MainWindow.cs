@@ -242,5 +242,11 @@ namespace WindowsFormsApp2
             };
             editAccountForm.Show();
         }
+
+        private void OpenIncomsesFormButton_Click(object sender, EventArgs e)
+        {
+            IncomeForm incomeForm = new IncomeForm();
+            incomeForm.Show();
+        }
     }
 }

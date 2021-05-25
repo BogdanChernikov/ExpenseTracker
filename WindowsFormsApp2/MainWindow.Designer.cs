@@ -44,19 +44,19 @@ namespace WindowsFormsApp2
             this.savePdfButton = new System.Windows.Forms.Button();
             this.editExpensButton = new System.Windows.Forms.Button();
             this.selectedAccountBox = new System.Windows.Forms.ComboBox();
-            this.accountBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.accountBalance = new System.Windows.Forms.Label();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.button1 = new System.Windows.Forms.Button();
+            this.openIncomsesFormButton = new System.Windows.Forms.Button();
             this.addAccountForm = new System.Windows.Forms.Button();
             this.editAccountButton = new System.Windows.Forms.Button();
+            this.accountBindingSource = new System.Windows.Forms.BindingSource(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.expensesTable)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.accountBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // OpenAddForm
             // 
-            this.OpenAddForm.Location = new System.Drawing.Point(502, 165);
+            this.OpenAddForm.Location = new System.Drawing.Point(502, 199);
             this.OpenAddForm.Name = "OpenAddForm";
             this.OpenAddForm.Size = new System.Drawing.Size(75, 22);
             this.OpenAddForm.TabIndex = 0;
@@ -82,7 +82,7 @@ namespace WindowsFormsApp2
             // 
             // searchNameInput
             // 
-            this.searchNameInput.Location = new System.Drawing.Point(403, 91);
+            this.searchNameInput.Location = new System.Drawing.Point(410, 88);
             this.searchNameInput.Name = "searchNameInput";
             this.searchNameInput.Size = new System.Drawing.Size(105, 20);
             this.searchNameInput.TabIndex = 3;
@@ -197,10 +197,6 @@ namespace WindowsFormsApp2
             this.selectedAccountBox.TabIndex = 10;
             this.selectedAccountBox.SelectedIndexChanged += new System.EventHandler(this.SelectedAccountBox_SelectedIndexChanged);
             // 
-            // accountBindingSource
-            // 
-            this.accountBindingSource.DataSource = typeof(WindowsFormsApp2.Account);
-            // 
             // accountBalance
             // 
             this.accountBalance.AutoSize = true;
@@ -215,14 +211,15 @@ namespace WindowsFormsApp2
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
             // 
-            // button1
+            // openIncomsesFormButton
             // 
-            this.button1.Location = new System.Drawing.Point(502, 208);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 14;
-            this.button1.Text = "Add income";
-            this.button1.UseVisualStyleBackColor = true;
+            this.openIncomsesFormButton.Location = new System.Drawing.Point(410, 9);
+            this.openIncomsesFormButton.Name = "openIncomsesFormButton";
+            this.openIncomsesFormButton.Size = new System.Drawing.Size(75, 23);
+            this.openIncomsesFormButton.TabIndex = 14;
+            this.openIncomsesFormButton.Text = "Incomes";
+            this.openIncomsesFormButton.UseVisualStyleBackColor = true;
+            this.openIncomsesFormButton.Click += new System.EventHandler(this.OpenIncomsesFormButton_Click);
             // 
             // addAccountForm
             // 
@@ -236,13 +233,17 @@ namespace WindowsFormsApp2
             // 
             // editAccountButton
             // 
-            this.editAccountButton.Location = new System.Drawing.Point(309, 10);
+            this.editAccountButton.Location = new System.Drawing.Point(309, 9);
             this.editAccountButton.Name = "editAccountButton";
             this.editAccountButton.Size = new System.Drawing.Size(75, 23);
             this.editAccountButton.TabIndex = 16;
             this.editAccountButton.Text = "Edit";
             this.editAccountButton.UseVisualStyleBackColor = true;
             this.editAccountButton.Click += new System.EventHandler(this.EditAccountButton_Click);
+            // 
+            // accountBindingSource
+            // 
+            this.accountBindingSource.DataSource = typeof(WindowsFormsApp2.Account);
             // 
             // MainWindow
             // 
@@ -251,7 +252,7 @@ namespace WindowsFormsApp2
             this.ClientSize = new System.Drawing.Size(623, 450);
             this.Controls.Add(this.editAccountButton);
             this.Controls.Add(this.addAccountForm);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.openIncomsesFormButton);
             this.Controls.Add(this.accountBalance);
             this.Controls.Add(this.selectedAccountBox);
             this.Controls.Add(this.editExpensButton);
@@ -287,7 +288,7 @@ namespace WindowsFormsApp2
         private System.Windows.Forms.ComboBox selectedAccountBox;
         private System.Windows.Forms.Label accountBalance;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button openIncomsesFormButton;
         private System.Windows.Forms.Button addAccountForm;
         private System.Windows.Forms.Button editAccountButton;
         private System.Windows.Forms.DataGridViewTextBoxColumn costBox;
