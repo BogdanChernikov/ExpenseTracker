@@ -28,10 +28,10 @@ namespace WindowsFormsApp2
         public void AddIncomeButton_Click(object sender, EventArgs e)
         {
             var income = new Income();
-            income.amount = incomeAmountInput.Value;
-            income.comment = newIncomeCommentTextBox.Text;
-            income.date = incomeDateInput.Value;
-            income.account = IncomeAccount;
+            income.Cost = incomeAmountInput.Value;
+            income.Comment = newIncomeCommentTextBox.Text;
+            income.Date = incomeDateInput.Value;
+            income.Account = IncomeAccount;
             onIncomeAdded(income);
             this.Close();
         }

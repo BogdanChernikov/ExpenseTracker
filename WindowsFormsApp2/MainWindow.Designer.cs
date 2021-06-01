@@ -36,7 +36,7 @@ namespace WindowsFormsApp2
             this.expensesTable = new System.Windows.Forms.DataGridView();
             this.DateBox = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.CategoryBox = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.costBox = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.CostBox = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.commentBox = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.startDateDisplay = new System.Windows.Forms.DateTimePicker();
             this.endDateDisplay = new System.Windows.Forms.DateTimePicker();
@@ -50,6 +50,7 @@ namespace WindowsFormsApp2
             this.addAccountForm = new System.Windows.Forms.Button();
             this.editAccountButton = new System.Windows.Forms.Button();
             this.accountBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.addIncomeForm = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.expensesTable)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.accountBindingSource)).BeginInit();
             this.SuspendLayout();
@@ -96,7 +97,7 @@ namespace WindowsFormsApp2
             this.expensesTable.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.DateBox,
             this.CategoryBox,
-            this.costBox,
+            this.CostBox,
             this.commentBox});
             this.expensesTable.Location = new System.Drawing.Point(24, 142);
             this.expensesTable.Name = "expensesTable";
@@ -124,11 +125,11 @@ namespace WindowsFormsApp2
             // 
             // costBox
             // 
-            this.costBox.DataPropertyName = "Cost";
-            this.costBox.HeaderText = "Cost";
-            this.costBox.Name = "costBox";
-            this.costBox.ReadOnly = true;
-            this.costBox.Width = 110;
+            this.CostBox.DataPropertyName = "Cost";
+            this.CostBox.HeaderText = "Cost";
+            this.CostBox.Name = "costBox";
+            this.CostBox.ReadOnly = true;
+            this.CostBox.Width = 110;
             // 
             // commentBox
             // 
@@ -219,7 +220,6 @@ namespace WindowsFormsApp2
             this.openIncomsesFormButton.TabIndex = 14;
             this.openIncomsesFormButton.Text = "Incomes";
             this.openIncomsesFormButton.UseVisualStyleBackColor = true;
-            this.openIncomsesFormButton.Click += new System.EventHandler(this.OpenIncomsesFormButton_Click);
             // 
             // addAccountForm
             // 
@@ -245,11 +245,22 @@ namespace WindowsFormsApp2
             // 
             this.accountBindingSource.DataSource = typeof(WindowsFormsApp2.Account);
             // 
+            // addIncomeForm
+            // 
+            this.addIncomeForm.Location = new System.Drawing.Point(502, 151);
+            this.addIncomeForm.Name = "addIncomeForm";
+            this.addIncomeForm.Size = new System.Drawing.Size(75, 23);
+            this.addIncomeForm.TabIndex = 17;
+            this.addIncomeForm.Text = "Add Income";
+            this.addIncomeForm.UseVisualStyleBackColor = true;
+            this.addIncomeForm.Click += new System.EventHandler(this.AddIncomeForm_Click);
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(623, 450);
+            this.Controls.Add(this.addIncomeForm);
             this.Controls.Add(this.editAccountButton);
             this.Controls.Add(this.addAccountForm);
             this.Controls.Add(this.openIncomsesFormButton);
@@ -291,11 +302,12 @@ namespace WindowsFormsApp2
         private System.Windows.Forms.Button openIncomsesFormButton;
         private System.Windows.Forms.Button addAccountForm;
         private System.Windows.Forms.Button editAccountButton;
-        private System.Windows.Forms.DataGridViewTextBoxColumn costBox;
+        private System.Windows.Forms.DataGridViewTextBoxColumn CostBox;
         private System.Windows.Forms.DataGridViewTextBoxColumn commentBox;
         private System.Windows.Forms.DataGridViewTextBoxColumn DateBox;
         private System.Windows.Forms.DataGridViewTextBoxColumn CategoryBox;
         private System.Windows.Forms.BindingSource accountBindingSource;
+        private System.Windows.Forms.Button addIncomeForm;
     }
 }
 

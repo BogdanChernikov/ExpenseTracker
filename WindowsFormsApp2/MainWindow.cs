@@ -3,6 +3,7 @@ using iTextSharp.text.pdf;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -13,18 +14,85 @@ namespace WindowsFormsApp2
     public partial class MainWindow : Form
     {
         private List<Expense> expenses = new List<Expense>();
-        private List<Expense> filteredExpenses = new List<Expense>();
+        private List<AccountOperation> filteredOperations = new List<AccountOperation>();
         private List<Account> accounts = new List<Account>();
         private Account targetAccount;
         private List<Income> incomes = new List<Income>();
-
+        private List<AccountOperation> accountOperations = new List<AccountOperation>();
 
         public MainWindow()
         {
             InitializeComponent();
+            XmlSerializer acc = new XmlSerializer(typeof(List<Account>));
+            string accou = "account.txt";
+            var stream1 = new FileStream(accou, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            accounts = (List<Account>)acc.Deserialize(stream1);
+
+            stream1.Close();
+
+            selectedAccountBox.DataSource = null;
+            selectedAccountBox.DataSource = accounts;
+            selectedAccountBox.DisplayMember = "Name";
             expensesTable.AutoGenerateColumns = false;
             categoryFilterBox.SelectedItem = "All costs";
             startDateDisplay.Value = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.MinValue.Day);
+        }
+
+        private void MainWindow_Load(object sender, EventArgs e)
+        {
+            XmlSerializer ser = new XmlSerializer(typeof(List<Expense>));
+            string path = "list.txt";
+            var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            expenses = (List<Expense>)ser.Deserialize(stream);
+            stream.Close();
+            filteredOperations = accountOperations.ToList();
+            //RefreshTable();
+
+            XmlSerializer incom = new XmlSerializer(typeof(List<Income>));
+            string inc = "income.txt";
+            var stream2 = new FileStream(inc, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            incomes = (List<Income>)incom.Deserialize(stream2);
+
+            stream2.Close();
+
+            selectedAccountBox.DataSource = null;
+            selectedAccountBox.DataSource = accounts;
+            selectedAccountBox.DisplayMember = "Name";
+        }
+
+        private void OperationAdd()
+        {
+            //accountOperations.Clear();
+            accountOperations = new List<AccountOperation>();
+            //if (targetAccount == null)
+            //{ targetAccount = accounts[0]; }
+            targetAccount = (Account)selectedAccountBox.SelectedItem;
+            var accountExpenses = expenses.Where(x => x.Account.Name == targetAccount.Name).ToList();
+            for (int i = 0; i < accountExpenses.Count; i++)
+            {
+                AccountOperation b = new AccountOperation();
+                b.Account = accountExpenses[i].Account;
+                b.Category = accountExpenses[i].Category;
+                b.Comment = accountExpenses[i].Comment;
+                b.Cost = accountExpenses[i].Cost;
+                b.Date = accountExpenses[i].Date;
+                b.Type = "expense";
+                accountOperations.Add(b);
+            }
+
+            var accountIncomes = incomes.Where(x => x.Account.Name == targetAccount.Name).ToList();
+
+            for (int i = 0; i < accountIncomes.Count; i++)
+            {
+                AccountOperation b = new AccountOperation();
+                b.Account = accountIncomes[i].Account;
+                b.Category = accountIncomes[i].Category;
+                b.Comment = accountIncomes[i].Comment;
+                b.Cost = accountIncomes[i].Cost;
+                b.Date = accountIncomes[i].Date;
+                b.Type = "incomes";
+                accountOperations.Add(b);
+            }
         }
 
         private void CategoryFilter_SelectedIndexChanged(object sender, EventArgs e)
@@ -39,8 +107,11 @@ namespace WindowsFormsApp2
 
         public void RefreshTable()
         {
+            OperationAdd();
             expensesTable.DataSource = null;
-            expensesTable.DataSource = filteredExpenses;
+            expensesTable.DataSource = filteredOperations;
+            expensesTable.Columns[4].Visible = false;
+            expensesTable.Columns[5].Visible = false;
         }
 
         private void DateTimePicker1_ValueChanged(object sender, EventArgs e)
@@ -53,53 +124,47 @@ namespace WindowsFormsApp2
             FilterTable();
         }
 
+        private void color ()
+        {
+            for (int i = 0; i < filteredOperations.Count; i++)
+            {
+                if(filteredOperations[i].Type == "expense")
+                {
+                    expensesTable.Rows[i].DefaultCellStyle.BackColor = Color.Red;
+                }
+                if (filteredOperations[i].Type == "incomes")
+                {
+                    expensesTable.Rows[i].DefaultCellStyle.BackColor = Color.Green;
+                }
+            }
+        }
+
         private void FilterTable()
         {
-            targetAccount = (Account)selectedAccountBox.SelectedItem;
-            filteredExpenses = expenses.Where(x => x.Account.Name == targetAccount.Name).ToList();
-
+            filteredOperations = new List<AccountOperation>();
+            filteredOperations = accountOperations.ToList();
+            filteredOperations.Sort((x, y) => x.Date.CompareTo(y.Date));
             //category Filtred
             var chosenCategory = Convert.ToString(categoryFilterBox.SelectedItem);
 
             if (chosenCategory != "All costs")
             {
-                filteredExpenses = filteredExpenses.Where(x => Convert.ToString(x.Category) == chosenCategory).ToList();
+                filteredOperations = filteredOperations.Where(x => Convert.ToString(x.Category) == chosenCategory).ToList();
             }
 
             //name search
             if (!string.IsNullOrWhiteSpace(searchNameInput.Text))
             {
-                filteredExpenses = filteredExpenses.Where(x => x.Comment.Contains(searchNameInput.Text.Trim())).ToList();
+                filteredOperations = filteredOperations.Where(x => x.Comment.Contains(searchNameInput.Text.Trim())).ToList();
             }
 
             //data filrer1
-            filteredExpenses = filteredExpenses.Where(x => x.Date >= startDateDisplay.Value).ToList();
+            filteredOperations = filteredOperations.Where(x => x.Date >= startDateDisplay.Value).ToList();
 
             //data filter2
-            filteredExpenses = filteredExpenses.Where(x => x.Date <= endDateDisplay.Value).ToList();
+            filteredOperations = filteredOperations.Where(x => x.Date <= endDateDisplay.Value).ToList();
             RefreshTable();
-        }
-
-        private void MainWindow_Load(object sender, EventArgs e)
-        {
-            XmlSerializer ser = new XmlSerializer(typeof(List<Expense>));
-            string path = "list.txt";
-            var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-            expenses = (List<Expense>)ser.Deserialize(stream);
-            stream.Close();
-            filteredExpenses = expenses.ToList();
-            RefreshTable();
-
-            XmlSerializer acc = new XmlSerializer(typeof(List<Account>));
-            string accou = "account.txt";
-            var stream1 = new FileStream(accou, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-            accounts = (List<Account>)acc.Deserialize(stream1);
-
-            stream.Close();
-
-            selectedAccountBox.DataSource = null;
-            selectedAccountBox.DataSource = accounts;
-            selectedAccountBox.DisplayMember = "Name";
+            color();
         }
 
         public void SaveChanges()
@@ -114,7 +179,7 @@ namespace WindowsFormsApp2
             string accou = "account.txt";
             FileStream stream1 = new FileStream(accou, FileMode.Create, FileAccess.Write, FileShare.ReadWrite);
             acc.Serialize(stream1, accounts);
-            stream.Close();
+            stream1.Close();
 
             XmlSerializer inc = new XmlSerializer(typeof(List<Income>));
             string inco = "income.txt";
@@ -212,15 +277,25 @@ namespace WindowsFormsApp2
 
         public void ShowBalance()
         {
+            if (targetAccount == null)
+            { targetAccount = accounts[0]; }
             var accountExpense = expenses.Where(x => x.Account.Name == targetAccount.Name).ToList();
 
             Account account = (Account)selectedAccountBox.SelectedItem;
-            decimal costSum = 0;
+            decimal expensesSum = 0;
             for (int i = 0; i < accountExpense.Count; i++)
             {
-                costSum += accountExpense[i].Cost; ;
+                expensesSum += accountExpense[i].Cost; ;
             }
-            accountBalance.Text = Convert.ToString(account.InitialBalance - costSum);
+
+            var accountIncomes = incomes.Where(x => x.Account.Name == targetAccount.Name).ToList();
+            decimal incomesSum = 0;
+            for (int i = 0; i < accountIncomes.Count; i++)
+            {
+                incomesSum += accountIncomes[i].Cost; ;
+            }
+
+            accountBalance.Text = Convert.ToString(account.InitialBalance - expensesSum + incomesSum);
         }
 
         private void AddAccountForm_Click(object sender, EventArgs e)
@@ -251,17 +326,19 @@ namespace WindowsFormsApp2
             editAccountForm.Show();
         }
 
-        private void OpenIncomsesFormButton_Click(object sender, EventArgs e)
+        private void AddIncomeForm_Click(object sender, EventArgs e)
         {
-            IncomeForm incomeForm = new IncomeForm();
-            incomeForm.Incomes = incomes;
-            incomeForm.TargetAccount = targetAccount;
-            incomeForm.addIncome=(income)=>
+            AddNewIncomeForm addNewIncomeForm = new AddNewIncomeForm();
+            addNewIncomeForm.IncomeAccount = targetAccount;
+            addNewIncomeForm.onIncomeAdded = (income) =>
             {
                 incomes.Add(income);
                 SaveChanges();
+                RefreshTable();
+                RefreshAccount();// TODO:check This
             };
-            incomeForm.Show();
+            addNewIncomeForm.Show();
+            
         }
     }
 }
