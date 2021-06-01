@@ -29,7 +29,7 @@ namespace WindowsFormsApp2
         /// </summary>
         private void InitializeComponent()
         {
-            this.CanceledEditAccount = new System.Windows.Forms.Button();
+            this.canceledEditAccount = new System.Windows.Forms.Button();
             this.saveEditedAccountButton = new System.Windows.Forms.Button();
             this.editInitialBalanceInput = new System.Windows.Forms.NumericUpDown();
             this.label2 = new System.Windows.Forms.Label();
@@ -41,13 +41,13 @@ namespace WindowsFormsApp2
             // 
             // CanceledEditAccount
             // 
-            this.CanceledEditAccount.Location = new System.Drawing.Point(190, 145);
-            this.CanceledEditAccount.Name = "CanceledEditAccount";
-            this.CanceledEditAccount.Size = new System.Drawing.Size(75, 23);
-            this.CanceledEditAccount.TabIndex = 11;
-            this.CanceledEditAccount.Text = "Cancel";
-            this.CanceledEditAccount.UseVisualStyleBackColor = true;
-            this.CanceledEditAccount.Click += new System.EventHandler(this.CanceledEditAccount_Click);
+            this.canceledEditAccount.Location = new System.Drawing.Point(190, 145);
+            this.canceledEditAccount.Name = "CanceledEditAccount";
+            this.canceledEditAccount.Size = new System.Drawing.Size(75, 23);
+            this.canceledEditAccount.TabIndex = 11;
+            this.canceledEditAccount.Text = "Cancel";
+            this.canceledEditAccount.UseVisualStyleBackColor = true;
+            this.canceledEditAccount.Click += new System.EventHandler(this.CanceledEditAccount_Click);
             // 
             // saveEditedAccountButton
             // 
@@ -112,7 +112,7 @@ namespace WindowsFormsApp2
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(286, 450);
             this.Controls.Add(this.deleteAccountButton);
-            this.Controls.Add(this.CanceledEditAccount);
+            this.Controls.Add(this.canceledEditAccount);
             this.Controls.Add(this.saveEditedAccountButton);
             this.Controls.Add(this.editInitialBalanceInput);
             this.Controls.Add(this.label2);
@@ -129,7 +129,7 @@ namespace WindowsFormsApp2
 
         #endregion
 
-        private System.Windows.Forms.Button CanceledEditAccount;
+        private System.Windows.Forms.Button canceledEditAccount;
         private System.Windows.Forms.Button saveEditedAccountButton;
         private System.Windows.Forms.NumericUpDown editInitialBalanceInput;
         private System.Windows.Forms.Label label2;

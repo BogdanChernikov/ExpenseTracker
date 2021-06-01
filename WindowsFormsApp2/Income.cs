@@ -4,8 +4,8 @@ namespace WindowsFormsApp2
 {
     class Income
     {
-        public string comment { get; set; }
-        public decimal amount { get; set; }
-        public DateTime date { get; set; }
+        public string Comment { get; set; }
+        public decimal Amount { get; set; }
+        public DateTime Date { get; set; }
     }
 }

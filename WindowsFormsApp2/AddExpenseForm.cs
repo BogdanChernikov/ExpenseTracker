@@ -34,7 +34,6 @@ namespace WindowsFormsApp2
             if (Convert.ToString(newCostCategory.SelectedItem) == "Food")
                 cost.Category = "Food";
             cost.Date = newCostDate.Value.Date;
-            cost.Account = expenseAccount;
 
             OnExpenseAdded(cost);
 

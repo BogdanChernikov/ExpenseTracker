@@ -15,7 +15,7 @@ namespace WindowsFormsApp2
         private List<Expense> expenses = new List<Expense>();
         private List<Expense> filteredExpenses = new List<Expense>();
         private List<Account> accounts = new List<Account>();
-        private Account targetAccount;
+        private Account TargetAccount { get; set; }
 
         public MainWindow()
         {
@@ -53,8 +53,8 @@ namespace WindowsFormsApp2
 
         private void FilterTable()
         {
-            targetAccount = (Account)selectedAccountBox.SelectedItem;
-            filteredExpenses = expenses.Where(x => x.Account.Name == targetAccount.Name).ToList();
+            TargetAccount = (Account)selectedAccountBox.SelectedItem;
+            filteredExpenses = expenses.Where(x => x.Account.Name == TargetAccount.Name).ToList();
 
             //category Filtred
             var chosenCategory = Convert.ToString(categoryFilterBox.SelectedItem);
@@ -153,10 +153,10 @@ namespace WindowsFormsApp2
 
         private void AddExpenseForm_Click(object sender, EventArgs e)
         {
-            AddExpenseForm addCostForm = new AddExpenseForm();
+            AddExpenseForm addExpenseForm = new AddExpenseForm();
             Account account = (Account)selectedAccountBox.SelectedItem;
-            addCostForm.expenseAccount = account;
-            addCostForm.OnExpenseAdded = (expense) =>
+            addExpenseForm.expenseAccount = account;
+            addExpenseForm.OnExpenseAdded = (expense) =>
             {
                 expense.Account = (Account)selectedAccountBox.SelectedItem;
                 expenses.Add(expense);
@@ -164,7 +164,7 @@ namespace WindowsFormsApp2
                 ShowBalance();
                 SaveChanges();
             };
-            addCostForm.Show();
+            addExpenseForm.Show();
         }
 
         private void EditExpense()
@@ -174,24 +174,33 @@ namespace WindowsFormsApp2
                 var expense = row.DataBoundItem as Expense;
                 EditDataForm editDataForm = new EditDataForm();
                 editDataForm.TargetExpense = expense;
-                editDataForm.Expenses = expenses;
                 editDataForm.OnExpenseEdit = () =>
-                      {
-                          FilterTable();
-                          ShowBalance();
-                          SaveChanges();
-                      };
+                {
+                    FilterTable();
+                    ShowBalance();
+                    SaveChanges();
+                };
+                editDataForm.OnExpenseDeleted = () =>
+                {
+                    if (expense != null)
+                    {
+                        expenses.Remove(expense);
+                        FilterTable();
+                        ShowBalance();
+                        SaveChanges();
+                    }
+                };
                 editDataForm.Show();
             }
         }
 
         private void RefreshAccount()
         {
-            targetAccount = (Account)selectedAccountBox.SelectedItem;
+            TargetAccount = (Account)selectedAccountBox.SelectedItem;
             selectedAccountBox.DataSource = null;
             selectedAccountBox.DataSource = accounts;
             selectedAccountBox.DisplayMember = "Name";
-            selectedAccountBox.SelectedItem = targetAccount;
+            selectedAccountBox.SelectedItem = TargetAccount;
         }
 
         public void SelectedAccountBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -204,15 +213,9 @@ namespace WindowsFormsApp2
 
         public void ShowBalance()
         {
-            var accountExpense = expenses.Where(x => x.Account.Name == targetAccount.Name).ToList();
-
-            Account account = (Account)selectedAccountBox.SelectedItem;
-            decimal costSum = 0;
-            for (int i = 0; i < accountExpense.Count; i++)
-            {
-                costSum += accountExpense[i].Cost; ;
-            }
-            accountBalance.Text = Convert.ToString(account.InitialBalance - costSum);
+            var accountExpense = expenses.Where(x => x.Account.Name == TargetAccount.Name).ToList();
+            var expensesSum = expenses.Where(x => x.Account.Name == TargetAccount.Name).Sum(x => x.Cost);
+            accountBalance.Text = Convert.ToString(TargetAccount.InitialBalance - expensesSum);
         }
 
         private void AddAccountForm_Click(object sender, EventArgs e)
@@ -232,21 +235,23 @@ namespace WindowsFormsApp2
             Account account = (Account)selectedAccountBox.SelectedItem;
             EditAccount editAccountForm = new EditAccount();
             editAccountForm.TargetAccount = account;
-            editAccountForm.Accounts = accounts;
-            editAccountForm.accountBox = selectedAccountBox;
             editAccountForm.OnAccountEdit = () =>
             {
                 RefreshAccount();
                 ShowBalance();
                 SaveChanges();
             };
-            editAccountForm.Show();
-        }
+            editAccountForm.OnAccountDeleted = () =>
+             {
+                 if (account != null)
+                 {
+                     accounts.Remove(account);
 
-        private void OpenIncomsesFormButton_Click(object sender, EventArgs e)
-        {
-            IncomeForm incomeForm = new IncomeForm();
-            incomeForm.Show();
+                 }
+                 selectedAccountBox.SelectedIndex = 0;
+             };
+
+            editAccountForm.Show();
         }
     }
 }

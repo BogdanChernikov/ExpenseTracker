@@ -7,9 +7,8 @@ namespace WindowsFormsApp2
     public partial class EditDataForm : Form
     {
         public Action OnExpenseEdit;
+        public Action OnExpenseDeleted;
         public Expense TargetExpense;
-        public List<Expense> Expenses;
-
 
         public EditDataForm()
         {
@@ -18,10 +17,10 @@ namespace WindowsFormsApp2
 
         private void EditDataForm_Load(object sender, EventArgs e)
         {
-            costInput.Value = TargetExpense.Cost;
+            expenseSumInput.Value = TargetExpense.Cost;
             commentInput.Text = TargetExpense.Comment;
-            expenseCategory.SelectedItem = TargetExpense.Category;
-            expensetDate.Value = TargetExpense.Date;
+            expenseCategoryBox.SelectedItem = TargetExpense.Category;
+            expenseDatePicker.Value = TargetExpense.Date;
         }
 
         private void CancelEditButton_Click(object sender, EventArgs e)
@@ -31,20 +30,16 @@ namespace WindowsFormsApp2
 
         private void DeleteDataButton_Click(object sender, EventArgs e)
         {
-            if (TargetExpense != null)
-            {
-                Expenses.Remove(TargetExpense);
-            }
-            OnExpenseEdit();
+            OnExpenseDeleted();
             this.Close();
         }
 
         private void EditDataButton_Click(object sender, EventArgs e)
         {
-            TargetExpense.Cost = costInput.Value;
+            TargetExpense.Cost = expenseSumInput.Value;
             TargetExpense.Comment = commentInput.Text;
-            TargetExpense.Category = Convert.ToString(expenseCategory.SelectedItem);
-            TargetExpense.Date = expensetDate.Value;
+            TargetExpense.Category = Convert.ToString(expenseCategoryBox.SelectedItem);
+            TargetExpense.Date = expenseDatePicker.Value;
             OnExpenseEdit();
             this.Close();
         }

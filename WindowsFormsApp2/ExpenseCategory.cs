@@ -1,6 +1,6 @@
 ﻿namespace WindowsFormsApp2
 {
-    public enum ExpenseCategorys
+    public enum ExpenseCategory
     {
         Traffic,
         Utilities,
