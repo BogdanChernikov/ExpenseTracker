@@ -7,7 +7,7 @@ namespace WindowsFormsApp2
     public partial class EditDataForm : Form
     {
         public Action OnExpenseEdit;
-        public Expense TargetExpense;
+        public AccountOperation TargetExpense;
         public List<Expense> Expenses;
 
 
@@ -33,7 +33,7 @@ namespace WindowsFormsApp2
         {
             if (TargetExpense != null)
             {
-                Expenses.Remove(TargetExpense);
+                //Expenses.Remove();
             }
             OnExpenseEdit();
             this.Close();

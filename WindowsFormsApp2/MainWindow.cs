@@ -55,6 +55,13 @@ namespace WindowsFormsApp2
 
             stream2.Close();
 
+            XmlSerializer accountOperation = new XmlSerializer(typeof(List<AccountOperation>));
+            string operat = "accountOperations.txt";
+            var streamoperation = new FileStream(operat, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            accountOperations = (List<AccountOperation>)accountOperation.Deserialize(streamoperation);
+
+            streamoperation.Close();
+
             selectedAccountBox.DataSource = null;
             selectedAccountBox.DataSource = accounts;
             selectedAccountBox.DisplayMember = "Name";
@@ -124,11 +131,11 @@ namespace WindowsFormsApp2
             FilterTable();
         }
 
-        private void color ()
+        private void color()
         {
             for (int i = 0; i < filteredOperations.Count; i++)
             {
-                if(filteredOperations[i].Type == "expense")
+                if (filteredOperations[i].Type == "expense")
                 {
                     expensesTable.Rows[i].DefaultCellStyle.BackColor = Color.Red;
                 }
@@ -186,6 +193,12 @@ namespace WindowsFormsApp2
             FileStream ino = new FileStream(inco, FileMode.Create, FileAccess.Write, FileShare.ReadWrite);
             inc.Serialize(ino, incomes);
             ino.Close();
+
+            XmlSerializer accountOperation = new XmlSerializer(typeof(List<AccountOperation>));
+            string operat = "accountOperations.txt";
+            FileStream streamoperation = new FileStream(operat, FileMode.Create, FileAccess.Write, FileShare.ReadWrite);
+            accountOperation.Serialize(streamoperation, accountOperations);
+            streamoperation.Close();
         }
 
         private void SavePdfButton_Click(object sender, EventArgs e)
@@ -233,6 +246,7 @@ namespace WindowsFormsApp2
             {
                 expense.Account = (Account)selectedAccountBox.SelectedItem;
                 expenses.Add(expense);
+                RefreshTable();
                 FilterTable();
                 ShowBalance();
                 SaveChanges();
@@ -244,12 +258,13 @@ namespace WindowsFormsApp2
         {
             foreach (DataGridViewRow row in this.expensesTable.SelectedRows)
             {
-                var expense = row.DataBoundItem as Expense;
+                var operation = row.DataBoundItem as AccountOperation;
                 EditDataForm editDataForm = new EditDataForm();
-                editDataForm.TargetExpense = expense;
+                editDataForm.TargetExpense = operation;
                 editDataForm.Expenses = expenses;
                 editDataForm.OnExpenseEdit = () =>
                       {
+                          RefreshTable();
                           FilterTable();
                           ShowBalance();
                           SaveChanges();
@@ -338,7 +353,7 @@ namespace WindowsFormsApp2
                 RefreshAccount();// TODO:check This
             };
             addNewIncomeForm.Show();
-            
+
         }
     }
 }
