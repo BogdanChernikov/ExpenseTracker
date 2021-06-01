@@ -6,7 +6,6 @@ namespace WindowsFormsApp2
     public partial class AddExpenseForm : Form
     {
         public Action<Expense> OnExpenseAdded;
-        public Account expenseAccount;
 
         public AddExpenseForm()
         {

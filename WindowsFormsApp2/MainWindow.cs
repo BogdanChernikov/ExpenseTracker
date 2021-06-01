@@ -155,7 +155,6 @@ namespace WindowsFormsApp2
         {
             AddExpenseForm addExpenseForm = new AddExpenseForm();
             Account account = (Account)selectedAccountBox.SelectedItem;
-            addExpenseForm.expenseAccount = account;
             addExpenseForm.OnExpenseAdded = (expense) =>
             {
                 expense.Account = (Account)selectedAccountBox.SelectedItem;
