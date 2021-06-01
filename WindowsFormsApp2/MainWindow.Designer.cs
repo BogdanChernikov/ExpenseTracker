@@ -150,12 +150,13 @@ namespace WindowsFormsApp2
             // 
             // endDateDisplay
             // 
-            this.endDateDisplay.CustomFormat = "dd:MM:yyyy";
+            this.endDateDisplay.CustomFormat = "dd:MM:yyyy HH:mm:ss";
             this.endDateDisplay.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.endDateDisplay.Location = new System.Drawing.Point(289, 88);
             this.endDateDisplay.Name = "endDateDisplay";
             this.endDateDisplay.Size = new System.Drawing.Size(95, 20);
             this.endDateDisplay.TabIndex = 6;
+            this.endDateDisplay.Value = new System.DateTime(2021, 6, 1, 23, 59, 0, 0);
             this.endDateDisplay.ValueChanged += new System.EventHandler(this.DateTimePicker2_ValueChanged);
             // 
             // label1

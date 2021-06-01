@@ -1,7 +1,7 @@
 ﻿
 namespace WindowsFormsApp2
 {
-    partial class EditDataForm
+    partial class EditDataFormForExpense
     {
         /// <summary>
         /// Required designer variable.

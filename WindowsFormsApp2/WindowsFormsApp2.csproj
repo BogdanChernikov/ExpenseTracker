@@ -86,11 +86,17 @@
     <Compile Include="EditAccount.Designer.cs">
       <DependentUpon>EditAccount.cs</DependentUpon>
     </Compile>
-    <Compile Include="EditDataForm.cs">
+    <Compile Include="EditDataFormForExpense.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="EditDataForm.Designer.cs">
-      <DependentUpon>EditDataForm.cs</DependentUpon>
+    <Compile Include="EditDataFormForExpense.Designer.cs">
+      <DependentUpon>EditDataFormForExpense.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EditDataFormForIncome.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EditDataFormForIncome.Designer.cs">
+      <DependentUpon>EditDataFormForIncome.cs</DependentUpon>
     </Compile>
     <Compile Include="Expense.cs" />
     <Compile Include="ExpenseCategorys.cs" />
@@ -115,8 +121,11 @@
     <EmbeddedResource Include="EditAccount.resx">
       <DependentUpon>EditAccount.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="EditDataForm.resx">
-      <DependentUpon>EditDataForm.cs</DependentUpon>
+    <EmbeddedResource Include="EditDataFormForExpense.resx">
+      <DependentUpon>EditDataFormForExpense.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditDataFormForIncome.resx">
+      <DependentUpon>EditDataFormForIncome.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainWindow.resx">
       <DependentUpon>MainWindow.cs</DependentUpon>

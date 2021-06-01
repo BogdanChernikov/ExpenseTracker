@@ -7,6 +7,7 @@ namespace WindowsFormsApp2
     public partial class EditAccount : Form
     {
         public Action OnAccountEdit;
+        public Action OnAccountDeleted;
         public Account TargetAccount;
         public List<Account> Accounts;
         public ComboBox accountBox;
@@ -37,14 +38,7 @@ namespace WindowsFormsApp2
 
         private void DeleteAccountButton_Click(object sender, EventArgs e)
         {
-            if (TargetAccount != null)
-            {
-                Accounts.Remove(TargetAccount);
-                
-            }
-            accountBox.SelectedIndex = 0;
-            OnAccountEdit();
-            
+            OnAccountDeleted();
             this.Close();
         }
     }

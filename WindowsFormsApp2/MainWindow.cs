@@ -16,7 +16,7 @@ namespace WindowsFormsApp2
         private List<Expense> expenses = new List<Expense>();
         private List<AccountOperation> filteredOperations = new List<AccountOperation>();
         private List<Account> accounts = new List<Account>();
-        private Account targetAccount;
+        private Account TargetAccount { get; set; }
         private List<Income> incomes = new List<Income>();
         private List<AccountOperation> accountOperations = new List<AccountOperation>();
 
@@ -46,7 +46,6 @@ namespace WindowsFormsApp2
             expenses = (List<Expense>)ser.Deserialize(stream);
             stream.Close();
             filteredOperations = accountOperations.ToList();
-            //RefreshTable();
 
             XmlSerializer incom = new XmlSerializer(typeof(List<Income>));
             string inc = "income.txt";
@@ -65,41 +64,8 @@ namespace WindowsFormsApp2
             selectedAccountBox.DataSource = null;
             selectedAccountBox.DataSource = accounts;
             selectedAccountBox.DisplayMember = "Name";
-        }
+            selectedAccountBox.SelectedIndex = 0;
 
-        private void OperationAdd()
-        {
-            //accountOperations.Clear();
-            accountOperations = new List<AccountOperation>();
-            //if (targetAccount == null)
-            //{ targetAccount = accounts[0]; }
-            targetAccount = (Account)selectedAccountBox.SelectedItem;
-            var accountExpenses = expenses.Where(x => x.Account.Name == targetAccount.Name).ToList();
-            for (int i = 0; i < accountExpenses.Count; i++)
-            {
-                AccountOperation b = new AccountOperation();
-                b.Account = accountExpenses[i].Account;
-                b.Category = accountExpenses[i].Category;
-                b.Comment = accountExpenses[i].Comment;
-                b.Cost = accountExpenses[i].Cost;
-                b.Date = accountExpenses[i].Date;
-                b.Type = "expense";
-                accountOperations.Add(b);
-            }
-
-            var accountIncomes = incomes.Where(x => x.Account.Name == targetAccount.Name).ToList();
-
-            for (int i = 0; i < accountIncomes.Count; i++)
-            {
-                AccountOperation b = new AccountOperation();
-                b.Account = accountIncomes[i].Account;
-                b.Category = accountIncomes[i].Category;
-                b.Comment = accountIncomes[i].Comment;
-                b.Cost = accountIncomes[i].Cost;
-                b.Date = accountIncomes[i].Date;
-                b.Type = "incomes";
-                accountOperations.Add(b);
-            }
         }
 
         private void CategoryFilter_SelectedIndexChanged(object sender, EventArgs e)
@@ -114,7 +80,6 @@ namespace WindowsFormsApp2
 
         public void RefreshTable()
         {
-            OperationAdd();
             expensesTable.DataSource = null;
             expensesTable.DataSource = filteredOperations;
             expensesTable.Columns[4].Visible = false;
@@ -131,7 +96,7 @@ namespace WindowsFormsApp2
             FilterTable();
         }
 
-        private void color()
+        private void TableColoring()
         {
             for (int i = 0; i < filteredOperations.Count; i++)
             {
@@ -139,7 +104,7 @@ namespace WindowsFormsApp2
                 {
                     expensesTable.Rows[i].DefaultCellStyle.BackColor = Color.Red;
                 }
-                if (filteredOperations[i].Type == "incomes")
+                if (filteredOperations[i].Type == "income")
                 {
                     expensesTable.Rows[i].DefaultCellStyle.BackColor = Color.Green;
                 }
@@ -149,8 +114,9 @@ namespace WindowsFormsApp2
         private void FilterTable()
         {
             filteredOperations = new List<AccountOperation>();
-            filteredOperations = accountOperations.ToList();
+            filteredOperations = accountOperations.Where(x => x.Account.Name == TargetAccount.Name).ToList();
             filteredOperations.Sort((x, y) => x.Date.CompareTo(y.Date));
+
             //category Filtred
             var chosenCategory = Convert.ToString(categoryFilterBox.SelectedItem);
 
@@ -171,7 +137,7 @@ namespace WindowsFormsApp2
             //data filter2
             filteredOperations = filteredOperations.Where(x => x.Date <= endDateDisplay.Value).ToList();
             RefreshTable();
-            color();
+            TableColoring();
         }
 
         public void SaveChanges()
@@ -229,88 +195,93 @@ namespace WindowsFormsApp2
 
         private void ExpensesTable_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            EditExpense();
+            EditOperation();
         }
 
         private void EditExpensButton_Click(object sender, EventArgs e)
         {
-            EditExpense();
+            EditOperation();
         }
 
-        private void AddExpenseForm_Click(object sender, EventArgs e)
-        {
-            AddExpenseForm addCostForm = new AddExpenseForm();
-            Account account = (Account)selectedAccountBox.SelectedItem;
-            addCostForm.expenseAccount = account;
-            addCostForm.OnExpenseAdded = (expense) =>
-            {
-                expense.Account = (Account)selectedAccountBox.SelectedItem;
-                expenses.Add(expense);
-                RefreshTable();
-                FilterTable();
-                ShowBalance();
-                SaveChanges();
-            };
-            addCostForm.Show();
-        }
-
-        private void EditExpense()
+        private void EditOperation()
         {
             foreach (DataGridViewRow row in this.expensesTable.SelectedRows)
             {
                 var operation = row.DataBoundItem as AccountOperation;
-                EditDataForm editDataForm = new EditDataForm();
-                editDataForm.TargetExpense = operation;
-                editDataForm.Expenses = expenses;
-                editDataForm.OnExpenseEdit = () =>
-                      {
-                          RefreshTable();
-                          FilterTable();
-                          ShowBalance();
-                          SaveChanges();
-                      };
-                editDataForm.Show();
+                if (operation.Type == "expense")
+                {
+                    EditDataFormForExpense editDataForm = new EditDataFormForExpense();
+                    editDataForm.TargetExpense = operation;
+                    editDataForm.OnExpenseEdit = () =>
+                    {
+                        SaveChanges();
+                        RefreshTable();
+                        FilterTable();
+                        ShowBalance();
+                    };
+                    editDataForm.OnExpenseDeleted = () =>
+                    {
+                        if (operation != null)
+                        {
+                            accountOperations.Remove(operation);
+                        }
+                        RefreshTable();
+                        FilterTable();
+                        ShowBalance();
+                        SaveChanges();
+                    };
+                    editDataForm.Show();
+                }
+                else
+                {
+                    EditDataFormForIncome editIncomeForm = new EditDataFormForIncome();
+                    editIncomeForm.TargetIncome = operation;
+                    editIncomeForm.OnIncomeEdit = () =>
+                    {
+                        RefreshTable();
+                        FilterTable();
+                        ShowBalance();
+                        SaveChanges();
+                    };
+                    editIncomeForm.OnIncomeDeleted = () =>
+                    {
+                        if (operation != null)
+                        {
+                            accountOperations.Remove(operation);
+                        }
+                        RefreshTable();
+                        FilterTable();
+                        ShowBalance();
+                        SaveChanges();
+                    };
+                    editIncomeForm.Show();
+                }
             }
         }
 
         private void RefreshAccount()
         {
-            targetAccount = (Account)selectedAccountBox.SelectedItem;
+            TargetAccount = (Account)selectedAccountBox.SelectedItem;
             selectedAccountBox.DataSource = null;
             selectedAccountBox.DataSource = accounts;
             selectedAccountBox.DisplayMember = "Name";
-            selectedAccountBox.SelectedItem = targetAccount;
+            selectedAccountBox.SelectedItem = TargetAccount;
         }
 
         public void SelectedAccountBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (selectedAccountBox.SelectedIndex == -1)
                 selectedAccountBox.SelectedIndex = 0;
+            TargetAccount = (Account)selectedAccountBox.SelectedItem;
             FilterTable();
             ShowBalance();
         }
 
         public void ShowBalance()
         {
-            if (targetAccount == null)
-            { targetAccount = accounts[0]; }
-            var accountExpense = expenses.Where(x => x.Account.Name == targetAccount.Name).ToList();
-
-            Account account = (Account)selectedAccountBox.SelectedItem;
-            decimal expensesSum = 0;
-            for (int i = 0; i < accountExpense.Count; i++)
-            {
-                expensesSum += accountExpense[i].Cost; ;
-            }
-
-            var accountIncomes = incomes.Where(x => x.Account.Name == targetAccount.Name).ToList();
-            decimal incomesSum = 0;
-            for (int i = 0; i < accountIncomes.Count; i++)
-            {
-                incomesSum += accountIncomes[i].Cost; ;
-            }
-
-            accountBalance.Text = Convert.ToString(account.InitialBalance - expensesSum + incomesSum);
+            var expensesSum = accountOperations.Where(x => x.Account.Name == TargetAccount.Name && x.Type == "expense").Sum(x => x.Cost);
+            var incomesSum = accountOperations.Where(x => x.Account.Name == TargetAccount.Name && x.Type == "income").Sum(x => x.Cost);
+            accountBalance.Text = Convert.ToString(TargetAccount.InitialBalance - expensesSum + incomesSum);
         }
 
         private void AddAccountForm_Click(object sender, EventArgs e)
@@ -338,22 +309,60 @@ namespace WindowsFormsApp2
                 ShowBalance();
                 SaveChanges();
             };
+            editAccountForm.OnAccountDeleted = () =>
+            {
+                if (account != null)
+                {
+                    accounts.Remove(account);
+                }
+            };
             editAccountForm.Show();
         }
 
         private void AddIncomeForm_Click(object sender, EventArgs e)
         {
             AddNewIncomeForm addNewIncomeForm = new AddNewIncomeForm();
-            addNewIncomeForm.IncomeAccount = targetAccount;
             addNewIncomeForm.onIncomeAdded = (income) =>
             {
+                income.Account = TargetAccount;
                 incomes.Add(income);
+                var operation = new AccountOperation();
+                operation.Account = (Account)selectedAccountBox.SelectedItem;
+                operation.Category = income.Category;
+                operation.Comment = income.Comment;
+                operation.Cost = income.Cost;
+                operation.Date = income.Date;
+                operation.Type = "income";
+                accountOperations.Add(operation);
                 SaveChanges();
                 RefreshTable();
-                RefreshAccount();// TODO:check This
+                FilterTable();
+                ShowBalance();
             };
             addNewIncomeForm.Show();
-
+        }
+        private void AddExpenseForm_Click(object sender, EventArgs e)
+        {
+            AddExpenseForm addCostForm = new AddExpenseForm();
+            Account account = (Account)selectedAccountBox.SelectedItem;
+            addCostForm.OnExpenseAdded = (expense) =>
+            {
+                expense.Account = (Account)selectedAccountBox.SelectedItem;
+                expenses.Add(expense);
+                var operation = new AccountOperation();
+                operation.Account = (Account)selectedAccountBox.SelectedItem;
+                operation.Category = expense.Category;
+                operation.Comment = expense.Comment;
+                operation.Cost = expense.Cost;
+                operation.Date = expense.Date;
+                operation.Type = "expense";
+                accountOperations.Add(operation);
+                SaveChanges();
+                RefreshTable();
+                FilterTable();
+                ShowBalance();
+            };
+            addCostForm.Show();
         }
     }
 }

@@ -4,14 +4,13 @@ using System.Windows.Forms;
 
 namespace WindowsFormsApp2
 {
-    public partial class EditDataForm : Form
+    public partial class EditDataFormForExpense : Form
     {
         public Action OnExpenseEdit;
+        public Action OnExpenseDeleted;
         public AccountOperation TargetExpense;
-        public List<Expense> Expenses;
 
-
-        public EditDataForm()
+        public EditDataFormForExpense()
         {
             InitializeComponent();
         }
@@ -31,11 +30,7 @@ namespace WindowsFormsApp2
 
         private void DeleteDataButton_Click(object sender, EventArgs e)
         {
-            if (TargetExpense != null)
-            {
-                //Expenses.Remove();
-            }
-            OnExpenseEdit();
+            OnExpenseDeleted();
             this.Close();
         }
 

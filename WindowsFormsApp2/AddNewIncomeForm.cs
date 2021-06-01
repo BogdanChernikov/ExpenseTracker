@@ -13,7 +13,6 @@ namespace WindowsFormsApp2
     public partial class AddNewIncomeForm : Form
     {
         public Action<Income> onIncomeAdded;
-        public Account IncomeAccount;
 
         public AddNewIncomeForm()
         {
@@ -31,7 +30,6 @@ namespace WindowsFormsApp2
             income.Cost = incomeAmountInput.Value;
             income.Comment = newIncomeCommentTextBox.Text;
             income.Date = incomeDateInput.Value;
-            income.Account = IncomeAccount;
             onIncomeAdded(income);
             this.Close();
         }

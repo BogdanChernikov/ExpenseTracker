@@ -6,7 +6,6 @@ namespace WindowsFormsApp2
     public partial class AddExpenseForm : Form
     {
         public Action<Expense> OnExpenseAdded;
-        public Account expenseAccount;
 
         public AddExpenseForm()
         {
@@ -34,7 +33,6 @@ namespace WindowsFormsApp2
             if (Convert.ToString(newCostCategory.SelectedItem) == "Food")
                 cost.Category = "Food";
             cost.Date = newCostDate.Value.Date;
-            cost.Account = expenseAccount;
 
             OnExpenseAdded(cost);
 
