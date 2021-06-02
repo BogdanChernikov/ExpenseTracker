@@ -13,7 +13,7 @@ namespace WindowsFormsApp2
 {
     public partial class MainWindow : Form
     {
-        private Account TargetAccount { get; set; }
+        private Account TargetAccount => (Account)selectedAccountBox.SelectedItem;
         private List<Expense> expenses = new List<Expense>();
         private List<AccountOperation> filteredOperations = new List<AccountOperation>();
         private List<Account> accounts = new List<Account>();
@@ -65,7 +65,6 @@ namespace WindowsFormsApp2
             selectedAccountBox.DataSource = accounts;
             selectedAccountBox.DisplayMember = "Name";
             selectedAccountBox.SelectedIndex = 0;
-
         }
 
         private void CategoryFilter_SelectedIndexChanged(object sender, EventArgs e)
@@ -261,7 +260,6 @@ namespace WindowsFormsApp2
 
         private void RefreshAccount()
         {
-            TargetAccount = (Account)selectedAccountBox.SelectedItem;
             selectedAccountBox.DataSource = null;
             selectedAccountBox.DataSource = accounts;
             selectedAccountBox.DisplayMember = "Name";
@@ -271,8 +269,7 @@ namespace WindowsFormsApp2
         public void SelectedAccountBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (selectedAccountBox.SelectedIndex == -1)
-                selectedAccountBox.SelectedIndex = 0;
-            TargetAccount = (Account)selectedAccountBox.SelectedItem;
+                selectedAccountBox.SelectedIndex = 0;  /*TODO fix it later*/
             FilterTable();
             ShowBalance();
         }
