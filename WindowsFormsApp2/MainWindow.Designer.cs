@@ -291,7 +291,6 @@ namespace WindowsFormsApp2
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.Button addAccountForm;
         private System.Windows.Forms.Button editAccountButton;
-        private System.Windows.Forms.DataGridViewTextBoxColumn CostBox;
         private System.Windows.Forms.DataGridViewTextBoxColumn commentBox;
         private System.Windows.Forms.DataGridViewTextBoxColumn dateBox;
         private System.Windows.Forms.DataGridViewTextBoxColumn categoryBox;

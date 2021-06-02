@@ -309,6 +309,10 @@ namespace WindowsFormsApp2
                 if (account != null)
                 {
                     accounts.Remove(account);
+                    selectedAccountBox.SelectedIndex = 0;
+                    RefreshAccount();
+                    ShowBalance();
+                    SaveChanges();
                 }
             };
             editAccountForm.Show();

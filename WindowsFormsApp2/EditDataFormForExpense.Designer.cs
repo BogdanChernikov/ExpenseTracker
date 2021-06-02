@@ -149,7 +149,7 @@ namespace WindowsFormsApp2
             this.Name = "EditDataFormForExpense";
             this.Text = "EditDataFormForExpense";
             this.Load += new System.EventHandler(this.EditDataForm_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.costInput)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.expenseSumInput)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
