@@ -9,6 +9,7 @@ namespace WindowsFormsApp2
         public Action OnAccountDeleted;
         public Account TargetAccount;
 
+
         public EditAccount()
         {
             InitializeComponent();

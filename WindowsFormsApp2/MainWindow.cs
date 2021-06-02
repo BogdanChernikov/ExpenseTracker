@@ -269,7 +269,7 @@ namespace WindowsFormsApp2
         public void SelectedAccountBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (selectedAccountBox.SelectedIndex == -1)
-                selectedAccountBox.SelectedIndex = 0;  /*TODO fix it later*/
+                selectedAccountBox.SelectedIndex = 0; /*TODO: Fix it later*/
             FilterTable();
             ShowBalance();
         }

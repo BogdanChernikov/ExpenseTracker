@@ -30,12 +30,12 @@ namespace WindowsFormsApp2
         public void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.OpenAddForm = new System.Windows.Forms.Button();
+            this.openAddFormBtn = new System.Windows.Forms.Button();
             this.categoryFilterBox = new System.Windows.Forms.ComboBox();
             this.searchNameInput = new System.Windows.Forms.TextBox();
             this.expensesTable = new System.Windows.Forms.DataGridView();
-            this.DateBox = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.CategoryBox = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dateBox = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.categoryBox = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.costBox = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.commentBox = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.startDateDisplay = new System.Windows.Forms.DateTimePicker();
@@ -56,13 +56,13 @@ namespace WindowsFormsApp2
             // 
             // OpenAddForm
             // 
-            this.OpenAddForm.Location = new System.Drawing.Point(502, 199);
-            this.OpenAddForm.Name = "OpenAddForm";
-            this.OpenAddForm.Size = new System.Drawing.Size(75, 22);
-            this.OpenAddForm.TabIndex = 0;
-            this.OpenAddForm.Text = "Add expenes";
-            this.OpenAddForm.UseVisualStyleBackColor = true;
-            this.OpenAddForm.Click += new System.EventHandler(this.AddExpenseForm_Click);
+            this.openAddFormBtn.Location = new System.Drawing.Point(502, 199);
+            this.openAddFormBtn.Name = "OpenAddForm";
+            this.openAddFormBtn.Size = new System.Drawing.Size(75, 22);
+            this.openAddFormBtn.TabIndex = 0;
+            this.openAddFormBtn.Text = "Add expenes";
+            this.openAddFormBtn.UseVisualStyleBackColor = true;
+            this.openAddFormBtn.Click += new System.EventHandler(this.AddExpenseForm_Click);
             // 
             // categoryFilterBox
             // 
@@ -94,8 +94,8 @@ namespace WindowsFormsApp2
             this.expensesTable.BackgroundColor = System.Drawing.SystemColors.Control;
             this.expensesTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.expensesTable.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.DateBox,
-            this.CategoryBox,
+            this.dateBox,
+            this.categoryBox,
             this.costBox,
             this.commentBox});
             this.expensesTable.Location = new System.Drawing.Point(24, 142);
@@ -108,19 +108,19 @@ namespace WindowsFormsApp2
             // 
             // DateBox
             // 
-            this.DateBox.DataPropertyName = "Date";
-            this.DateBox.HeaderText = "Date";
-            this.DateBox.Name = "DateBox";
-            this.DateBox.ReadOnly = true;
-            this.DateBox.Width = 90;
+            this.dateBox.DataPropertyName = "Date";
+            this.dateBox.HeaderText = "Date";
+            this.dateBox.Name = "dateBox";
+            this.dateBox.ReadOnly = true;
+            this.dateBox.Width = 90;
             // 
             // CategoryBox
             // 
-            this.CategoryBox.DataPropertyName = "Category";
-            this.CategoryBox.HeaderText = "Category";
-            this.CategoryBox.Name = "CategoryBox";
-            this.CategoryBox.ReadOnly = true;
-            this.CategoryBox.Width = 120;
+            this.categoryBox.DataPropertyName = "Category";
+            this.categoryBox.HeaderText = "Category";
+            this.categoryBox.Name = "categoryBox";
+            this.categoryBox.ReadOnly = true;
+            this.categoryBox.Width = 120;
             // 
             // costBox
             // 
@@ -264,7 +264,7 @@ namespace WindowsFormsApp2
             this.Controls.Add(this.expensesTable);
             this.Controls.Add(this.searchNameInput);
             this.Controls.Add(this.categoryFilterBox);
-            this.Controls.Add(this.OpenAddForm);
+            this.Controls.Add(this.openAddFormBtn);
             this.Name = "MainWindow";
             this.Text = "Costs";
             this.Load += new System.EventHandler(this.MainWindow_Load);
@@ -277,7 +277,7 @@ namespace WindowsFormsApp2
 
         #endregion
 
-        public System.Windows.Forms.Button OpenAddForm;
+        public System.Windows.Forms.Button openAddFormBtn;
         public System.Windows.Forms.ComboBox categoryFilterBox;
         public System.Windows.Forms.TextBox searchNameInput;
         public System.Windows.Forms.DataGridView expensesTable;
@@ -293,8 +293,8 @@ namespace WindowsFormsApp2
         private System.Windows.Forms.Button editAccountButton;
         private System.Windows.Forms.DataGridViewTextBoxColumn CostBox;
         private System.Windows.Forms.DataGridViewTextBoxColumn commentBox;
-        private System.Windows.Forms.DataGridViewTextBoxColumn DateBox;
-        private System.Windows.Forms.DataGridViewTextBoxColumn CategoryBox;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dateBox;
+        private System.Windows.Forms.DataGridViewTextBoxColumn categoryBox;
         private System.Windows.Forms.BindingSource accountBindingSource;
         private System.Windows.Forms.Button addIncomeForm;
         private System.Windows.Forms.DataGridViewTextBoxColumn costBox;

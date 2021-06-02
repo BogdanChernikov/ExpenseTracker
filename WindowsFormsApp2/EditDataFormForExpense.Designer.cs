@@ -29,26 +29,26 @@ namespace WindowsFormsApp2
         /// </summary>
         private void InitializeComponent()
         {
-            this.expensetDate = new System.Windows.Forms.DateTimePicker();
+            this.expenseDatePicker = new System.Windows.Forms.DateTimePicker();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.CancelEditButton = new System.Windows.Forms.Button();
             this.EditDataButton = new System.Windows.Forms.Button();
             this.commentInput = new System.Windows.Forms.TextBox();
-            this.costInput = new System.Windows.Forms.NumericUpDown();
-            this.expenseCategory = new System.Windows.Forms.ComboBox();
+            this.expenseSumInput = new System.Windows.Forms.NumericUpDown();
+            this.expenseCategoryBox = new System.Windows.Forms.ComboBox();
             this.deleteDataButton = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.costInput)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.expenseSumInput)).BeginInit();
             this.SuspendLayout();
             // 
             // expensetDate
             // 
-            this.expensetDate.CustomFormat = "dd:MM:yyyy";
-            this.expensetDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.expensetDate.Location = new System.Drawing.Point(48, 232);
-            this.expensetDate.Name = "expensetDate";
-            this.expensetDate.Size = new System.Drawing.Size(121, 20);
-            this.expensetDate.TabIndex = 17;
+            this.expenseDatePicker.CustomFormat = "dd:MM:yyyy";
+            this.expenseDatePicker.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.expenseDatePicker.Location = new System.Drawing.Point(48, 232);
+            this.expenseDatePicker.Name = "expensetDate";
+            this.expenseDatePicker.Size = new System.Drawing.Size(121, 20);
+            this.expenseDatePicker.TabIndex = 17;
             // 
             // label3
             // 
@@ -95,32 +95,32 @@ namespace WindowsFormsApp2
             this.commentInput.Size = new System.Drawing.Size(120, 20);
             this.commentInput.TabIndex = 12;
             // 
-            // costInput
+            // PriceInput
             // 
-            this.costInput.Location = new System.Drawing.Point(49, 116);
-            this.costInput.Maximum = new decimal(new int[] {
+            this.expenseSumInput.Location = new System.Drawing.Point(49, 116);
+            this.expenseSumInput.Maximum = new decimal(new int[] {
             10000,
             0,
             0,
             0});
-            this.costInput.Name = "costInput";
-            this.costInput.Size = new System.Drawing.Size(120, 20);
-            this.costInput.TabIndex = 11;
+            this.expenseSumInput.Name = "PriceInput";
+            this.expenseSumInput.Size = new System.Drawing.Size(120, 20);
+            this.expenseSumInput.TabIndex = 11;
             // 
             // expenseCategory
             // 
-            this.expenseCategory.FormattingEnabled = true;
-            this.expenseCategory.Items.AddRange(new object[] {
+            this.expenseCategoryBox.FormattingEnabled = true;
+            this.expenseCategoryBox.Items.AddRange(new object[] {
             "Traffic",
             "Utilities",
             "Services Communication",
             "Medicines And Hygiene Products",
             "Food"});
-            this.expenseCategory.Location = new System.Drawing.Point(48, 42);
-            this.expenseCategory.Name = "expenseCategory";
-            this.expenseCategory.Size = new System.Drawing.Size(121, 21);
-            this.expenseCategory.TabIndex = 10;
-            this.expenseCategory.Text = "Select a category";
+            this.expenseCategoryBox.Location = new System.Drawing.Point(48, 42);
+            this.expenseCategoryBox.Name = "expenseCategory";
+            this.expenseCategoryBox.Size = new System.Drawing.Size(121, 21);
+            this.expenseCategoryBox.TabIndex = 10;
+            this.expenseCategoryBox.Text = "Select a category";
             // 
             // deleteDataButton
             // 
@@ -138,16 +138,16 @@ namespace WindowsFormsApp2
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(299, 328);
             this.Controls.Add(this.deleteDataButton);
-            this.Controls.Add(this.expensetDate);
+            this.Controls.Add(this.expenseDatePicker);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.CancelEditButton);
             this.Controls.Add(this.EditDataButton);
             this.Controls.Add(this.commentInput);
-            this.Controls.Add(this.costInput);
-            this.Controls.Add(this.expenseCategory);
+            this.Controls.Add(this.expenseSumInput);
+            this.Controls.Add(this.expenseCategoryBox);
             this.Name = "EditDataFormForExpense";
-            this.Text = "EditDataForm";
+            this.Text = "EditDataFormForExpense";
             this.Load += new System.EventHandler(this.EditDataForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.costInput)).EndInit();
             this.ResumeLayout(false);
@@ -157,14 +157,14 @@ namespace WindowsFormsApp2
 
         #endregion
 
-        private System.Windows.Forms.DateTimePicker expensetDate;
+        private System.Windows.Forms.DateTimePicker expenseDatePicker;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button CancelEditButton;
         private System.Windows.Forms.Button EditDataButton;
         private System.Windows.Forms.TextBox commentInput;
-        private System.Windows.Forms.NumericUpDown costInput;
-        private System.Windows.Forms.ComboBox expenseCategory;
+        private System.Windows.Forms.NumericUpDown expenseSumInput;
+        private System.Windows.Forms.ComboBox expenseCategoryBox;
         private System.Windows.Forms.Button deleteDataButton;
     }
 }
