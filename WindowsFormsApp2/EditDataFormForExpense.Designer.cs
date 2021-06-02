@@ -95,7 +95,7 @@ namespace WindowsFormsApp2
             this.commentInput.Size = new System.Drawing.Size(120, 20);
             this.commentInput.TabIndex = 12;
             // 
-            // PriceInput
+            // costInput
             // 
             this.costInput.Location = new System.Drawing.Point(49, 116);
             this.costInput.Maximum = new decimal(new int[] {
@@ -103,7 +103,7 @@ namespace WindowsFormsApp2
             0,
             0,
             0});
-            this.costInput.Name = "PriceInput";
+            this.costInput.Name = "costInput";
             this.costInput.Size = new System.Drawing.Size(120, 20);
             this.costInput.TabIndex = 11;
             // 
@@ -132,11 +132,11 @@ namespace WindowsFormsApp2
             this.deleteDataButton.UseVisualStyleBackColor = true;
             this.deleteDataButton.Click += new System.EventHandler(this.DeleteDataButton_Click);
             // 
-            // EditDataForm
+            // EditDataFormForExpense
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(299, 450);
+            this.ClientSize = new System.Drawing.Size(299, 328);
             this.Controls.Add(this.deleteDataButton);
             this.Controls.Add(this.expensetDate);
             this.Controls.Add(this.label3);
@@ -146,7 +146,7 @@ namespace WindowsFormsApp2
             this.Controls.Add(this.commentInput);
             this.Controls.Add(this.costInput);
             this.Controls.Add(this.expenseCategory);
-            this.Name = "EditDataForm";
+            this.Name = "EditDataFormForExpense";
             this.Text = "EditDataForm";
             this.Load += new System.EventHandler(this.EditDataForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.costInput)).EndInit();

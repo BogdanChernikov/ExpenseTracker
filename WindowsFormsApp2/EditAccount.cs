@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace WindowsFormsApp2
@@ -9,8 +8,6 @@ namespace WindowsFormsApp2
         public Action OnAccountEdit;
         public Action OnAccountDeleted;
         public Account TargetAccount;
-        public List<Account> Accounts;
-        public ComboBox accountBox;
 
         public EditAccount()
         {
