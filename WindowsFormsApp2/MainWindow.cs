@@ -13,10 +13,10 @@ namespace WindowsFormsApp2
 {
     public partial class MainWindow : Form
     {
+        private Account TargetAccount { get; set; }
         private List<Expense> expenses = new List<Expense>();
         private List<AccountOperation> filteredOperations = new List<AccountOperation>();
         private List<Account> accounts = new List<Account>();
-        private Account TargetAccount { get; set; }
         private List<Income> incomes = new List<Income>();
         private List<AccountOperation> accountOperations = new List<AccountOperation>();
 
@@ -301,8 +301,6 @@ namespace WindowsFormsApp2
             Account account = (Account)selectedAccountBox.SelectedItem;
             EditAccount editAccountForm = new EditAccount();
             editAccountForm.TargetAccount = account;
-            editAccountForm.Accounts = accounts;
-            editAccountForm.accountBox = selectedAccountBox;
             editAccountForm.OnAccountEdit = () =>
             {
                 RefreshAccount();
@@ -322,7 +320,7 @@ namespace WindowsFormsApp2
         private void AddIncomeForm_Click(object sender, EventArgs e)
         {
             AddNewIncomeForm addNewIncomeForm = new AddNewIncomeForm();
-            addNewIncomeForm.onIncomeAdded = (income) =>
+            addNewIncomeForm.OnIncomeAdded = (income) =>
             {
                 income.Account = TargetAccount;
                 incomes.Add(income);

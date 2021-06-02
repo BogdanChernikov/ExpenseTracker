@@ -1,18 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace WindowsFormsApp2
 {
     public partial class AddNewIncomeForm : Form
     {
-        public Action<Income> onIncomeAdded;
+        public Action<Income> OnIncomeAdded;
 
         public AddNewIncomeForm()
         {
@@ -30,7 +23,7 @@ namespace WindowsFormsApp2
             income.Cost = incomeAmountInput.Value;
             income.Comment = newIncomeCommentTextBox.Text;
             income.Date = incomeDateInput.Value;
-            onIncomeAdded(income);
+            OnIncomeAdded(income);
             this.Close();
         }
     }
