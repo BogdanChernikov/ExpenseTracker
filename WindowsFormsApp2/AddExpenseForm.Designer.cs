@@ -121,7 +121,7 @@ namespace WindowsFormsApp2
             this.newCostDate.Size = new System.Drawing.Size(121, 20);
             this.newCostDate.TabIndex = 9;
             // 
-            // AddCostForm
+            // AddExpenseForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -134,7 +134,7 @@ namespace WindowsFormsApp2
             this.Controls.Add(this.commentInput);
             this.Controls.Add(this.PriceInput);
             this.Controls.Add(this.newCostCategory);
-            this.Name = "AddCostForm";
+            this.Name = "AddExpenseForm";
             this.Text = "AddCostForm";
             ((System.ComponentModel.ISupportInitialize)(this.PriceInput)).EndInit();
             this.ResumeLayout(false);

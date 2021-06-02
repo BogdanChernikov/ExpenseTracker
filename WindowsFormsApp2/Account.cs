@@ -1,8 +1,11 @@
-﻿namespace WindowsFormsApp2
+﻿using System.Collections.Generic;
+
+namespace WindowsFormsApp2
 {
     public class Account
     {
-        public decimal initialBalance { get; set; }
-        public string name { get; set; }
+        public decimal InitialBalance { get; set; }
+        public string Name { get; set; }
+        public List<Expense> Expenses { get; set; }
     }
 }

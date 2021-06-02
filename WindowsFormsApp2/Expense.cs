@@ -8,5 +8,6 @@ namespace WindowsFormsApp2
         public decimal Cost { get; set; }
         public string Comment { get; set; }
         public DateTime Date { get; set; }
+        public Account Account { get; set; }
     }
 }

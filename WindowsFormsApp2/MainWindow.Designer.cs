@@ -30,11 +30,14 @@ namespace WindowsFormsApp2
         public void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.OpenAddForm = new System.Windows.Forms.Button();
-            this.DeleteCostButton = new System.Windows.Forms.Button();
+            this.openAddFormBtn = new System.Windows.Forms.Button();
             this.categoryFilterBox = new System.Windows.Forms.ComboBox();
             this.searchNameInput = new System.Windows.Forms.TextBox();
             this.expensesTable = new System.Windows.Forms.DataGridView();
+            this.dateBox = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.categoryBox = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.costBox = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.commentBox = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.startDateDisplay = new System.Windows.Forms.DateTimePicker();
             this.endDateDisplay = new System.Windows.Forms.DateTimePicker();
             this.label1 = new System.Windows.Forms.Label();
@@ -43,35 +46,23 @@ namespace WindowsFormsApp2
             this.selectedAccountBox = new System.Windows.Forms.ComboBox();
             this.accountBalance = new System.Windows.Forms.Label();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.button1 = new System.Windows.Forms.Button();
+            this.openIncomsesFormButton = new System.Windows.Forms.Button();
             this.addAccountForm = new System.Windows.Forms.Button();
-            this.deleteAccountButton = new System.Windows.Forms.Button();
-            this.dateBox = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.categoryBox = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.costBox = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.commentBox = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.editAccountButton = new System.Windows.Forms.Button();
+            this.accountBindingSource = new System.Windows.Forms.BindingSource(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.expensesTable)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.accountBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // OpenAddForm
             // 
-            this.OpenAddForm.Location = new System.Drawing.Point(502, 165);
-            this.OpenAddForm.Name = "OpenAddForm";
-            this.OpenAddForm.Size = new System.Drawing.Size(75, 22);
-            this.OpenAddForm.TabIndex = 0;
-            this.OpenAddForm.Text = "Add expenes";
-            this.OpenAddForm.UseVisualStyleBackColor = true;
-            this.OpenAddForm.Click += new System.EventHandler(this.OpenAddForm_Click);
-            // 
-            // DeleteCostButton
-            // 
-            this.DeleteCostButton.Location = new System.Drawing.Point(502, 288);
-            this.DeleteCostButton.Name = "DeleteCostButton";
-            this.DeleteCostButton.Size = new System.Drawing.Size(75, 23);
-            this.DeleteCostButton.TabIndex = 1;
-            this.DeleteCostButton.Text = "Delete";
-            this.DeleteCostButton.UseVisualStyleBackColor = true;
-            this.DeleteCostButton.Click += new System.EventHandler(this.DeleteCostButton_Click);
+            this.openAddFormBtn.Location = new System.Drawing.Point(502, 199);
+            this.openAddFormBtn.Name = "OpenAddForm";
+            this.openAddFormBtn.Size = new System.Drawing.Size(75, 22);
+            this.openAddFormBtn.TabIndex = 0;
+            this.openAddFormBtn.Text = "Add expenes";
+            this.openAddFormBtn.UseVisualStyleBackColor = true;
+            this.openAddFormBtn.Click += new System.EventHandler(this.AddExpenseForm_Click);
             // 
             // categoryFilterBox
             // 
@@ -91,7 +82,7 @@ namespace WindowsFormsApp2
             // 
             // searchNameInput
             // 
-            this.searchNameInput.Location = new System.Drawing.Point(403, 91);
+            this.searchNameInput.Location = new System.Drawing.Point(410, 88);
             this.searchNameInput.Name = "searchNameInput";
             this.searchNameInput.Size = new System.Drawing.Size(105, 20);
             this.searchNameInput.TabIndex = 3;
@@ -113,7 +104,39 @@ namespace WindowsFormsApp2
             this.expensesTable.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.expensesTable.Size = new System.Drawing.Size(461, 217);
             this.expensesTable.TabIndex = 4;
-            this.expensesTable.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.costsTable_CellContentDoubleClick);
+            this.expensesTable.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.ExpensesTable_CellContentDoubleClick);
+            // 
+            // DateBox
+            // 
+            this.dateBox.DataPropertyName = "Date";
+            this.dateBox.HeaderText = "Date";
+            this.dateBox.Name = "dateBox";
+            this.dateBox.ReadOnly = true;
+            this.dateBox.Width = 90;
+            // 
+            // CategoryBox
+            // 
+            this.categoryBox.DataPropertyName = "Category";
+            this.categoryBox.HeaderText = "Category";
+            this.categoryBox.Name = "categoryBox";
+            this.categoryBox.ReadOnly = true;
+            this.categoryBox.Width = 120;
+            // 
+            // costBox
+            // 
+            this.costBox.DataPropertyName = "Cost";
+            this.costBox.HeaderText = "Cost";
+            this.costBox.Name = "costBox";
+            this.costBox.ReadOnly = true;
+            this.costBox.Width = 110;
+            // 
+            // commentBox
+            // 
+            this.commentBox.DataPropertyName = "Comment";
+            this.commentBox.HeaderText = "Comment";
+            this.commentBox.Name = "commentBox";
+            this.commentBox.ReadOnly = true;
+            this.commentBox.Width = 110;
             // 
             // startDateDisplay
             // 
@@ -147,7 +170,7 @@ namespace WindowsFormsApp2
             // 
             // savePdfButton
             // 
-            this.savePdfButton.Location = new System.Drawing.Point(502, 326);
+            this.savePdfButton.Location = new System.Drawing.Point(502, 298);
             this.savePdfButton.Name = "savePdfButton";
             this.savePdfButton.Size = new System.Drawing.Size(75, 23);
             this.savePdfButton.TabIndex = 8;
@@ -163,6 +186,7 @@ namespace WindowsFormsApp2
             this.editExpensButton.TabIndex = 9;
             this.editExpensButton.Text = "Edit";
             this.editExpensButton.UseVisualStyleBackColor = true;
+            this.editExpensButton.Click += new System.EventHandler(this.EditExpensButton_Click);
             // 
             // selectedAccountBox
             // 
@@ -171,6 +195,7 @@ namespace WindowsFormsApp2
             this.selectedAccountBox.Name = "selectedAccountBox";
             this.selectedAccountBox.Size = new System.Drawing.Size(157, 21);
             this.selectedAccountBox.TabIndex = 10;
+            this.selectedAccountBox.SelectedIndexChanged += new System.EventHandler(this.SelectedAccountBox_SelectedIndexChanged);
             // 
             // accountBalance
             // 
@@ -186,14 +211,14 @@ namespace WindowsFormsApp2
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
             // 
-            // button1
+            // openIncomsesFormButton
             // 
-            this.button1.Location = new System.Drawing.Point(502, 208);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 14;
-            this.button1.Text = "Add income";
-            this.button1.UseVisualStyleBackColor = true;
+            this.openIncomsesFormButton.Location = new System.Drawing.Point(410, 9);
+            this.openIncomsesFormButton.Name = "openIncomsesFormButton";
+            this.openIncomsesFormButton.Size = new System.Drawing.Size(75, 23);
+            this.openIncomsesFormButton.TabIndex = 14;
+            this.openIncomsesFormButton.Text = "Incomes";
+            this.openIncomsesFormButton.UseVisualStyleBackColor = true;
             // 
             // addAccountForm
             // 
@@ -203,57 +228,30 @@ namespace WindowsFormsApp2
             this.addAccountForm.TabIndex = 15;
             this.addAccountForm.Text = "Add account";
             this.addAccountForm.UseVisualStyleBackColor = true;
-            this.addAccountForm.Click += new System.EventHandler(this.addAccountForm_Click);
+            this.addAccountForm.Click += new System.EventHandler(this.AddAccountForm_Click);
             // 
-            // deleteAccountButton
+            // editAccountButton
             // 
-            this.deleteAccountButton.Location = new System.Drawing.Point(306, 8);
-            this.deleteAccountButton.Name = "deleteAccountButton";
-            this.deleteAccountButton.Size = new System.Drawing.Size(75, 23);
-            this.deleteAccountButton.TabIndex = 16;
-            this.deleteAccountButton.Text = "Delete Account";
-            this.deleteAccountButton.UseVisualStyleBackColor = true;
+            this.editAccountButton.Location = new System.Drawing.Point(309, 9);
+            this.editAccountButton.Name = "editAccountButton";
+            this.editAccountButton.Size = new System.Drawing.Size(75, 23);
+            this.editAccountButton.TabIndex = 16;
+            this.editAccountButton.Text = "Edit";
+            this.editAccountButton.UseVisualStyleBackColor = true;
+            this.editAccountButton.Click += new System.EventHandler(this.EditAccountButton_Click);
             // 
-            // DateBox
+            // accountBindingSource
             // 
-            this.dateBox.DataPropertyName = "Date";
-            this.dateBox.HeaderText = "Date";
-            this.dateBox.Name = "DateBox";
-            this.dateBox.ReadOnly = true;
-            this.dateBox.Width = 90;
-            // 
-            // CategoryBox
-            // 
-            this.categoryBox.DataPropertyName = "Category";
-            this.categoryBox.HeaderText = "Category";
-            this.categoryBox.Name = "CategoryBox";
-            this.categoryBox.ReadOnly = true;
-            this.categoryBox.Width = 120;
-            // 
-            // costBox
-            // 
-            this.costBox.DataPropertyName = "Cost";
-            this.costBox.HeaderText = "Cost";
-            this.costBox.Name = "costBox";
-            this.costBox.ReadOnly = true;
-            this.costBox.Width = 110;
-            // 
-            // commentBox
-            // 
-            this.commentBox.DataPropertyName = "Comment";
-            this.commentBox.HeaderText = "Comment";
-            this.commentBox.Name = "commentBox";
-            this.commentBox.ReadOnly = true;
-            this.commentBox.Width = 110;
+            this.accountBindingSource.DataSource = typeof(WindowsFormsApp2.Account);
             // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(623, 450);
-            this.Controls.Add(this.deleteAccountButton);
+            this.Controls.Add(this.editAccountButton);
             this.Controls.Add(this.addAccountForm);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.openIncomsesFormButton);
             this.Controls.Add(this.accountBalance);
             this.Controls.Add(this.selectedAccountBox);
             this.Controls.Add(this.editExpensButton);
@@ -264,12 +262,12 @@ namespace WindowsFormsApp2
             this.Controls.Add(this.expensesTable);
             this.Controls.Add(this.searchNameInput);
             this.Controls.Add(this.categoryFilterBox);
-            this.Controls.Add(this.DeleteCostButton);
-            this.Controls.Add(this.OpenAddForm);
+            this.Controls.Add(this.openAddFormBtn);
             this.Name = "MainWindow";
             this.Text = "Costs";
             this.Load += new System.EventHandler(this.MainWindow_Load);
             ((System.ComponentModel.ISupportInitialize)(this.expensesTable)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.accountBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -277,8 +275,7 @@ namespace WindowsFormsApp2
 
         #endregion
 
-        public System.Windows.Forms.Button OpenAddForm;
-        public System.Windows.Forms.Button DeleteCostButton;
+        public System.Windows.Forms.Button openAddFormBtn;
         public System.Windows.Forms.ComboBox categoryFilterBox;
         public System.Windows.Forms.TextBox searchNameInput;
         public System.Windows.Forms.DataGridView expensesTable;
@@ -290,13 +287,14 @@ namespace WindowsFormsApp2
         private System.Windows.Forms.ComboBox selectedAccountBox;
         private System.Windows.Forms.Label accountBalance;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button openIncomsesFormButton;
         private System.Windows.Forms.Button addAccountForm;
-        private System.Windows.Forms.Button deleteAccountButton;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dateBox;
-        private System.Windows.Forms.DataGridViewTextBoxColumn categoryBox;
+        private System.Windows.Forms.Button editAccountButton;
         private System.Windows.Forms.DataGridViewTextBoxColumn costBox;
         private System.Windows.Forms.DataGridViewTextBoxColumn commentBox;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dateBox;
+        private System.Windows.Forms.DataGridViewTextBoxColumn categoryBox;
+        private System.Windows.Forms.BindingSource accountBindingSource;
     }
 }
 

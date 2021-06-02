@@ -19,22 +19,22 @@ namespace WindowsFormsApp2
 
         public void AddCostButton_Click(object sender, EventArgs e)
         {
-            var cost = new Expense();
-            cost.Cost = Convert.ToDecimal(PriceInput.Value);
-            cost.Comment = commentInput.Text;
+            var expense = new Expense();
+            expense.Cost = Convert.ToDecimal(PriceInput.Value);
+            expense.Comment = commentInput.Text;
             if (Convert.ToString(newCostCategory.SelectedItem) == "Traffic")
-                cost.Category = "Traffic";
+                expense.Category = "Traffic";
             if (Convert.ToString(newCostCategory.SelectedItem) == "Utilities")
-                cost.Category = "Utilities";
+                expense.Category = "Utilities";
             if (Convert.ToString(newCostCategory.SelectedItem) == "Services Communication")
-                cost.Category = "ServicesCommunication";
+                expense.Category = "ServicesCommunication";
             if (Convert.ToString(newCostCategory.SelectedItem) == "Medicines And Hygiene Products")
-                cost.Category = "MedicinesAndHygieneProducts";
+                expense.Category = "MedicinesAndHygieneProducts";
             if (Convert.ToString(newCostCategory.SelectedItem) == "Food")
-                cost.Category = "Food";
-            cost.Date = newCostDate.Value.Date;
+                expense.Category = "Food";
+            expense.Date = newCostDate.Value.Date;
 
-            OnExpenseAdded(cost);
+            OnExpenseAdded(expense);
 
             this.Close();
         }
