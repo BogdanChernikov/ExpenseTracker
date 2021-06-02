@@ -15,7 +15,7 @@ namespace WindowsFormsApp2
         private List<Expense> expenses = new List<Expense>();
         private List<Expense> filteredExpenses = new List<Expense>();
         private List<Account> accounts = new List<Account>();
-        private Account TargetAccount { get; set; }
+        private Account TargetAccount => (Account)selectedAccountBox.SelectedItem;
 
         public MainWindow()
         {
@@ -53,7 +53,6 @@ namespace WindowsFormsApp2
 
         private void FilterTable()
         {
-            TargetAccount = (Account)selectedAccountBox.SelectedItem;
             filteredExpenses = expenses.Where(x => x.Account.Name == TargetAccount.Name).ToList();
 
             //category Filtred
@@ -195,7 +194,6 @@ namespace WindowsFormsApp2
 
         private void RefreshAccount()
         {
-            TargetAccount = (Account)selectedAccountBox.SelectedItem;
             selectedAccountBox.DataSource = null;
             selectedAccountBox.DataSource = accounts;
             selectedAccountBox.DisplayMember = "Name";
@@ -205,14 +203,13 @@ namespace WindowsFormsApp2
         public void SelectedAccountBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (selectedAccountBox.SelectedIndex == -1)
-                selectedAccountBox.SelectedIndex = 0;
+                selectedAccountBox.SelectedIndex = 0; /*TODO: Fix it later*/
             FilterTable();
             ShowBalance();
         }
 
         public void ShowBalance()
         {
-            var accountExpense = expenses.Where(x => x.Account.Name == TargetAccount.Name).ToList();
             var expensesSum = expenses.Where(x => x.Account.Name == TargetAccount.Name).Sum(x => x.Cost);
             accountBalance.Text = Convert.ToString(TargetAccount.InitialBalance - expensesSum);
         }
