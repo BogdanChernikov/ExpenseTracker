@@ -88,12 +88,6 @@
     <Compile Include="Expense.cs" />
     <Compile Include="ExpenseCategorys.cs" />
     <Compile Include="Income.cs" />
-    <Compile Include="IncomeForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="IncomeForm.Designer.cs">
-      <DependentUpon>IncomeForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="MainWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -113,9 +107,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="EditDataForm.resx">
       <DependentUpon>EditDataForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="IncomeForm.resx">
-      <DependentUpon>IncomeForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainWindow.resx">
       <DependentUpon>MainWindow.cs</DependentUpon>
