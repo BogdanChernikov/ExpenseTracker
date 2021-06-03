@@ -303,7 +303,6 @@ namespace WindowsFormsApp2
             addNewIncomeForm.OnIncomeAdded = (income) =>
             {
                 income.Account = TargetAccount;
-                income.Account = TargetAccount;
                 accountOperations.Add(income);
                 SaveChanges();
                 RefreshTable();
