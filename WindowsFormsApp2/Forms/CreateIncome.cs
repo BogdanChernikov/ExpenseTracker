@@ -1,7 +1,9 @@
-﻿using System;
+﻿using ExpensesTracker.Models;
+using ExpensesTracker.Models.Enums;
+using System;
 using System.Windows.Forms;
 
-namespace WindowsFormsApp2
+namespace ExpensesTracker.Forms
 {
     public partial class AddNewIncomeForm : Form
     {

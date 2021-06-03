@@ -1,5 +1,5 @@
 ﻿
-namespace WindowsFormsApp2
+namespace ExpensesTracker.Forms
 {
     partial class AddNewAccount
     {

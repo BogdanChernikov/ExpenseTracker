@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace WindowsFormsApp2
+﻿namespace ExpensesTracker.Models
 {
     public class Account
     {

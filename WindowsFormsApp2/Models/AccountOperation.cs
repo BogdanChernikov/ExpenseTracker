@@ -1,6 +1,7 @@
-﻿using System;
+﻿using ExpensesTracker.Models.Enums;
+using System;
 
-namespace WindowsFormsApp2
+namespace ExpensesTracker.Models
 {
     public class AccountOperation
     {

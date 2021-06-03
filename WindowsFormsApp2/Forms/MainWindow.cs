@@ -1,4 +1,6 @@
-﻿using iTextSharp.text;
+﻿using ExpensesTracker.Models;
+using ExpensesTracker.Models.Enums;
+using iTextSharp.text;
 using iTextSharp.text.pdf;
 using System;
 using System.Collections.Generic;
@@ -9,7 +11,7 @@ using System.Linq;
 using System.Windows.Forms;
 using System.Xml.Serialization;
 
-namespace WindowsFormsApp2
+namespace ExpensesTracker.Forms
 {
     public partial class MainWindow : Form
     {

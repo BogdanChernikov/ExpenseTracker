@@ -1,7 +1,8 @@
-﻿using System;
+﻿using ExpensesTracker.Models;
+using System;
 using System.Windows.Forms;
 
-namespace WindowsFormsApp2
+namespace ExpensesTracker.Forms
 {
     public partial class EditDataFormForIncome : Form
     {

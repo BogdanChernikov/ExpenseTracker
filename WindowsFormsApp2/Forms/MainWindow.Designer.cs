@@ -1,5 +1,5 @@
 ﻿
-namespace WindowsFormsApp2
+namespace ExpensesTracker.Forms
 {
     partial class MainWindow
     {
@@ -245,7 +245,7 @@ namespace WindowsFormsApp2
             // 
             // accountBindingSource
             // 
-            this.accountBindingSource.DataSource = typeof(WindowsFormsApp2.Account);
+            this.accountBindingSource.DataSource = typeof(ExpensesTracker.Models.Account);
             // 
             // MainWindow
             // 
