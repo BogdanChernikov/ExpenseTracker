@@ -6,6 +6,5 @@ namespace WindowsFormsApp2
     {
         public decimal InitialBalance { get; set; }
         public string Name { get; set; }
-        public List<AccountOperation> AccountOperations { get; set; }
     }
 }

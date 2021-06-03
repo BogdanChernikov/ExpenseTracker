@@ -15,17 +15,12 @@ namespace WindowsFormsApp2
         }
         private void EditDataFormForIncome_Load(object sender, EventArgs e)
         {
-            editeIncomeCommentTextBox.Text = TargetIncome.Comment;
-            incomeAmountInput.Value = TargetIncome.Cost;
+            IncomeCommentTextBox.Text = TargetIncome.Comment;
+            incomeAmountInput.Value = TargetIncome.Amount;
             incomeDateInput.Value = TargetIncome.Date;
         }
 
-        private void CancelEditButton_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-
-        private void DeleteTargetIncomeBtn_Click(object sender, EventArgs e)
+        private void DeleteTargetIncomeButton_Click(object sender, EventArgs e)
         {
             OnIncomeDeleted();
             this.Close();
@@ -33,10 +28,15 @@ namespace WindowsFormsApp2
 
         private void SaveEditedIncomeButton_Click(object sender, EventArgs e)
         {
-            TargetIncome.Comment = editeIncomeCommentTextBox.Text;
-            TargetIncome.Cost = incomeAmountInput.Value;
+            TargetIncome.Comment = IncomeCommentTextBox.Text;
+            TargetIncome.Amount = incomeAmountInput.Value;
             TargetIncome.Date = incomeDateInput.Value;
             OnIncomeEdit();
+            this.Close();
+        }
+
+        private void CloseFormButton_Click(object sender, EventArgs e)
+        {
             this.Close();
         }
     }

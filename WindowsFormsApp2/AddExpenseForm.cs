@@ -5,7 +5,7 @@ namespace WindowsFormsApp2
 {
     public partial class AddExpenseForm : Form
     {
-        public Action<Expense> OnExpenseAdded;
+        public Action<AccountOperation> OnExpenseAdded;
 
         public AddExpenseForm()
         {
@@ -19,8 +19,8 @@ namespace WindowsFormsApp2
 
         public void AddCostButton_Click(object sender, EventArgs e)
         {
-            var expense = new Expense();
-            expense.Cost = Convert.ToDecimal(PriceInput.Value);
+            var expense = new AccountOperation();
+            expense.Amount = Convert.ToDecimal(PriceInput.Value);
             expense.Comment = commentInput.Text;
             if (Convert.ToString(newCostCategory.SelectedItem) == "Traffic")
                 expense.Category = "Traffic";
@@ -33,6 +33,7 @@ namespace WindowsFormsApp2
             if (Convert.ToString(newCostCategory.SelectedItem) == "Food")
                 expense.Category = "Food";
             expense.Date = newCostDate.Value.Date;
+            expense.Type = OperationType.Expense;
 
             OnExpenseAdded(expense);
 

@@ -16,7 +16,7 @@ namespace WindowsFormsApp2
 
         private void EditDataForm_Load(object sender, EventArgs e)
         {
-            expenseSumInput.Value = TargetExpense.Cost;
+            expenseSumInput.Value = TargetExpense.Amount;
             commentInput.Text = TargetExpense.Comment;
             expenseCategoryBox.SelectedItem = TargetExpense.Category;
             expenseDatePicker.Value = TargetExpense.Date;
@@ -35,7 +35,7 @@ namespace WindowsFormsApp2
 
         private void EditDataButton_Click(object sender, EventArgs e)
         {
-            TargetExpense.Cost = expenseSumInput.Value;
+            TargetExpense.Amount = expenseSumInput.Value;
             TargetExpense.Comment = commentInput.Text;
             TargetExpense.Category = Convert.ToString(expenseCategoryBox.SelectedItem);
             TargetExpense.Date = expenseDatePicker.Value;

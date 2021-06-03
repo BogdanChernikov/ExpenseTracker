@@ -31,12 +31,12 @@ namespace WindowsFormsApp2
         {
             this.incomeAmountInput = new System.Windows.Forms.NumericUpDown();
             this.label2 = new System.Windows.Forms.Label();
-            this.newIncomeCommentTextBox = new System.Windows.Forms.TextBox();
+            this.incomeCommentTextBox = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.incomeDateInput = new System.Windows.Forms.DateTimePicker();
             this.label3 = new System.Windows.Forms.Label();
             this.addIncomeButton = new System.Windows.Forms.Button();
-            this.closeAddIncomeButton = new System.Windows.Forms.Button();
+            this.closedFormButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.incomeAmountInput)).BeginInit();
             this.SuspendLayout();
             // 
@@ -63,10 +63,10 @@ namespace WindowsFormsApp2
             // 
             // newIncomeCommentTextBox
             // 
-            this.newIncomeCommentTextBox.Location = new System.Drawing.Point(32, 57);
-            this.newIncomeCommentTextBox.Name = "newIncomeCommentTextBox";
-            this.newIncomeCommentTextBox.Size = new System.Drawing.Size(128, 20);
-            this.newIncomeCommentTextBox.TabIndex = 5;
+            this.incomeCommentTextBox.Location = new System.Drawing.Point(32, 57);
+            this.incomeCommentTextBox.Name = "newIncomeCommentTextBox";
+            this.incomeCommentTextBox.Size = new System.Drawing.Size(128, 20);
+            this.incomeCommentTextBox.TabIndex = 5;
             // 
             // label1
             // 
@@ -105,26 +105,26 @@ namespace WindowsFormsApp2
             // 
             // closeAddIncomeButton
             // 
-            this.closeAddIncomeButton.Location = new System.Drawing.Point(115, 264);
-            this.closeAddIncomeButton.Name = "closeAddIncomeButton";
-            this.closeAddIncomeButton.Size = new System.Drawing.Size(75, 23);
-            this.closeAddIncomeButton.TabIndex = 11;
-            this.closeAddIncomeButton.Text = "Cancel";
-            this.closeAddIncomeButton.UseVisualStyleBackColor = true;
-            this.closeAddIncomeButton.Click += new System.EventHandler(this.CloseAddIncomeButton_Click);
+            this.closedFormButton.Location = new System.Drawing.Point(115, 264);
+            this.closedFormButton.Name = "closeAddIncomeButton";
+            this.closedFormButton.Size = new System.Drawing.Size(75, 23);
+            this.closedFormButton.TabIndex = 11;
+            this.closedFormButton.Text = "Cancel";
+            this.closedFormButton.UseVisualStyleBackColor = true;
+            this.closedFormButton.Click += new System.EventHandler(this.CloseAddIncomeButton_Click);
             // 
             // AddNewIncomeForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(210, 299);
-            this.Controls.Add(this.closeAddIncomeButton);
+            this.Controls.Add(this.closedFormButton);
             this.Controls.Add(this.addIncomeButton);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.incomeDateInput);
             this.Controls.Add(this.incomeAmountInput);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.newIncomeCommentTextBox);
+            this.Controls.Add(this.incomeCommentTextBox);
             this.Controls.Add(this.label1);
             this.Name = "AddNewIncomeForm";
             this.Text = "AddNewIncomeForm";
@@ -138,11 +138,11 @@ namespace WindowsFormsApp2
 
         private System.Windows.Forms.NumericUpDown incomeAmountInput;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox newIncomeCommentTextBox;
+        private System.Windows.Forms.TextBox incomeCommentTextBox;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.DateTimePicker incomeDateInput;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button addIncomeButton;
-        private System.Windows.Forms.Button closeAddIncomeButton;
+        private System.Windows.Forms.Button closedFormButton;
     }
 }

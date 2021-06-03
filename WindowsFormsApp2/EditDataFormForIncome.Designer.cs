@@ -29,26 +29,27 @@ namespace WindowsFormsApp2
         /// </summary>
         private void InitializeComponent()
         {
-            this.closeEditIncomeButton = new System.Windows.Forms.Button();
+            this.closeFormButton = new System.Windows.Forms.Button();
             this.saveEditedIncomeButton = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.incomeDateInput = new System.Windows.Forms.DateTimePicker();
             this.incomeAmountInput = new System.Windows.Forms.NumericUpDown();
             this.label2 = new System.Windows.Forms.Label();
-            this.editeIncomeCommentTextBox = new System.Windows.Forms.TextBox();
+            this.IncomeCommentTextBox = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.deleteTargetIncomeBtn = new System.Windows.Forms.Button();
+            this.deleteTargetIncomeButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.incomeAmountInput)).BeginInit();
             this.SuspendLayout();
             // 
-            // closeEditIncomeButton
+            // closeFormButton
             // 
-            this.closeEditIncomeButton.Location = new System.Drawing.Point(191, 210);
-            this.closeEditIncomeButton.Name = "closeEditIncomeButton";
-            this.closeEditIncomeButton.Size = new System.Drawing.Size(75, 23);
-            this.closeEditIncomeButton.TabIndex = 19;
-            this.closeEditIncomeButton.Text = "Cancel";
-            this.closeEditIncomeButton.UseVisualStyleBackColor = true;
+            this.closeFormButton.Location = new System.Drawing.Point(191, 210);
+            this.closeFormButton.Name = "closeFormButton";
+            this.closeFormButton.Size = new System.Drawing.Size(75, 23);
+            this.closeFormButton.TabIndex = 19;
+            this.closeFormButton.Text = "Cancel";
+            this.closeFormButton.UseVisualStyleBackColor = true;
+            this.closeFormButton.Click += new System.EventHandler(this.CloseFormButton_Click);
             // 
             // saveEditedIncomeButton
             // 
@@ -97,12 +98,12 @@ namespace WindowsFormsApp2
             this.label2.TabIndex = 14;
             this.label2.Text = "Enter amount of income";
             // 
-            // editeIncomeCommentTextBox
+            // IncomeCommentTextBox
             // 
-            this.editeIncomeCommentTextBox.Location = new System.Drawing.Point(45, 59);
-            this.editeIncomeCommentTextBox.Name = "editeIncomeCommentTextBox";
-            this.editeIncomeCommentTextBox.Size = new System.Drawing.Size(128, 20);
-            this.editeIncomeCommentTextBox.TabIndex = 13;
+            this.IncomeCommentTextBox.Location = new System.Drawing.Point(45, 59);
+            this.IncomeCommentTextBox.Name = "IncomeCommentTextBox";
+            this.IncomeCommentTextBox.Size = new System.Drawing.Size(128, 20);
+            this.IncomeCommentTextBox.TabIndex = 13;
             // 
             // label1
             // 
@@ -113,29 +114,29 @@ namespace WindowsFormsApp2
             this.label1.TabIndex = 12;
             this.label1.Text = "Enter comment";
             // 
-            // deleteTargetIncomeBtn
+            // deleteTargetIncomeButton
             // 
-            this.deleteTargetIncomeBtn.Location = new System.Drawing.Point(191, 132);
-            this.deleteTargetIncomeBtn.Name = "deleteTargetIncomeBtn";
-            this.deleteTargetIncomeBtn.Size = new System.Drawing.Size(75, 23);
-            this.deleteTargetIncomeBtn.TabIndex = 20;
-            this.deleteTargetIncomeBtn.Text = "Delete";
-            this.deleteTargetIncomeBtn.UseVisualStyleBackColor = true;
-            this.deleteTargetIncomeBtn.Click += new System.EventHandler(this.DeleteTargetIncomeBtn_Click);
+            this.deleteTargetIncomeButton.Location = new System.Drawing.Point(191, 132);
+            this.deleteTargetIncomeButton.Name = "deleteTargetIncomeButton";
+            this.deleteTargetIncomeButton.Size = new System.Drawing.Size(75, 23);
+            this.deleteTargetIncomeButton.TabIndex = 20;
+            this.deleteTargetIncomeButton.Text = "Delete";
+            this.deleteTargetIncomeButton.UseVisualStyleBackColor = true;
+            this.deleteTargetIncomeButton.Click += new System.EventHandler(this.DeleteTargetIncomeButton_Click);
             // 
             // EditDataFormForIncome
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(278, 310);
-            this.Controls.Add(this.deleteTargetIncomeBtn);
-            this.Controls.Add(this.closeEditIncomeButton);
+            this.Controls.Add(this.deleteTargetIncomeButton);
+            this.Controls.Add(this.closeFormButton);
             this.Controls.Add(this.saveEditedIncomeButton);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.incomeDateInput);
             this.Controls.Add(this.incomeAmountInput);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.editeIncomeCommentTextBox);
+            this.Controls.Add(this.IncomeCommentTextBox);
             this.Controls.Add(this.label1);
             this.Name = "EditDataFormForIncome";
             this.Text = "EditDataFormForIncome";
@@ -148,14 +149,14 @@ namespace WindowsFormsApp2
 
         #endregion
 
-        private System.Windows.Forms.Button closeEditIncomeButton;
+        private System.Windows.Forms.Button closeFormButton;
         private System.Windows.Forms.Button saveEditedIncomeButton;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.DateTimePicker incomeDateInput;
         private System.Windows.Forms.NumericUpDown incomeAmountInput;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox editeIncomeCommentTextBox;
+        private System.Windows.Forms.TextBox IncomeCommentTextBox;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button deleteTargetIncomeBtn;
+        private System.Windows.Forms.Button deleteTargetIncomeButton;
     }
 }

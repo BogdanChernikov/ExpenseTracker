@@ -5,7 +5,7 @@ namespace WindowsFormsApp2
 {
     public partial class AddNewIncomeForm : Form
     {
-        public Action<Income> OnIncomeAdded;
+        public Action<AccountOperation> OnIncomeAdded;
 
         public AddNewIncomeForm()
         {
@@ -19,10 +19,11 @@ namespace WindowsFormsApp2
 
         public void AddIncomeButton_Click(object sender, EventArgs e)
         {
-            var income = new Income();
-            income.Cost = incomeAmountInput.Value;
-            income.Comment = newIncomeCommentTextBox.Text;
+            var income = new AccountOperation();
+            income.Amount = incomeAmountInput.Value;
+            income.Comment = incomeCommentTextBox.Text;
             income.Date = incomeDateInput.Value;
+            income.Type = OperationType.Income;
             OnIncomeAdded(income);
             this.Close();
         }
