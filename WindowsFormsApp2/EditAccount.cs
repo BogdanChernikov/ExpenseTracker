@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace WindowsFormsApp2
@@ -8,7 +7,7 @@ namespace WindowsFormsApp2
     {
         public Action OnAccountEdit;
         public Action OnAccountDeleted;
-        public Account TargetAccount;
+        public Account TargetAccountForEdit;
 
 
         public EditAccount()
@@ -18,14 +17,14 @@ namespace WindowsFormsApp2
 
         private void EditAccount_Load(object sender, EventArgs e)
         {
-            editAccountNameInput.Text = TargetAccount.Name;
-            editInitialBalanceInput.Value = TargetAccount.InitialBalance;
+            editAccountNameInput.Text = TargetAccountForEdit.Name;
+            editInitialBalanceInput.Value = TargetAccountForEdit.InitialBalance;
         }
 
         public void SaveEditedAccountButton_Click(object sender, EventArgs e)
         {
-            TargetAccount.Name = editAccountNameInput.Text;
-            TargetAccount.InitialBalance = editInitialBalanceInput.Value;
+            TargetAccountForEdit.Name = editAccountNameInput.Text;
+            TargetAccountForEdit.InitialBalance = editInitialBalanceInput.Value;
             OnAccountEdit();
             this.Close();
         }

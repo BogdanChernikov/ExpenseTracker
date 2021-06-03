@@ -61,6 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Account.cs" />
+    <Compile Include="AccountOperation.cs" />
     <Compile Include="AddExpenseForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -73,27 +74,38 @@
     <Compile Include="AddNewAccount.Designer.cs">
       <DependentUpon>AddNewAccount.cs</DependentUpon>
     </Compile>
+    <Compile Include="AddNewIncomeForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddNewIncomeForm.Designer.cs">
+      <DependentUpon>AddNewIncomeForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="EditAccount.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="EditAccount.Designer.cs">
       <DependentUpon>EditAccount.cs</DependentUpon>
     </Compile>
-    <Compile Include="EditDataForm.cs">
+    <Compile Include="EditDataFormForExpense.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="EditDataForm.Designer.cs">
-      <DependentUpon>EditDataForm.cs</DependentUpon>
+    <Compile Include="EditDataFormForExpense.Designer.cs">
+      <DependentUpon>EditDataFormForExpense.cs</DependentUpon>
     </Compile>
-    <Compile Include="Expense.cs" />
+    <Compile Include="EditDataFormForIncome.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EditDataFormForIncome.Designer.cs">
+      <DependentUpon>EditDataFormForIncome.cs</DependentUpon>
+    </Compile>
     <Compile Include="ExpenseCategorys.cs" />
-    <Compile Include="Income.cs" />
     <Compile Include="MainWindow.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="MainWindow.Designer.cs">
       <DependentUpon>MainWindow.cs</DependentUpon>
     </Compile>
+    <Compile Include="OperationType.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="AddExpenseForm.resx">
@@ -102,11 +114,17 @@
     <EmbeddedResource Include="AddNewAccount.resx">
       <DependentUpon>AddNewAccount.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="AddNewIncomeForm.resx">
+      <DependentUpon>AddNewIncomeForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="EditAccount.resx">
       <DependentUpon>EditAccount.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="EditDataForm.resx">
-      <DependentUpon>EditDataForm.cs</DependentUpon>
+    <EmbeddedResource Include="EditDataFormForExpense.resx">
+      <DependentUpon>EditDataFormForExpense.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditDataFormForIncome.resx">
+      <DependentUpon>EditDataFormForIncome.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainWindow.resx">
       <DependentUpon>MainWindow.cs</DependentUpon>
@@ -137,11 +155,4 @@
     <None Include="App.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="..\packages\ABCpdf.12.1.0.1\build\ABCpdf.targets" Condition="Exists('..\packages\ABCpdf.12.1.0.1\build\ABCpdf.targets')" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\packages\ABCpdf.12.1.0.1\build\ABCpdf.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\ABCpdf.12.1.0.1\build\ABCpdf.targets'))" />
-  </Target>
 </Project>

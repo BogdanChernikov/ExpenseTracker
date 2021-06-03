@@ -39,10 +39,10 @@ namespace WindowsFormsApp2
             ((System.ComponentModel.ISupportInitialize)(this.editInitialBalanceInput)).BeginInit();
             this.SuspendLayout();
             // 
-            // CanceledEditAccount
+            // canceledEditAccount
             // 
             this.canceledEditAccount.Location = new System.Drawing.Point(190, 145);
-            this.canceledEditAccount.Name = "CanceledEditAccount";
+            this.canceledEditAccount.Name = "canceledEditAccount";
             this.canceledEditAccount.Size = new System.Drawing.Size(75, 23);
             this.canceledEditAccount.TabIndex = 11;
             this.canceledEditAccount.Text = "Cancel";
@@ -110,7 +110,7 @@ namespace WindowsFormsApp2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(286, 450);
+            this.ClientSize = new System.Drawing.Size(286, 256);
             this.Controls.Add(this.deleteAccountButton);
             this.Controls.Add(this.canceledEditAccount);
             this.Controls.Add(this.saveEditedAccountButton);

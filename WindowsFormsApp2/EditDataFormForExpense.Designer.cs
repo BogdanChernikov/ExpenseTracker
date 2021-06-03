@@ -1,7 +1,7 @@
 ﻿
 namespace WindowsFormsApp2
 {
-    partial class EditDataForm
+    partial class EditDataFormForExpense
     {
         /// <summary>
         /// Required designer variable.
@@ -132,11 +132,11 @@ namespace WindowsFormsApp2
             this.deleteDataButton.UseVisualStyleBackColor = true;
             this.deleteDataButton.Click += new System.EventHandler(this.DeleteDataButton_Click);
             // 
-            // EditDataForm
+            // EditDataFormForExpense
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(299, 450);
+            this.ClientSize = new System.Drawing.Size(299, 328);
             this.Controls.Add(this.deleteDataButton);
             this.Controls.Add(this.expenseDatePicker);
             this.Controls.Add(this.label3);
@@ -146,8 +146,8 @@ namespace WindowsFormsApp2
             this.Controls.Add(this.commentInput);
             this.Controls.Add(this.expenseSumInput);
             this.Controls.Add(this.expenseCategoryBox);
-            this.Name = "EditDataForm";
-            this.Text = "EditDataForm";
+            this.Name = "EditDataFormForExpense";
+            this.Text = "EditDataFormForExpense";
             this.Load += new System.EventHandler(this.EditDataForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.expenseSumInput)).EndInit();
             this.ResumeLayout(false);
