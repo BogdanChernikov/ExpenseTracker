@@ -25,7 +25,6 @@ namespace ExpensesTracker.Forms
             income.Amount = incomeAmountInput.Value;
             income.Comment = incomeCommentTextBox.Text;
             income.Date = incomeDateInput.Value;
-            income.Type = OperationType.Income;
             OnIncomeAdded(income);
             this.Close();
         }

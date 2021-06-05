@@ -60,43 +60,45 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Methods\PDFGenerator.cs" />
+    <Compile Include="Methods\Storage.cs" />
     <Compile Include="Models\Account.cs" />
     <Compile Include="Models\AccountOperation.cs" />
-    <Compile Include="Forms\CreateExpense.cs">
+    <Compile Include="Forms\CreateExpenseForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\CreateExpense.Designer.cs">
-      <DependentUpon>CreateExpense.cs</DependentUpon>
+    <Compile Include="Forms\CreateExpenseForm.Designer.cs">
+      <DependentUpon>CreateExpenseForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\CreateAccount.cs">
+    <Compile Include="Forms\CreateAccountForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\CreateAccount.Designer.cs">
-      <DependentUpon>CreateAccount.cs</DependentUpon>
+    <Compile Include="Forms\CreateAccountForm.Designer.cs">
+      <DependentUpon>CreateAccountForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\CreateIncome.cs">
+    <Compile Include="Forms\CreateIncomeForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\CreateIncome.Designer.cs">
-      <DependentUpon>CreateIncome.cs</DependentUpon>
+    <Compile Include="Forms\CreateIncomeForm.Designer.cs">
+      <DependentUpon>CreateIncomeForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\EditAccount.cs">
+    <Compile Include="Forms\EditAccountForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\EditAccount.Designer.cs">
-      <DependentUpon>EditAccount.cs</DependentUpon>
+    <Compile Include="Forms\EditAccountForm.Designer.cs">
+      <DependentUpon>EditAccountForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\EditExpense.cs">
+    <Compile Include="Forms\EditExpenseForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\EditExpense.Designer.cs">
-      <DependentUpon>EditExpense.cs</DependentUpon>
+    <Compile Include="Forms\EditExpenseForm.Designer.cs">
+      <DependentUpon>EditExpenseForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\EditIncome.cs">
+    <Compile Include="Forms\EditIncomeForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\EditIncome.Designer.cs">
-      <DependentUpon>EditIncome.cs</DependentUpon>
+    <Compile Include="Forms\EditIncomeForm.Designer.cs">
+      <DependentUpon>EditIncomeForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\Enums\ExpenseCategorys.cs" />
     <Compile Include="Forms\MainWindow.cs">
@@ -108,23 +110,23 @@
     <Compile Include="Models\Enums\OperationType.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Forms\CreateExpense.resx">
-      <DependentUpon>CreateExpense.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\CreateExpenseForm.resx">
+      <DependentUpon>CreateExpenseForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\CreateAccount.resx">
-      <DependentUpon>CreateAccount.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\CreateAccountForm.resx">
+      <DependentUpon>CreateAccountForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\CreateIncome.resx">
-      <DependentUpon>CreateIncome.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\CreateIncomeForm.resx">
+      <DependentUpon>CreateIncomeForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\EditAccount.resx">
-      <DependentUpon>EditAccount.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\EditAccountForm.resx">
+      <DependentUpon>EditAccountForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\EditExpense.resx">
-      <DependentUpon>EditExpense.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\EditExpenseForm.resx">
+      <DependentUpon>EditExpenseForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\EditIncome.resx">
-      <DependentUpon>EditIncome.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\EditIncomeForm.resx">
+      <DependentUpon>EditIncomeForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\MainWindow.resx">
       <DependentUpon>MainWindow.cs</DependentUpon>

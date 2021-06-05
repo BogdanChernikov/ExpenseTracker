@@ -35,7 +35,6 @@ namespace ExpensesTracker.Forms
             if (Convert.ToString(newCostCategory.SelectedItem) == "Food")
                 expense.Category = "Food";
             expense.Date = newCostDate.Value.Date;
-            expense.Type = OperationType.Expense;
 
             OnExpenseAdded(expense);
 

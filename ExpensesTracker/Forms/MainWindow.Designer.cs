@@ -42,7 +42,7 @@ namespace ExpensesTracker.Forms
             this.endDateDisplay = new System.Windows.Forms.DateTimePicker();
             this.label1 = new System.Windows.Forms.Label();
             this.savePdfButton = new System.Windows.Forms.Button();
-            this.editExpensButton = new System.Windows.Forms.Button();
+            this.editExpenseButton = new System.Windows.Forms.Button();
             this.selectedAccountBox = new System.Windows.Forms.ComboBox();
             this.accountBalance = new System.Windows.Forms.Label();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -182,13 +182,13 @@ namespace ExpensesTracker.Forms
             // 
             // editExpensButton
             // 
-            this.editExpensButton.Location = new System.Drawing.Point(502, 248);
-            this.editExpensButton.Name = "editExpensButton";
-            this.editExpensButton.Size = new System.Drawing.Size(75, 23);
-            this.editExpensButton.TabIndex = 9;
-            this.editExpensButton.Text = "Edit";
-            this.editExpensButton.UseVisualStyleBackColor = true;
-            this.editExpensButton.Click += new System.EventHandler(this.EditExpensButton_Click);
+            this.editExpenseButton.Location = new System.Drawing.Point(502, 248);
+            this.editExpenseButton.Name = "editExpensButton";
+            this.editExpenseButton.Size = new System.Drawing.Size(75, 23);
+            this.editExpenseButton.TabIndex = 9;
+            this.editExpenseButton.Text = "Edit";
+            this.editExpenseButton.UseVisualStyleBackColor = true;
+            this.editExpenseButton.Click += new System.EventHandler(this.EditExpensButton_Click);
             // 
             // selectedAccountBox
             // 
@@ -257,7 +257,7 @@ namespace ExpensesTracker.Forms
             this.Controls.Add(this.openAddAccountFormButton);
             this.Controls.Add(this.accountBalance);
             this.Controls.Add(this.selectedAccountBox);
-            this.Controls.Add(this.editExpensButton);
+            this.Controls.Add(this.editExpenseButton);
             this.Controls.Add(this.savePdfButton);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.endDateDisplay);
@@ -286,7 +286,7 @@ namespace ExpensesTracker.Forms
         private System.Windows.Forms.DateTimePicker endDateDisplay;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button savePdfButton;
-        private System.Windows.Forms.Button editExpensButton;
+        private System.Windows.Forms.Button editExpenseButton;
         private System.Windows.Forms.ComboBox selectedAccountBox;
         private System.Windows.Forms.Label accountBalance;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
