@@ -243,6 +243,7 @@ namespace ExpensesTracker.Forms
             };
             addNewIncomeForm.Show();
         }
+
         private void AddExpenseForm_Click(object sender, EventArgs e)
         {
             AddExpenseForm addCostForm = new AddExpenseForm();
