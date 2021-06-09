@@ -202,9 +202,17 @@ namespace ExpensesTracker.Forms
             {
                 OnAccountAdded = (account) =>
                 {
-                    _accounts.Add(account);
-                    RefreshAccount();
-                    _storage.SaveChanges(_accounts);
+                    var accountVerification = _accounts.Count(x => x.Name == account.Name);
+                    if (accountVerification > 0)
+                    {
+                        MessageBox.Show(@"An account with this name already exists. Choose another name.");
+                    }
+                    else
+                    {
+                        _accounts.Add(account);
+                        RefreshAccount();
+                        _storage.SaveChanges(_accounts);
+                    }
                 }
             };
             addAccountForm.Show();
