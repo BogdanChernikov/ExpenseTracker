@@ -62,7 +62,7 @@ namespace ExpensesTracker.Forms
             this.openAddFormButton.TabIndex = 0;
             this.openAddFormButton.Text = "Add expenes";
             this.openAddFormButton.UseVisualStyleBackColor = true;
-            this.openAddFormButton.Click += new System.EventHandler(this.AddExpenseForm_Click);
+            this.openAddFormButton.Click += new System.EventHandler(this.CreateExpenseForm_Click);
             // 
             // categoryFilterBox
             // 
@@ -222,7 +222,7 @@ namespace ExpensesTracker.Forms
             this.openAddAccountFormButton.TabIndex = 15;
             this.openAddAccountFormButton.Text = "Add account";
             this.openAddAccountFormButton.UseVisualStyleBackColor = true;
-            this.openAddAccountFormButton.Click += new System.EventHandler(this.AddAccountForm_Click);
+            this.openAddAccountFormButton.Click += new System.EventHandler(this.CreateAccountForm_Click);
             // 
             // editAccountButton
             // 
@@ -242,7 +242,7 @@ namespace ExpensesTracker.Forms
             this.openAddIncomeFormButton.TabIndex = 17;
             this.openAddIncomeFormButton.Text = "Add Income";
             this.openAddIncomeFormButton.UseVisualStyleBackColor = true;
-            this.openAddIncomeFormButton.Click += new System.EventHandler(this.AddIncomeForm_Click);
+            this.openAddIncomeFormButton.Click += new System.EventHandler(this.CreateIncomeForm_Click);
             // 
             // MainWindow
             // 

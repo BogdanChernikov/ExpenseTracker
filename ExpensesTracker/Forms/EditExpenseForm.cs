@@ -40,6 +40,7 @@ namespace ExpensesTracker.Forms
             TargetExpense.Comment = commentInput.Text;
             TargetExpense.Category = Convert.ToString(expenseCategoryBox.SelectedItem);
             TargetExpense.Date = expenseDatePicker.Value;
+
             OnExpenseEdit();
             this.Close();
         }

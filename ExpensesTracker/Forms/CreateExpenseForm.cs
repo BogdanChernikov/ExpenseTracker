@@ -23,6 +23,7 @@ namespace ExpensesTracker.Forms
             var expense = new AccountOperation();
             expense.Amount = Convert.ToDecimal(PriceInput.Value);
             expense.Comment = commentInput.Text;
+
             if (Convert.ToString(newCostCategory.SelectedItem) == "Traffic")
                 expense.Category = "Traffic";
             if (Convert.ToString(newCostCategory.SelectedItem) == "Utilities")
@@ -33,6 +34,7 @@ namespace ExpensesTracker.Forms
                 expense.Category = "MedicinesAndHygieneProducts";
             if (Convert.ToString(newCostCategory.SelectedItem) == "Food")
                 expense.Category = "Food";
+
             expense.Date = newCostDate.Value.Date;
 
             OnExpenseAdded(expense);

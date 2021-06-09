@@ -26,6 +26,7 @@ namespace ExpensesTracker.Forms
         {
             TargetAccountForEdit.Name = editAccountNameInput.Text;
             TargetAccountForEdit.InitialBalance = editInitialBalanceInput.Value;
+
             OnAccountEdit();
             this.Close();
         }

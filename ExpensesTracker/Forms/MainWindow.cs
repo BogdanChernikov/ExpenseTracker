@@ -43,26 +43,9 @@ namespace ExpensesTracker.Forms
             ShowTable();
         }
 
-        private void RefreshData()
-        {
-            _storage.SaveChanges(_accounts);
-            _storage.SaveChanges(_accountOperations);
-
-            ShowTable();
-            ShowBalance();
-        }
-
         private void CommentSearch_TextChanged(object sender, EventArgs e)
         {
             ShowTable();
-        }
-
-        public void ActualizeTableRecords()
-        {
-            expensesTable.DataSource = null;
-            expensesTable.DataSource = _filteredOperations;
-            expensesTable.Columns[4].Visible = false;
-            expensesTable.Columns[5].Visible = false;
         }
 
         private void DateTimePicker1_ValueChanged(object sender, EventArgs e)
@@ -75,28 +58,12 @@ namespace ExpensesTracker.Forms
             ShowTable();
         }
 
-        private void ColorTable()
+        public void SelectedAccountBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            for (var i = 0; i < _filteredOperations.Count; i++)
-            {
-                if (_filteredOperations[i].Type == OperationType.Expense)
-                {
-                    expensesTable.Rows[i].DefaultCellStyle.BackColor = Color.Red;
-                }
-
-                if (_filteredOperations[i].Type == OperationType.Income)
-                {
-                    expensesTable.Rows[i].DefaultCellStyle.BackColor = Color.Green;
-                }
-            }
-        }
-
-        private void ShowTable()
-        {
-            FilterOperations();
-            _filteredOperations.Sort((x, y) => x.Date.CompareTo(y.Date));
-            ActualizeTableRecords();
-            ColorTable();
+            if (accountBox.SelectedIndex == -1)
+                accountBox.SelectedIndex = 0; /*TODO: Fix it later*/
+            ShowTable();
+            ShowBalance();
         }
 
         private void FilterOperations()
@@ -124,9 +91,151 @@ namespace ExpensesTracker.Forms
             _filteredOperations = _filteredOperations.Where(x => x.Date <= endDateDisplay.Value).ToList();
         }
 
+        private void RefreshData()
+        {
+            _storage.SaveChanges(_accounts);
+            _storage.SaveChanges(_accountOperations);
+
+            ShowTable();
+            ShowBalance();
+        }
+
+        public void ActualizeTableRecords()
+        {
+            expensesTable.DataSource = null;
+            expensesTable.DataSource = _filteredOperations;
+            expensesTable.Columns[4].Visible = false;
+            expensesTable.Columns[5].Visible = false;
+        }
+
+        private void ColorTable()
+        {
+            for (var i = 0; i < _filteredOperations.Count; i++)
+            {
+                if (_filteredOperations[i].Type == OperationType.Expense)
+                {
+                    expensesTable.Rows[i].DefaultCellStyle.BackColor = Color.Red;
+                }
+
+                if (_filteredOperations[i].Type == OperationType.Income)
+                {
+                    expensesTable.Rows[i].DefaultCellStyle.BackColor = Color.Green;
+                }
+            }
+        }
+
+        private void ShowTable()
+        {
+            FilterOperations();
+            _filteredOperations.Sort((x, y) => x.Date.CompareTo(y.Date));
+            ActualizeTableRecords();
+            ColorTable();
+        }
+
         private void SavePdfButton_Click(object sender, EventArgs e)
         {
             _pdfGenerator.GeneratePdf(_filteredOperations);
+        }
+
+        private void RefreshAccount()
+        {
+            accountBox.DataSource = null;
+            accountBox.DataSource = _accounts;
+            accountBox.DisplayMember = "Name";
+            accountBox.SelectedItem = TargetAccount;
+        }
+
+        public void ShowBalance()
+        {
+            var expensesSum = _accountOperations
+                .Where(x => x.Account.Name == TargetAccount.Name && x.Type == OperationType.Expense)
+                .Sum(x => x.Amount);
+
+            var incomesSum = _accountOperations
+                .Where(x => x.Account.Name == TargetAccount.Name && x.Type == OperationType.Income)
+                .Sum(x => x.Amount);
+
+            accountBalanceLable.Text = Convert.ToString
+                (TargetAccount.InitialBalance - expensesSum + incomesSum, CultureInfo.InvariantCulture);
+        }
+
+        private void CreateAccountForm_Click(object sender, EventArgs e)
+        {
+            var createAccountForm = new CreateAccountForm
+            {
+                OnAccountAdded = (account) =>
+                {
+                    if (_accounts.Any(x => x.Name == account.Name))
+                    {
+                        MessageBox.Show(@"This account name is already in use. Choose another name");
+                    }
+                    else
+                    {
+                        _accounts.Add(account);
+                        RefreshAccount();
+                        _storage.SaveChanges(_accounts);
+                    }
+                }
+            };
+            createAccountForm.Show();
+        }
+
+        private void EditAccountButton_Click(object sender, EventArgs e)
+        {
+            var editAccountForm = new EditAccountForm
+            {
+                TargetAccountForEdit = TargetAccount,
+                OnAccountEdit = () =>
+                {
+                    RefreshAccount();
+                    ShowBalance();
+                    _storage.SaveChanges(_accounts);
+                },
+
+                OnAccountDeleted = () =>
+                {
+                    _accounts.Remove(TargetAccount);
+                    accountBox.SelectedIndex = 0;
+                    RefreshData();
+                    RefreshAccount();
+                }
+            };
+            editAccountForm.Show();
+        }
+
+        private void CreateIncomeForm_Click(object sender, EventArgs e)
+        {
+            var createIncomeForm = new CreateIncomeForm
+            {
+                OnIncomeAdded = (income) =>
+                {
+                    income.Account = TargetAccount;
+                    _accountOperations.Add(income);
+                    RefreshData();
+                }
+            };
+            createIncomeForm.Show();
+        }
+
+        private void CreateExpenseForm_Click(object sender, EventArgs e)
+        {
+            var createExpenseForm = new CreateExpenseForm
+            {
+                OnExpenseAdded = (expense) =>
+                {
+                    if (expense.Category == null)
+                    {
+                        MessageBox.Show(@"You don't select a category.To save the expense, select the expense category");
+                    }
+                    else
+                    {
+                        expense.Account = TargetAccount;
+                        _accountOperations.Add(expense);
+                        RefreshData();
+                    }
+                }
+            };
+            createExpenseForm.Show();
         }
 
         private void ExpensesTable_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
@@ -179,108 +288,6 @@ namespace ExpensesTracker.Forms
                 };
                 editIncomeForm.Show();
             }
-        }
-
-        private void RefreshAccount()
-        {
-            accountBox.DataSource = null;
-            accountBox.DataSource = _accounts;
-            accountBox.DisplayMember = "Name";
-            accountBox.SelectedItem = TargetAccount;
-        }
-
-        public void SelectedAccountBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (accountBox.SelectedIndex == -1)
-                accountBox.SelectedIndex = 0; /*TODO: Fix it later*/
-            ShowTable();
-            ShowBalance();
-        }
-
-        public void ShowBalance()
-        {
-            var expensesSum = _accountOperations
-                .Where(x => x.Account.Name == TargetAccount.Name && x.Type == OperationType.Expense)
-                .Sum(x => x.Amount);
-
-            var incomesSum = _accountOperations
-                .Where(x => x.Account.Name == TargetAccount.Name && x.Type == OperationType.Income)
-                .Sum(x => x.Amount);
-
-            accountBalanceLable.Text = Convert.ToString
-                (TargetAccount.InitialBalance - expensesSum + incomesSum, CultureInfo.InvariantCulture);
-        }
-
-        private void AddAccountForm_Click(object sender, EventArgs e)
-        {
-            var createAccountForm = new CreateAccountForm
-            {
-                OnAccountAdded = (account) =>
-                {
-                    if (_accounts.Any(x => x.Name == account.Name))
-                    {
-                        MessageBox.Show(@"This account name is already in use. Choose another name");
-                    }
-                    else
-                    {
-                        _accounts.Add(account);
-                        RefreshAccount();
-                        _storage.SaveChanges(_accounts);
-                    }
-                }
-            };
-            createAccountForm.Show();
-        }
-
-        private void EditAccountButton_Click(object sender, EventArgs e)
-        {
-            var editAccountForm = new EditAccountForm
-            {
-                TargetAccountForEdit = TargetAccount,
-                OnAccountEdit = () =>
-                {
-                    RefreshAccount();
-                    ShowBalance();
-                    _storage.SaveChanges(_accounts);
-                },
-
-                OnAccountDeleted = () =>
-                {
-                    _accounts.Remove(TargetAccount);
-                    accountBox.SelectedIndex = 0;
-                    RefreshData();
-                    RefreshAccount();
-                }
-            };
-            editAccountForm.Show();
-        }
-
-        private void AddIncomeForm_Click(object sender, EventArgs e)
-        {
-            var createIncomeForm = new CreateIncomeForm
-            {
-                OnIncomeAdded = (income) =>
-                {
-                    income.Account = TargetAccount;
-                    _accountOperations.Add(income);
-                    RefreshData();
-                }
-            };
-            createIncomeForm.Show();
-        }
-
-        private void AddExpenseForm_Click(object sender, EventArgs e)
-        {
-            var createExpenseForm = new CreateExpenseForm
-            {
-                OnExpenseAdded = (expense) =>
-                {
-                    expense.Account = TargetAccount;
-                    _accountOperations.Add(expense);
-                    RefreshData();
-                }
-            };
-            createExpenseForm.Show();
         }
     }
 }
