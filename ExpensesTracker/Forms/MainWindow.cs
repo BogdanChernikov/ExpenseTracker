@@ -1,10 +1,10 @@
-﻿using ExpensesTracker.Methods;
+﻿using ExpensesTracker.Servises;
 using ExpensesTracker.Models;
 using ExpensesTracker.Models.Enums;
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -16,7 +16,7 @@ namespace ExpensesTracker.Forms
         private List<AccountOperation> _filteredOperations = new List<AccountOperation>();
         private List<Account> _accounts = new List<Account>();
         private List<AccountOperation> _accountOperations = new List<AccountOperation>();
-        private readonly PDFGenerator _pdfGenerator = new PDFGenerator();
+        private readonly PdfGenerator _pdfGenerator = new PdfGenerator();
         private readonly Storage _storage = new Storage();
 
         public MainWindow()
@@ -26,9 +26,8 @@ namespace ExpensesTracker.Forms
 
         private void MainWindow_Load(object sender, EventArgs e)
         {
-            _storage.LoadData();
-            _accounts = _storage.Accounts;
-            _accountOperations = _storage.AccountOperations;
+            _accounts = _storage.GetAccount();
+            _accountOperations = _storage.GetAccountOperations();
             selectedAccountBox.DataSource = null;
             selectedAccountBox.DataSource = _accounts;
             selectedAccountBox.DisplayMember = "Name";
@@ -44,7 +43,8 @@ namespace ExpensesTracker.Forms
 
         private void RefreshData()
         {
-            _storage.SaveChanges(_accounts, _accountOperations);
+            _storage.SaveChanges(_accounts);
+            _storage.SaveChanges(_accountOperations);
             RefreshTable();
             FilterTable();
             ShowBalance();
@@ -90,11 +90,16 @@ namespace ExpensesTracker.Forms
 
         private void FilterTable()
         {
-            _filteredOperations = new List<AccountOperation>();
-            _filteredOperations = _accountOperations.Where(x => x.Account.Name == TargetAccount.Name).ToList();
+            FilterOperation();
             _filteredOperations.Sort((x, y) => x.Date.CompareTo(y.Date));
+            RefreshTable();
+            TableColoring();
+        }
 
-            //category Filtred
+        private void FilterOperation()
+        {
+            _filteredOperations = _accountOperations.Where(x => x.Account.Name == TargetAccount.Name).ToList();
+            //category Filtered
             var chosenCategory = Convert.ToString(categoryFilterBox.SelectedItem);
 
             if (chosenCategory != "All amount")
@@ -108,13 +113,11 @@ namespace ExpensesTracker.Forms
                 _filteredOperations = _filteredOperations.Where(x => x.Comment.Contains(searchNameInput.Text.Trim())).ToList();
             }
 
-            //data filrer1
+            //data filter1
             _filteredOperations = _filteredOperations.Where(x => x.Date >= startDateDisplay.Value).ToList();
 
             //data filter2
             _filteredOperations = _filteredOperations.Where(x => x.Date <= endDateDisplay.Value).ToList();
-            RefreshTable();
-            TableColoring();
         }
 
         private void SavePdfButton_Click(object sender, EventArgs e)
@@ -127,7 +130,7 @@ namespace ExpensesTracker.Forms
             EditOperation();
         }
 
-        private void EditExpensButton_Click(object sender, EventArgs e)
+        private void EditExpenseButton_Click(object sender, EventArgs e)
         {
             EditOperation();
         }
@@ -135,39 +138,36 @@ namespace ExpensesTracker.Forms
         private void EditOperation()
         {
             var operation = expensesTable.SelectedRows[0].DataBoundItem as AccountOperation;
-            if (operation.Type == OperationType.Expense)
+            if (operation != null && operation.Type == OperationType.Expense)
             {
-                EditDataFormForExpense editDataForm = new EditDataFormForExpense();
-                editDataForm.TargetExpense = operation;
-                editDataForm.OnExpenseEdit = () =>
+                var editDataForm = new EditDataFormForExpense
                 {
-                    RefreshData();
-                };
-                editDataForm.OnExpenseDeleted = () =>
-                {
-                    if (operation != null)
+                    TargetExpense = operation,
+                    OnExpenseEdit = RefreshData,
+                    OnExpenseDeleted = () =>
                     {
-                        _accountOperations.Remove(operation);
+                        if (true)
+                        {
+                            _accountOperations.Remove(operation);
+                        }
+                        RefreshData();
                     }
-                    RefreshData();
                 };
                 editDataForm.Show();
             }
             else
             {
-                EditDataFormForIncome editIncomeForm = new EditDataFormForIncome();
-                editIncomeForm.TargetIncome = operation;
-                editIncomeForm.OnIncomeEdit = () =>
+                var editIncomeForm = new EditDataFormForIncome
                 {
-                    RefreshData();
-                };
-                editIncomeForm.OnIncomeDeleted = () =>
-                {
-                    if (operation != null)
+                    TargetIncome = operation,
+                    OnIncomeEdit = RefreshData,
+                    OnIncomeDeleted = () =>
                     {
-                        _accountOperations.Remove(operation);
+                        {
+                            _accountOperations.Remove(operation);
+                        }
+                        RefreshData();
                     }
-                    RefreshData();
                 };
                 editIncomeForm.Show();
             }
@@ -193,36 +193,37 @@ namespace ExpensesTracker.Forms
         {
             var expensesSum = _accountOperations.Where(x => x.Account.Name == TargetAccount.Name && x.Type == OperationType.Expense).Sum(x => x.Amount);
             var incomesSum = _accountOperations.Where(x => x.Account.Name == TargetAccount.Name && x.Type == OperationType.Income).Sum(x => x.Amount);
-            accountBalance.Text = Convert.ToString(TargetAccount.InitialBalance - expensesSum + incomesSum);
+            accountBalance.Text = Convert.ToString(TargetAccount.InitialBalance - expensesSum + incomesSum, CultureInfo.InvariantCulture);
         }
 
         private void AddAccountForm_Click(object sender, EventArgs e)
         {
-            AddNewAccount addAccountForm = new AddNewAccount();
-            addAccountForm.OnAccountAdded = (account) =>
+            var addAccountForm = new AddNewAccount
             {
-                _accounts.Add(account);
-                RefreshAccount();
-                _storage.SaveChanges(_accounts, _accountOperations);
+                OnAccountAdded = (account) =>
+                {
+                    _accounts.Add(account);
+                    RefreshAccount();
+                    _storage.SaveChanges(_accounts);
+                }
             };
             addAccountForm.Show();
         }
 
         private void EditAccountButton_Click(object sender, EventArgs e)
         {
-            Account account = (Account)selectedAccountBox.SelectedItem;
-            EditAccount editAccountForm = new EditAccount();
-            editAccountForm.TargetAccountForEdit = TargetAccount;
-            editAccountForm.OnAccountEdit = () =>
+            var editAccountForm = new EditAccount
             {
-                RefreshAccount();
-                ShowBalance();
-                _storage.SaveChanges(_accounts, _accountOperations);
-            };
-            editAccountForm.OnAccountDeleted = () =>
-            {
-                if (TargetAccount != null)
+                TargetAccountForEdit = TargetAccount,
+                OnAccountEdit = () =>
                 {
+                    RefreshAccount();
+                    ShowBalance();
+                    _storage.SaveChanges(_accounts);
+                },
+                OnAccountDeleted = () =>
+                {
+                    if (TargetAccount == null) return;
                     _accounts.Remove(TargetAccount);
                     selectedAccountBox.SelectedIndex = 0;
                     RefreshData();
@@ -234,24 +235,28 @@ namespace ExpensesTracker.Forms
 
         private void AddIncomeForm_Click(object sender, EventArgs e)
         {
-            AddNewIncomeForm addNewIncomeForm = new AddNewIncomeForm();
-            addNewIncomeForm.OnIncomeAdded = (income) =>
+            var addNewIncomeForm = new AddNewIncomeForm
             {
-                income.Account = TargetAccount;
-                _accountOperations.Add(income);
-                RefreshData();
+                OnIncomeAdded = (income) =>
+                {
+                    income.Account = TargetAccount;
+                    _accountOperations.Add(income);
+                    RefreshData();
+                }
             };
             addNewIncomeForm.Show();
         }
 
         private void AddExpenseForm_Click(object sender, EventArgs e)
         {
-            AddExpenseForm addCostForm = new AddExpenseForm();
-            addCostForm.OnExpenseAdded = (expense) =>
+            var addCostForm = new AddExpenseForm
             {
-                expense.Account = TargetAccount;
-                _accountOperations.Add(expense);
-                RefreshData();
+                OnExpenseAdded = (expense) =>
+                {
+                    expense.Account = TargetAccount;
+                    _accountOperations.Add(expense);
+                    RefreshData();
+                }
             };
             addCostForm.Show();
         }

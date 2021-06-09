@@ -60,8 +60,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Methods\PDFGenerator.cs" />
-    <Compile Include="Methods\Storage.cs" />
+    <Compile Include="Servises\PDFGenerator.cs" />
+    <Compile Include="Servises\Storage.cs" />
     <Compile Include="Models\Account.cs" />
     <Compile Include="Models\AccountOperation.cs" />
     <Compile Include="Forms\CreateExpenseForm.cs">
@@ -100,13 +100,13 @@
     <Compile Include="Forms\EditIncomeForm.Designer.cs">
       <DependentUpon>EditIncomeForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Models\Enums\ExpenseCategorys.cs" />
     <Compile Include="Forms\MainWindow.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\MainWindow.Designer.cs">
       <DependentUpon>MainWindow.cs</DependentUpon>
     </Compile>
+    <Compile Include="Models\Enums\ExpenseCategory.cs" />
     <Compile Include="Models\Enums\OperationType.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
