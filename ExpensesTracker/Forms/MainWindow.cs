@@ -1,4 +1,4 @@
-﻿using ExpensesTracker.Servises;
+﻿using ExpensesTracker.Services;
 using ExpensesTracker.Models;
 using ExpensesTracker.Models.Enums;
 using System;
@@ -12,7 +12,7 @@ namespace ExpensesTracker.Forms
 {
     public partial class MainWindow : Form
     {
-        private Account TargetAccount => (Account)selectedAccountBox.SelectedItem;
+        private Account TargetAccount => (Account)accountBox.SelectedItem;
         private List<AccountOperation> _filteredOperations = new List<AccountOperation>();
         private List<Account> _accounts = new List<Account>();
         private List<AccountOperation> _accountOperations = new List<AccountOperation>();
@@ -26,12 +26,14 @@ namespace ExpensesTracker.Forms
 
         private void MainWindow_Load(object sender, EventArgs e)
         {
-            _accounts = _storage.GetAccount();
+            _accounts = _storage.GetAccounts();
             _accountOperations = _storage.GetAccountOperations();
-            selectedAccountBox.DataSource = null;
-            selectedAccountBox.DataSource = _accounts;
-            selectedAccountBox.DisplayMember = "Name";
-            selectedAccountBox.SelectedIndex = 0;
+
+            accountBox.DataSource = null;
+            accountBox.DataSource = _accounts;
+            accountBox.DisplayMember = "Name";
+            accountBox.SelectedIndex = 0;
+
             expensesTable.AutoGenerateColumns = false;
             categoryFilterBox.SelectedItem = "All amount";
         }
@@ -45,7 +47,8 @@ namespace ExpensesTracker.Forms
         {
             _storage.SaveChanges(_accounts);
             _storage.SaveChanges(_accountOperations);
-            RefreshTable();
+
+            ActualizeTableRecords();
             FilterTable();
             ShowBalance();
         }
@@ -55,7 +58,7 @@ namespace ExpensesTracker.Forms
             FilterTable();
         }
 
-        public void RefreshTable()
+        public void ActualizeTableRecords()
         {
             expensesTable.DataSource = null;
             expensesTable.DataSource = _filteredOperations;
@@ -75,12 +78,13 @@ namespace ExpensesTracker.Forms
 
         private void TableColoring()
         {
-            for (int i = 0; i < _filteredOperations.Count; i++)
+            for (var i = 0; i < _filteredOperations.Count; i++)
             {
                 if (_filteredOperations[i].Type == OperationType.Expense)
                 {
                     expensesTable.Rows[i].DefaultCellStyle.BackColor = Color.Red;
                 }
+
                 if (_filteredOperations[i].Type == OperationType.Income)
                 {
                     expensesTable.Rows[i].DefaultCellStyle.BackColor = Color.Green;
@@ -92,13 +96,14 @@ namespace ExpensesTracker.Forms
         {
             FilterOperation();
             _filteredOperations.Sort((x, y) => x.Date.CompareTo(y.Date));
-            RefreshTable();
+            ActualizeTableRecords();
             TableColoring();
         }
 
         private void FilterOperation()
         {
             _filteredOperations = _accountOperations.Where(x => x.Account.Name == TargetAccount.Name).ToList();
+
             //category Filtered
             var chosenCategory = Convert.ToString(categoryFilterBox.SelectedItem);
 
@@ -138,9 +143,10 @@ namespace ExpensesTracker.Forms
         private void EditOperation()
         {
             var operation = expensesTable.SelectedRows[0].DataBoundItem as AccountOperation;
+
             if (operation != null && operation.Type == OperationType.Expense)
             {
-                var editDataForm = new EditDataFormForExpense
+                var editExpenseForm = new EditExpenseForm
                 {
                     TargetExpense = operation,
                     OnExpenseEdit = RefreshData,
@@ -153,11 +159,12 @@ namespace ExpensesTracker.Forms
                         RefreshData();
                     }
                 };
-                editDataForm.Show();
+                editExpenseForm.Show();
             }
+
             else
             {
-                var editIncomeForm = new EditDataFormForIncome
+                var editIncomeForm = new EditIncomeForm
                 {
                     TargetIncome = operation,
                     OnIncomeEdit = RefreshData,
@@ -175,44 +182,60 @@ namespace ExpensesTracker.Forms
 
         private void RefreshAccount()
         {
-            selectedAccountBox.DataSource = null;
-            selectedAccountBox.DataSource = _accounts;
-            selectedAccountBox.DisplayMember = "Name";
-            selectedAccountBox.SelectedItem = TargetAccount;
+            accountBox.DataSource = null;
+            accountBox.DataSource = _accounts;
+            accountBox.DisplayMember = "Name";
+            accountBox.SelectedItem = TargetAccount;
         }
 
         public void SelectedAccountBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (selectedAccountBox.SelectedIndex == -1)
-                selectedAccountBox.SelectedIndex = 0; /*TODO: Fix it later*/
+            if (accountBox.SelectedIndex == -1)
+                accountBox.SelectedIndex = 0; /*TODO: Fix it later*/
             FilterTable();
             ShowBalance();
         }
 
         public void ShowBalance()
         {
-            var expensesSum = _accountOperations.Where(x => x.Account.Name == TargetAccount.Name && x.Type == OperationType.Expense).Sum(x => x.Amount);
-            var incomesSum = _accountOperations.Where(x => x.Account.Name == TargetAccount.Name && x.Type == OperationType.Income).Sum(x => x.Amount);
-            accountBalance.Text = Convert.ToString(TargetAccount.InitialBalance - expensesSum + incomesSum, CultureInfo.InvariantCulture);
+            var expensesSum = _accountOperations
+                .Where(x => x.Account.Name == TargetAccount.Name && x.Type == OperationType.Expense)
+                .Sum(x => x.Amount);
+
+            var incomesSum = _accountOperations
+                .Where(x => x.Account.Name == TargetAccount.Name && x.Type == OperationType.Income)
+                .Sum(x => x.Amount);
+
+            accountBalanceLable.Text = Convert.ToString
+                (TargetAccount.InitialBalance - expensesSum + incomesSum, CultureInfo.InvariantCulture);
         }
 
         private void AddAccountForm_Click(object sender, EventArgs e)
         {
-            var addAccountForm = new AddNewAccount
+            var createAccountForm = new CreateAccountForm
             {
                 OnAccountAdded = (account) =>
                 {
-                    _accounts.Add(account);
-                    RefreshAccount();
-                    _storage.SaveChanges(_accounts);
+                    var nameChecking = (List<Account>)_accounts.Where(x => x.Name == account.Name);
+                    if (nameChecking.Count > 0)
+                    {
+                        MessageBox.Show(@"Sorry");
+                    }
+                    else
+                    {
+                        _accounts.Add(account);
+                        RefreshAccount();
+                        _storage.SaveChanges(_accounts);
+                    }
+
                 }
             };
-            addAccountForm.Show();
+            createAccountForm.Show();
         }
 
         private void EditAccountButton_Click(object sender, EventArgs e)
         {
-            var editAccountForm = new EditAccount
+            var editAccountForm = new EditAccountForm
             {
                 TargetAccountForEdit = TargetAccount,
                 OnAccountEdit = () =>
@@ -221,11 +244,12 @@ namespace ExpensesTracker.Forms
                     ShowBalance();
                     _storage.SaveChanges(_accounts);
                 },
+
                 OnAccountDeleted = () =>
                 {
                     if (TargetAccount == null) return;
                     _accounts.Remove(TargetAccount);
-                    selectedAccountBox.SelectedIndex = 0;
+                    accountBox.SelectedIndex = 0;
                     RefreshData();
                     RefreshAccount();
                 }
@@ -235,7 +259,7 @@ namespace ExpensesTracker.Forms
 
         private void AddIncomeForm_Click(object sender, EventArgs e)
         {
-            var addNewIncomeForm = new AddNewIncomeForm
+            var createIncomeForm = new CreateIncomeForm
             {
                 OnIncomeAdded = (income) =>
                 {
@@ -244,12 +268,12 @@ namespace ExpensesTracker.Forms
                     RefreshData();
                 }
             };
-            addNewIncomeForm.Show();
+            createIncomeForm.Show();
         }
 
         private void AddExpenseForm_Click(object sender, EventArgs e)
         {
-            var addCostForm = new AddExpenseForm
+            var createExpenseForm = new CreateExpenseForm
             {
                 OnExpenseAdded = (expense) =>
                 {
@@ -258,7 +282,7 @@ namespace ExpensesTracker.Forms
                     RefreshData();
                 }
             };
-            addCostForm.Show();
+            createExpenseForm.Show();
         }
     }
 }

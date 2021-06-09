@@ -43,8 +43,8 @@ namespace ExpensesTracker.Forms
             this.label1 = new System.Windows.Forms.Label();
             this.savePdfButton = new System.Windows.Forms.Button();
             this.editExpenseButton = new System.Windows.Forms.Button();
-            this.selectedAccountBox = new System.Windows.Forms.ComboBox();
-            this.accountBalance = new System.Windows.Forms.Label();
+            this.accountBox = new System.Windows.Forms.ComboBox();
+            this.accountBalanceLable = new System.Windows.Forms.Label();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.openAddAccountFormButton = new System.Windows.Forms.Button();
             this.editAccountButton = new System.Windows.Forms.Button();
@@ -191,23 +191,23 @@ namespace ExpensesTracker.Forms
             this.editExpenseButton.UseVisualStyleBackColor = true;
             this.editExpenseButton.Click += new System.EventHandler(this.EditExpenseButton_Click);
             // 
-            // selectedAccountBox
+            // accountBox
             // 
-            this.selectedAccountBox.FormattingEnabled = true;
-            this.selectedAccountBox.Location = new System.Drawing.Point(24, 12);
-            this.selectedAccountBox.Name = "selectedAccountBox";
-            this.selectedAccountBox.Size = new System.Drawing.Size(157, 21);
-            this.selectedAccountBox.TabIndex = 10;
-            this.selectedAccountBox.SelectedIndexChanged += new System.EventHandler(this.SelectedAccountBox_SelectedIndexChanged);
+            this.accountBox.FormattingEnabled = true;
+            this.accountBox.Location = new System.Drawing.Point(24, 12);
+            this.accountBox.Name = "accountBox";
+            this.accountBox.Size = new System.Drawing.Size(157, 21);
+            this.accountBox.TabIndex = 10;
+            this.accountBox.SelectedIndexChanged += new System.EventHandler(this.SelectedAccountBox_SelectedIndexChanged);
             // 
-            // accountBalance
+            // accountBalanceLable
             // 
-            this.accountBalance.AutoSize = true;
-            this.accountBalance.Location = new System.Drawing.Point(21, 54);
-            this.accountBalance.Name = "accountBalance";
-            this.accountBalance.Size = new System.Drawing.Size(35, 13);
-            this.accountBalance.TabIndex = 11;
-            this.accountBalance.Text = "label2";
+            this.accountBalanceLable.AutoSize = true;
+            this.accountBalanceLable.Location = new System.Drawing.Point(21, 54);
+            this.accountBalanceLable.Name = "accountBalanceLable";
+            this.accountBalanceLable.Size = new System.Drawing.Size(35, 13);
+            this.accountBalanceLable.TabIndex = 11;
+            this.accountBalanceLable.Text = "label2";
             // 
             // contextMenuStrip1
             // 
@@ -252,8 +252,8 @@ namespace ExpensesTracker.Forms
             this.Controls.Add(this.openAddIncomeFormButton);
             this.Controls.Add(this.editAccountButton);
             this.Controls.Add(this.openAddAccountFormButton);
-            this.Controls.Add(this.accountBalance);
-            this.Controls.Add(this.selectedAccountBox);
+            this.Controls.Add(this.accountBalanceLable);
+            this.Controls.Add(this.accountBox);
             this.Controls.Add(this.editExpenseButton);
             this.Controls.Add(this.savePdfButton);
             this.Controls.Add(this.label1);
@@ -284,8 +284,8 @@ namespace ExpensesTracker.Forms
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button savePdfButton;
         private System.Windows.Forms.Button editExpenseButton;
-        private System.Windows.Forms.ComboBox selectedAccountBox;
-        private System.Windows.Forms.Label accountBalance;
+        private System.Windows.Forms.ComboBox accountBox;
+        private System.Windows.Forms.Label accountBalanceLable;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.Button openAddAccountFormButton;
         private System.Windows.Forms.Button editAccountButton;

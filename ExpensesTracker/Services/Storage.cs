@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Xml.Serialization;
 
-namespace ExpensesTracker.Servises
+namespace ExpensesTracker.Services
 {
     public class Storage
     {
@@ -27,7 +27,7 @@ namespace ExpensesTracker.Servises
             }
         }
 
-        public List<Account> GetAccount()
+        public List<Account> GetAccounts()
         {
             var serializer = new XmlSerializer(typeof(List<Account>));
             using (var stream = new FileStream(AccountsFileName, FileMode.Open))

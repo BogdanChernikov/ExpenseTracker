@@ -4,14 +4,14 @@ using System.Windows.Forms;
 
 namespace ExpensesTracker.Forms
 {
-    public partial class EditAccount : Form
+    public partial class EditAccountForm : Form
     {
         public Action OnAccountEdit;
         public Action OnAccountDeleted;
         public Account TargetAccountForEdit;
 
 
-        public EditAccount()
+        public EditAccountForm()
         {
             InitializeComponent();
         }

@@ -4,16 +4,17 @@ using System.Windows.Forms;
 
 namespace ExpensesTracker.Forms
 {
-    public partial class EditDataFormForIncome : Form
+    public partial class EditIncomeForm : Form
     {
         public Action OnIncomeEdit;
         public Action OnIncomeDeleted;
         public AccountOperation TargetIncome;
 
-        public EditDataFormForIncome()
+        public EditIncomeForm()
         {
             InitializeComponent();
         }
+
         private void EditDataFormForIncome_Load(object sender, EventArgs e)
         {
             IncomeCommentTextBox.Text = TargetIncome.Comment;
@@ -32,6 +33,7 @@ namespace ExpensesTracker.Forms
             TargetIncome.Comment = IncomeCommentTextBox.Text;
             TargetIncome.Amount = incomeAmountInput.Value;
             TargetIncome.Date = incomeDateInput.Value;
+
             OnIncomeEdit();
             this.Close();
         }

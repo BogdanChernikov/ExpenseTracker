@@ -1,7 +1,7 @@
 ﻿
 namespace ExpensesTracker.Forms
 {
-    partial class EditDataFormForExpense
+    partial class EditExpenseForm
     {
         /// <summary>
         /// Required designer variable.
@@ -132,7 +132,7 @@ namespace ExpensesTracker.Forms
             this.deleteDataButton.UseVisualStyleBackColor = true;
             this.deleteDataButton.Click += new System.EventHandler(this.DeleteDataButton_Click);
             // 
-            // EditDataFormForExpense
+            // EditExpenseForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -146,8 +146,8 @@ namespace ExpensesTracker.Forms
             this.Controls.Add(this.commentInput);
             this.Controls.Add(this.expenseSumInput);
             this.Controls.Add(this.expenseCategoryBox);
-            this.Name = "EditDataFormForExpense";
-            this.Text = "EditDataFormForExpense";
+            this.Name = "EditExpenseForm";
+            this.Text = "EditExpenseForm";
             this.Load += new System.EventHandler(this.EditDataForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.expenseSumInput)).EndInit();
             this.ResumeLayout(false);

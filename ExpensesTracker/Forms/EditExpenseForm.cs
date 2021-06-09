@@ -4,13 +4,13 @@ using System.Windows.Forms;
 
 namespace ExpensesTracker.Forms
 {
-    public partial class EditDataFormForExpense : Form
+    public partial class EditExpenseForm : Form
     {
         public Action OnExpenseEdit;
         public Action OnExpenseDeleted;
         public AccountOperation TargetExpense;
 
-        public EditDataFormForExpense()
+        public EditExpenseForm()
         {
             InitializeComponent();
         }

@@ -6,7 +6,7 @@ using System.Globalization;
 using System.IO;
 using System.Windows.Forms;
 
-namespace ExpensesTracker.Servises
+namespace ExpensesTracker.Services
 {
     public class PdfGenerator
     {

@@ -4,11 +4,11 @@ using System.Windows.Forms;
 
 namespace ExpensesTracker.Forms
 {
-    public partial class AddNewIncomeForm : Form
+    public partial class CreateIncomeForm : Form
     {
         public Action<AccountOperation> OnIncomeAdded;
 
-        public AddNewIncomeForm()
+        public CreateIncomeForm()
         {
             InitializeComponent();
         }

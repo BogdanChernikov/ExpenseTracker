@@ -1,7 +1,7 @@
 ﻿
 namespace ExpensesTracker.Forms
 {
-    partial class AddNewIncomeForm
+    partial class CreateIncomeForm
     {
         /// <summary>
         /// Required designer variable.
@@ -113,7 +113,7 @@ namespace ExpensesTracker.Forms
             this.closedFormButton.UseVisualStyleBackColor = true;
             this.closedFormButton.Click += new System.EventHandler(this.CloseAddIncomeButton_Click);
             // 
-            // AddNewIncomeForm
+            // CreateIncomeForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -126,8 +126,8 @@ namespace ExpensesTracker.Forms
             this.Controls.Add(this.label2);
             this.Controls.Add(this.incomeCommentTextBox);
             this.Controls.Add(this.label1);
-            this.Name = "AddNewIncomeForm";
-            this.Text = "AddNewIncomeForm";
+            this.Name = "CreateIncomeForm";
+            this.Text = "CreateIncomeForm";
             ((System.ComponentModel.ISupportInitialize)(this.incomeAmountInput)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
