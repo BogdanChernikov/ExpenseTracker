@@ -40,7 +40,7 @@ namespace ExpensesTracker.Forms
 
         private void CategoryFilter_SelectedIndexChanged(object sender, EventArgs e)
         {
-            FilterTable();
+            ShowTable();
         }
 
         private void RefreshData()
@@ -48,14 +48,13 @@ namespace ExpensesTracker.Forms
             _storage.SaveChanges(_accounts);
             _storage.SaveChanges(_accountOperations);
 
-            ActualizeTableRecords();
-            FilterTable();
+            ShowTable();
             ShowBalance();
         }
 
         private void CommentSearch_TextChanged(object sender, EventArgs e)
         {
-            FilterTable();
+            ShowTable();
         }
 
         public void ActualizeTableRecords()
@@ -68,15 +67,15 @@ namespace ExpensesTracker.Forms
 
         private void DateTimePicker1_ValueChanged(object sender, EventArgs e)
         {
-            FilterTable();
+            ShowTable();
         }
 
         private void DateTimePicker2_ValueChanged(object sender, EventArgs e)
         {
-            FilterTable();
+            ShowTable();
         }
 
-        private void TableColoring()
+        private void ColorTable()
         {
             for (var i = 0; i < _filteredOperations.Count; i++)
             {
@@ -92,15 +91,15 @@ namespace ExpensesTracker.Forms
             }
         }
 
-        private void FilterTable()
+        private void ShowTable()
         {
-            FilterOperation();
+            FilterOperations();
             _filteredOperations.Sort((x, y) => x.Date.CompareTo(y.Date));
             ActualizeTableRecords();
-            TableColoring();
+            ColorTable();
         }
 
-        private void FilterOperation()
+        private void FilterOperations()
         {
             _filteredOperations = _accountOperations.Where(x => x.Account.Name == TargetAccount.Name).ToList();
 
@@ -137,14 +136,21 @@ namespace ExpensesTracker.Forms
 
         private void EditExpenseButton_Click(object sender, EventArgs e)
         {
+            if (expensesTable.SelectedRows.Count == 0)
+            {
+                MessageBox.Show(@"You have not selected any operations");
+                return;
+            }
             EditOperation();
         }
 
         private void EditOperation()
         {
             var operation = expensesTable.SelectedRows[0].DataBoundItem as AccountOperation;
+            if (operation == null)
+                return;
 
-            if (operation != null && operation.Type == OperationType.Expense)
+            if (operation.Type == OperationType.Expense)
             {
                 var editExpenseForm = new EditExpenseForm
                 {
@@ -152,10 +158,7 @@ namespace ExpensesTracker.Forms
                     OnExpenseEdit = RefreshData,
                     OnExpenseDeleted = () =>
                     {
-                        if (true)
-                        {
-                            _accountOperations.Remove(operation);
-                        }
+                        _accountOperations.Remove(operation);
                         RefreshData();
                     }
                 };
@@ -170,9 +173,7 @@ namespace ExpensesTracker.Forms
                     OnIncomeEdit = RefreshData,
                     OnIncomeDeleted = () =>
                     {
-                        {
-                            _accountOperations.Remove(operation);
-                        }
+                        _accountOperations.Remove(operation);
                         RefreshData();
                     }
                 };
@@ -192,7 +193,7 @@ namespace ExpensesTracker.Forms
         {
             if (accountBox.SelectedIndex == -1)
                 accountBox.SelectedIndex = 0; /*TODO: Fix it later*/
-            FilterTable();
+            ShowTable();
             ShowBalance();
         }
 
@@ -216,10 +217,9 @@ namespace ExpensesTracker.Forms
             {
                 OnAccountAdded = (account) =>
                 {
-                    var nameChecking = (List<Account>)_accounts.Where(x => x.Name == account.Name);
-                    if (nameChecking.Count > 0)
+                    if (_accounts.Any(x => x.Name == account.Name))
                     {
-                        MessageBox.Show(@"Sorry");
+                        MessageBox.Show(@"This account name is already in use. Choose another name");
                     }
                     else
                     {
@@ -227,7 +227,6 @@ namespace ExpensesTracker.Forms
                         RefreshAccount();
                         _storage.SaveChanges(_accounts);
                     }
-
                 }
             };
             createAccountForm.Show();
@@ -247,7 +246,6 @@ namespace ExpensesTracker.Forms
 
                 OnAccountDeleted = () =>
                 {
-                    if (TargetAccount == null) return;
                     _accounts.Remove(TargetAccount);
                     accountBox.SelectedIndex = 0;
                     RefreshData();
