@@ -137,7 +137,7 @@ namespace ExpensesTracker.Forms
             _pdfGenerator.GeneratePdf(_filteredOperations);
         }
 
-        private void RefreshAccount()
+        private void RefreshAccountsData()
         {
             accountBox.DataSource = null;
             accountBox.DataSource = _accounts;
@@ -172,7 +172,7 @@ namespace ExpensesTracker.Forms
                     else
                     {
                         _accounts.Add(account);
-                        RefreshAccount();
+                        RefreshAccountsData();
                         _storage.SaveChanges(_accounts);
                     }
                 }
@@ -187,7 +187,7 @@ namespace ExpensesTracker.Forms
                 TargetAccountForEdit = TargetAccount,
                 OnAccountEdit = () =>
                 {
-                    RefreshAccount();
+                    RefreshAccountsData();
                     ShowBalance();
                     _storage.SaveChanges(_accounts);
                 },
@@ -197,7 +197,7 @@ namespace ExpensesTracker.Forms
                     _accounts.Remove(TargetAccount);
                     accountBox.SelectedIndex = 0;
                     RefreshData();
-                    RefreshAccount();
+                    RefreshAccountsData();
                 }
             };
             editAccountForm.Show();
