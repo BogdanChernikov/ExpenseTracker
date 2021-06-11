@@ -1,7 +1,7 @@
 ﻿
-namespace WindowsFormsApp2
+namespace ExpensesTracker.Forms
 {
-    partial class AddNewIncomeForm
+    partial class CreateIncomeForm
     {
         /// <summary>
         /// Required designer variable.
@@ -61,10 +61,10 @@ namespace WindowsFormsApp2
             this.label2.TabIndex = 6;
             this.label2.Text = "Enter amount of income";
             // 
-            // newIncomeCommentTextBox
+            // incomeCommentTextBox
             // 
             this.incomeCommentTextBox.Location = new System.Drawing.Point(32, 57);
-            this.incomeCommentTextBox.Name = "newIncomeCommentTextBox";
+            this.incomeCommentTextBox.Name = "incomeCommentTextBox";
             this.incomeCommentTextBox.Size = new System.Drawing.Size(128, 20);
             this.incomeCommentTextBox.TabIndex = 5;
             // 
@@ -103,17 +103,17 @@ namespace WindowsFormsApp2
             this.addIncomeButton.UseVisualStyleBackColor = true;
             this.addIncomeButton.Click += new System.EventHandler(this.AddIncomeButton_Click);
             // 
-            // closeAddIncomeButton
+            // closedFormButton
             // 
             this.closedFormButton.Location = new System.Drawing.Point(115, 264);
-            this.closedFormButton.Name = "closeAddIncomeButton";
+            this.closedFormButton.Name = "closedFormButton";
             this.closedFormButton.Size = new System.Drawing.Size(75, 23);
             this.closedFormButton.TabIndex = 11;
             this.closedFormButton.Text = "Cancel";
             this.closedFormButton.UseVisualStyleBackColor = true;
             this.closedFormButton.Click += new System.EventHandler(this.CloseAddIncomeButton_Click);
             // 
-            // AddNewIncomeForm
+            // CreateIncomeForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -126,8 +126,8 @@ namespace WindowsFormsApp2
             this.Controls.Add(this.label2);
             this.Controls.Add(this.incomeCommentTextBox);
             this.Controls.Add(this.label1);
-            this.Name = "AddNewIncomeForm";
-            this.Text = "AddNewIncomeForm";
+            this.Name = "CreateIncomeForm";
+            this.Text = "CreateIncomeForm";
             ((System.ComponentModel.ISupportInitialize)(this.incomeAmountInput)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

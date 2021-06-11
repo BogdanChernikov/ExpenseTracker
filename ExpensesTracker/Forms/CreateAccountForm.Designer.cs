@@ -1,7 +1,7 @@
 ﻿
-namespace WindowsFormsApp2
+namespace ExpensesTracker.Forms
 {
-    partial class AddNewAccount
+    partial class CreateAccountForm
     {
         /// <summary>
         /// Required designer variable.
@@ -95,7 +95,7 @@ namespace WindowsFormsApp2
             this.CanceledAddAccount.UseVisualStyleBackColor = true;
             this.CanceledAddAccount.Click += new System.EventHandler(this.CanceledAddAccount_Click);
             // 
-            // AddNewAccount
+            // CreateAccountForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -106,8 +106,8 @@ namespace WindowsFormsApp2
             this.Controls.Add(this.label2);
             this.Controls.Add(this.newAccountNameTextBox);
             this.Controls.Add(this.label1);
-            this.Name = "AddNewAccount";
-            this.Text = "AddNewAccount";
+            this.Name = "CreateAccountForm";
+            this.Text = "CreateAccountForm";
             ((System.ComponentModel.ISupportInitialize)(this.initialBalanceInput)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

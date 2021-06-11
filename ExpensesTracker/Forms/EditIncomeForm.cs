@@ -1,18 +1,20 @@
-﻿using System;
+﻿using ExpensesTracker.Models;
+using System;
 using System.Windows.Forms;
 
-namespace WindowsFormsApp2
+namespace ExpensesTracker.Forms
 {
-    public partial class EditDataFormForIncome : Form
+    public partial class EditIncomeForm : Form
     {
         public Action OnIncomeEdit;
         public Action OnIncomeDeleted;
         public AccountOperation TargetIncome;
 
-        public EditDataFormForIncome()
+        public EditIncomeForm()
         {
             InitializeComponent();
         }
+
         private void EditDataFormForIncome_Load(object sender, EventArgs e)
         {
             IncomeCommentTextBox.Text = TargetIncome.Comment;
@@ -31,6 +33,7 @@ namespace WindowsFormsApp2
             TargetIncome.Comment = IncomeCommentTextBox.Text;
             TargetIncome.Amount = incomeAmountInput.Value;
             TargetIncome.Date = incomeDateInput.Value;
+
             OnIncomeEdit();
             this.Close();
         }

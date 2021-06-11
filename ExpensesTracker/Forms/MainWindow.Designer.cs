@@ -1,5 +1,5 @@
 ﻿
-namespace WindowsFormsApp2
+namespace ExpensesTracker.Forms
 {
     partial class MainWindow
     {
@@ -33,7 +33,7 @@ namespace WindowsFormsApp2
             this.openAddFormButton = new System.Windows.Forms.Button();
             this.categoryFilterBox = new System.Windows.Forms.ComboBox();
             this.searchNameInput = new System.Windows.Forms.TextBox();
-            this.expensesTable = new System.Windows.Forms.DataGridView();
+            this.operationsTable = new System.Windows.Forms.DataGridView();
             this.dateBox = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.categoryBox = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.amountBox = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -42,27 +42,27 @@ namespace WindowsFormsApp2
             this.endDateDisplay = new System.Windows.Forms.DateTimePicker();
             this.label1 = new System.Windows.Forms.Label();
             this.savePdfButton = new System.Windows.Forms.Button();
-            this.editExpensButton = new System.Windows.Forms.Button();
-            this.selectedAccountBox = new System.Windows.Forms.ComboBox();
-            this.accountBalance = new System.Windows.Forms.Label();
+            this.editOperationButton = new System.Windows.Forms.Button();
+            this.accountBox = new System.Windows.Forms.ComboBox();
+            this.accountBalanceLable = new System.Windows.Forms.Label();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.openAddAccountFormButton = new System.Windows.Forms.Button();
             this.editAccountButton = new System.Windows.Forms.Button();
             this.openAddIncomeFormButton = new System.Windows.Forms.Button();
             this.accountBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            ((System.ComponentModel.ISupportInitialize)(this.expensesTable)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.operationsTable)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.accountBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
-            // OpenAddFormButton
+            // openAddFormButton
             // 
             this.openAddFormButton.Location = new System.Drawing.Point(502, 199);
-            this.openAddFormButton.Name = "OpenAddForm";
+            this.openAddFormButton.Name = "openAddFormButton";
             this.openAddFormButton.Size = new System.Drawing.Size(75, 22);
             this.openAddFormButton.TabIndex = 0;
             this.openAddFormButton.Text = "Add expenes";
             this.openAddFormButton.UseVisualStyleBackColor = true;
-            this.openAddFormButton.Click += new System.EventHandler(this.AddExpenseForm_Click);
+            this.openAddFormButton.Click += new System.EventHandler(this.CreateExpenseForm_Click);
             // 
             // categoryFilterBox
             // 
@@ -88,25 +88,26 @@ namespace WindowsFormsApp2
             this.searchNameInput.TabIndex = 3;
             this.searchNameInput.TextChanged += new System.EventHandler(this.CommentSearch_TextChanged);
             // 
-            // expensesTable
+            // operationsTable
             // 
-            this.expensesTable.AllowUserToAddRows = false;
-            this.expensesTable.BackgroundColor = System.Drawing.SystemColors.Control;
-            this.expensesTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.expensesTable.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.operationsTable.AllowUserToAddRows = false;
+            this.operationsTable.BackgroundColor = System.Drawing.SystemColors.Control;
+            this.operationsTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.operationsTable.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dateBox,
             this.categoryBox,
             this.amountBox,
             this.commentBox});
-            this.expensesTable.Location = new System.Drawing.Point(24, 142);
-            this.expensesTable.Name = "expensesTable";
-            this.expensesTable.RowHeadersVisible = false;
-            this.expensesTable.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.expensesTable.Size = new System.Drawing.Size(434, 217);
-            this.expensesTable.TabIndex = 4;
-            this.expensesTable.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.ExpensesTable_CellContentDoubleClick);
+            this.operationsTable.Location = new System.Drawing.Point(24, 142);
+            this.operationsTable.MultiSelect = false;
+            this.operationsTable.Name = "operationsTable";
+            this.operationsTable.RowHeadersVisible = false;
+            this.operationsTable.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.operationsTable.Size = new System.Drawing.Size(434, 217);
+            this.operationsTable.TabIndex = 4;
+            this.operationsTable.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.ExpensesTable_CellContentDoubleClick);
             // 
-            // DateBox
+            // dateBox
             // 
             this.dateBox.DataPropertyName = "Date";
             this.dateBox.HeaderText = "Date";
@@ -114,7 +115,7 @@ namespace WindowsFormsApp2
             this.dateBox.ReadOnly = true;
             this.dateBox.Width = 90;
             // 
-            // CategoryBox
+            // categoryBox
             // 
             this.categoryBox.DataPropertyName = "Category";
             this.categoryBox.HeaderText = "Category";
@@ -146,7 +147,7 @@ namespace WindowsFormsApp2
             this.startDateDisplay.Name = "startDateDisplay";
             this.startDateDisplay.Size = new System.Drawing.Size(91, 20);
             this.startDateDisplay.TabIndex = 5;
-            startDateDisplay.Value = new System.DateTime(System.DateTime.Now.Year, System.DateTime.Now.Month, System.DateTime.MinValue.Day);
+            this.startDateDisplay.Value = new System.DateTime(2021, 6, 1, 0, 0, 0, 0);
             this.startDateDisplay.ValueChanged += new System.EventHandler(this.DateTimePicker1_ValueChanged);
             // 
             // endDateDisplay
@@ -157,7 +158,7 @@ namespace WindowsFormsApp2
             this.endDateDisplay.Name = "endDateDisplay";
             this.endDateDisplay.Size = new System.Drawing.Size(95, 20);
             this.endDateDisplay.TabIndex = 6;
-            this.endDateDisplay.Value = new System.DateTime(System.DateTime.Now.Year, System.DateTime.Now.Month, System.DateTime.Now.Day, 23, 59, 0, 0);
+            this.endDateDisplay.Value = new System.DateTime(2021, 6, 9, 23, 59, 0, 0);
             this.endDateDisplay.ValueChanged += new System.EventHandler(this.DateTimePicker2_ValueChanged);
             // 
             // label1
@@ -180,48 +181,48 @@ namespace WindowsFormsApp2
             this.savePdfButton.UseVisualStyleBackColor = true;
             this.savePdfButton.Click += new System.EventHandler(this.SavePdfButton_Click);
             // 
-            // editExpensButton
+            // editOperationButton
             // 
-            this.editExpensButton.Location = new System.Drawing.Point(502, 248);
-            this.editExpensButton.Name = "editExpensButton";
-            this.editExpensButton.Size = new System.Drawing.Size(75, 23);
-            this.editExpensButton.TabIndex = 9;
-            this.editExpensButton.Text = "Edit";
-            this.editExpensButton.UseVisualStyleBackColor = true;
-            this.editExpensButton.Click += new System.EventHandler(this.EditExpensButton_Click);
+            this.editOperationButton.Location = new System.Drawing.Point(502, 248);
+            this.editOperationButton.Name = "editOperationButton";
+            this.editOperationButton.Size = new System.Drawing.Size(75, 23);
+            this.editOperationButton.TabIndex = 9;
+            this.editOperationButton.Text = "Edit";
+            this.editOperationButton.UseVisualStyleBackColor = true;
+            this.editOperationButton.Click += new System.EventHandler(this.EditOperationButton_Click);
             // 
-            // selectedAccountBox
+            // accountBox
             // 
-            this.selectedAccountBox.FormattingEnabled = true;
-            this.selectedAccountBox.Location = new System.Drawing.Point(24, 12);
-            this.selectedAccountBox.Name = "selectedAccountBox";
-            this.selectedAccountBox.Size = new System.Drawing.Size(157, 21);
-            this.selectedAccountBox.TabIndex = 10;
-            this.selectedAccountBox.SelectedIndexChanged += new System.EventHandler(this.SelectedAccountBox_SelectedIndexChanged);
+            this.accountBox.FormattingEnabled = true;
+            this.accountBox.Location = new System.Drawing.Point(24, 12);
+            this.accountBox.Name = "accountBox";
+            this.accountBox.Size = new System.Drawing.Size(157, 21);
+            this.accountBox.TabIndex = 10;
+            this.accountBox.SelectedIndexChanged += new System.EventHandler(this.SelectedAccountBox_SelectedIndexChanged);
             // 
-            // accountBalance
+            // accountBalanceLable
             // 
-            this.accountBalance.AutoSize = true;
-            this.accountBalance.Location = new System.Drawing.Point(21, 54);
-            this.accountBalance.Name = "accountBalance";
-            this.accountBalance.Size = new System.Drawing.Size(35, 13);
-            this.accountBalance.TabIndex = 11;
-            this.accountBalance.Text = "label2";
+            this.accountBalanceLable.AutoSize = true;
+            this.accountBalanceLable.Location = new System.Drawing.Point(21, 54);
+            this.accountBalanceLable.Name = "accountBalanceLable";
+            this.accountBalanceLable.Size = new System.Drawing.Size(35, 13);
+            this.accountBalanceLable.TabIndex = 11;
+            this.accountBalanceLable.Text = "label2";
             // 
             // contextMenuStrip1
             // 
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
             // 
-            // addAccountFormButton
+            // openAddAccountFormButton
             // 
             this.openAddAccountFormButton.Location = new System.Drawing.Point(215, 9);
-            this.openAddAccountFormButton.Name = "addAccountForm";
+            this.openAddAccountFormButton.Name = "openAddAccountFormButton";
             this.openAddAccountFormButton.Size = new System.Drawing.Size(75, 23);
             this.openAddAccountFormButton.TabIndex = 15;
             this.openAddAccountFormButton.Text = "Add account";
             this.openAddAccountFormButton.UseVisualStyleBackColor = true;
-            this.openAddAccountFormButton.Click += new System.EventHandler(this.AddAccountForm_Click);
+            this.openAddAccountFormButton.Click += new System.EventHandler(this.CreateAccountForm_Click);
             // 
             // editAccountButton
             // 
@@ -233,19 +234,15 @@ namespace WindowsFormsApp2
             this.editAccountButton.UseVisualStyleBackColor = true;
             this.editAccountButton.Click += new System.EventHandler(this.EditAccountButton_Click);
             // 
-            // addIncomeFormButton
+            // openAddIncomeFormButton
             // 
             this.openAddIncomeFormButton.Location = new System.Drawing.Point(502, 151);
-            this.openAddIncomeFormButton.Name = "addIncomeForm";
+            this.openAddIncomeFormButton.Name = "openAddIncomeFormButton";
             this.openAddIncomeFormButton.Size = new System.Drawing.Size(75, 23);
             this.openAddIncomeFormButton.TabIndex = 17;
             this.openAddIncomeFormButton.Text = "Add Income";
             this.openAddIncomeFormButton.UseVisualStyleBackColor = true;
-            this.openAddIncomeFormButton.Click += new System.EventHandler(this.AddIncomeForm_Click);
-            // 
-            // accountBindingSource
-            // 
-            this.accountBindingSource.DataSource = typeof(WindowsFormsApp2.Account);
+            this.openAddIncomeFormButton.Click += new System.EventHandler(this.CreateIncomeForm_Click);
             // 
             // MainWindow
             // 
@@ -255,21 +252,21 @@ namespace WindowsFormsApp2
             this.Controls.Add(this.openAddIncomeFormButton);
             this.Controls.Add(this.editAccountButton);
             this.Controls.Add(this.openAddAccountFormButton);
-            this.Controls.Add(this.accountBalance);
-            this.Controls.Add(this.selectedAccountBox);
-            this.Controls.Add(this.editExpensButton);
+            this.Controls.Add(this.accountBalanceLable);
+            this.Controls.Add(this.accountBox);
+            this.Controls.Add(this.editOperationButton);
             this.Controls.Add(this.savePdfButton);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.endDateDisplay);
             this.Controls.Add(this.startDateDisplay);
-            this.Controls.Add(this.expensesTable);
+            this.Controls.Add(this.operationsTable);
             this.Controls.Add(this.searchNameInput);
             this.Controls.Add(this.categoryFilterBox);
             this.Controls.Add(this.openAddFormButton);
             this.Name = "MainWindow";
             this.Text = "Expense Tracker";
             this.Load += new System.EventHandler(this.MainWindow_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.expensesTable)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.operationsTable)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.accountBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -281,14 +278,14 @@ namespace WindowsFormsApp2
         public System.Windows.Forms.Button openAddFormButton;
         public System.Windows.Forms.ComboBox categoryFilterBox;
         public System.Windows.Forms.TextBox searchNameInput;
-        public System.Windows.Forms.DataGridView expensesTable;
+        public System.Windows.Forms.DataGridView operationsTable;
         private System.Windows.Forms.DateTimePicker startDateDisplay;
         private System.Windows.Forms.DateTimePicker endDateDisplay;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button savePdfButton;
-        private System.Windows.Forms.Button editExpensButton;
-        private System.Windows.Forms.ComboBox selectedAccountBox;
-        private System.Windows.Forms.Label accountBalance;
+        private System.Windows.Forms.Button editOperationButton;
+        private System.Windows.Forms.ComboBox accountBox;
+        private System.Windows.Forms.Label accountBalanceLable;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.Button openAddAccountFormButton;
         private System.Windows.Forms.Button editAccountButton;

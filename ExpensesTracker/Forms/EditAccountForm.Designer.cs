@@ -1,7 +1,7 @@
 ﻿
-namespace WindowsFormsApp2
+namespace ExpensesTracker.Forms
 {
-    partial class EditAccount
+    partial class EditAccountForm
     {
         /// <summary>
         /// Required designer variable.
@@ -106,7 +106,7 @@ namespace WindowsFormsApp2
             this.deleteAccountButton.UseVisualStyleBackColor = true;
             this.deleteAccountButton.Click += new System.EventHandler(this.DeleteAccountButton_Click);
             // 
-            // EditAccount
+            // EditAccountForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -118,8 +118,8 @@ namespace WindowsFormsApp2
             this.Controls.Add(this.label2);
             this.Controls.Add(this.editAccountNameInput);
             this.Controls.Add(this.label1);
-            this.Name = "EditAccount";
-            this.Text = "EditAccount";
+            this.Name = "EditAccountForm";
+            this.Text = "EditAccountForm";
             this.Load += new System.EventHandler(this.EditAccount_Load);
             ((System.ComponentModel.ISupportInitialize)(this.editInitialBalanceInput)).EndInit();
             this.ResumeLayout(false);

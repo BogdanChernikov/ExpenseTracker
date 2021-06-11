@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{A9792BF2-F062-4518-BBDB-0479FA0F745E}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>WindowsFormsApp2</RootNamespace>
-    <AssemblyName>WindowsFormsApp2</AssemblyName>
+    <RootNamespace>ExpensesTracker</RootNamespace>
+    <AssemblyName>ExpensesTracker</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -60,73 +60,75 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Account.cs" />
-    <Compile Include="AccountOperation.cs" />
-    <Compile Include="AddExpenseForm.cs">
+    <Compile Include="Services\PDFGenerator.cs" />
+    <Compile Include="Services\Storage.cs" />
+    <Compile Include="Models\Account.cs" />
+    <Compile Include="Models\AccountOperation.cs" />
+    <Compile Include="Forms\CreateExpenseForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AddExpenseForm.Designer.cs">
-      <DependentUpon>AddExpenseForm.cs</DependentUpon>
+    <Compile Include="Forms\CreateExpenseForm.Designer.cs">
+      <DependentUpon>CreateExpenseForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="AddNewAccount.cs">
+    <Compile Include="Forms\CreateAccountForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AddNewAccount.Designer.cs">
-      <DependentUpon>AddNewAccount.cs</DependentUpon>
+    <Compile Include="Forms\CreateAccountForm.Designer.cs">
+      <DependentUpon>CreateAccountForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="AddNewIncomeForm.cs">
+    <Compile Include="Forms\CreateIncomeForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AddNewIncomeForm.Designer.cs">
-      <DependentUpon>AddNewIncomeForm.cs</DependentUpon>
+    <Compile Include="Forms\CreateIncomeForm.Designer.cs">
+      <DependentUpon>CreateIncomeForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="EditAccount.cs">
+    <Compile Include="Forms\EditAccountForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="EditAccount.Designer.cs">
-      <DependentUpon>EditAccount.cs</DependentUpon>
+    <Compile Include="Forms\EditAccountForm.Designer.cs">
+      <DependentUpon>EditAccountForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="EditDataFormForExpense.cs">
+    <Compile Include="Forms\EditExpenseForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="EditDataFormForExpense.Designer.cs">
-      <DependentUpon>EditDataFormForExpense.cs</DependentUpon>
+    <Compile Include="Forms\EditExpenseForm.Designer.cs">
+      <DependentUpon>EditExpenseForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="EditDataFormForIncome.cs">
+    <Compile Include="Forms\EditIncomeForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="EditDataFormForIncome.Designer.cs">
-      <DependentUpon>EditDataFormForIncome.cs</DependentUpon>
+    <Compile Include="Forms\EditIncomeForm.Designer.cs">
+      <DependentUpon>EditIncomeForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="ExpenseCategorys.cs" />
-    <Compile Include="MainWindow.cs">
+    <Compile Include="Forms\MainWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MainWindow.Designer.cs">
+    <Compile Include="Forms\MainWindow.Designer.cs">
       <DependentUpon>MainWindow.cs</DependentUpon>
     </Compile>
-    <Compile Include="OperationType.cs" />
+    <Compile Include="Models\Enums\ExpenseCategory.cs" />
+    <Compile Include="Models\Enums\OperationType.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="AddExpenseForm.resx">
-      <DependentUpon>AddExpenseForm.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\CreateExpenseForm.resx">
+      <DependentUpon>CreateExpenseForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="AddNewAccount.resx">
-      <DependentUpon>AddNewAccount.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\CreateAccountForm.resx">
+      <DependentUpon>CreateAccountForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="AddNewIncomeForm.resx">
-      <DependentUpon>AddNewIncomeForm.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\CreateIncomeForm.resx">
+      <DependentUpon>CreateIncomeForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="EditAccount.resx">
-      <DependentUpon>EditAccount.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\EditAccountForm.resx">
+      <DependentUpon>EditAccountForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="EditDataFormForExpense.resx">
-      <DependentUpon>EditDataFormForExpense.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\EditExpenseForm.resx">
+      <DependentUpon>EditExpenseForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="EditDataFormForIncome.resx">
-      <DependentUpon>EditDataFormForIncome.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\EditIncomeForm.resx">
+      <DependentUpon>EditIncomeForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MainWindow.resx">
+    <EmbeddedResource Include="Forms\MainWindow.resx">
       <DependentUpon>MainWindow.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>

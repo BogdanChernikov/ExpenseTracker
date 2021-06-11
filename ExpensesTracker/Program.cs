@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using ExpensesTracker.Forms;
+using System;
 using System.Windows.Forms;
 
-namespace WindowsFormsApp2
+namespace ExpensesTracker
 {
     static class Program
     {

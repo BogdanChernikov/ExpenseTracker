@@ -1,7 +1,7 @@
 ﻿
-namespace WindowsFormsApp2
+namespace ExpensesTracker.Forms
 {
-    partial class EditDataFormForIncome
+    partial class EditIncomeForm
     {
         /// <summary>
         /// Required designer variable.
@@ -124,7 +124,7 @@ namespace WindowsFormsApp2
             this.deleteTargetIncomeButton.UseVisualStyleBackColor = true;
             this.deleteTargetIncomeButton.Click += new System.EventHandler(this.DeleteTargetIncomeButton_Click);
             // 
-            // EditDataFormForIncome
+            // EditIncomeForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -138,8 +138,8 @@ namespace WindowsFormsApp2
             this.Controls.Add(this.label2);
             this.Controls.Add(this.IncomeCommentTextBox);
             this.Controls.Add(this.label1);
-            this.Name = "EditDataFormForIncome";
-            this.Text = "EditDataFormForIncome";
+            this.Name = "EditIncomeForm";
+            this.Text = "EditIncomeForm";
             this.Load += new System.EventHandler(this.EditDataFormForIncome_Load);
             ((System.ComponentModel.ISupportInitialize)(this.incomeAmountInput)).EndInit();
             this.ResumeLayout(false);

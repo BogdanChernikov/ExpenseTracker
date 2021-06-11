@@ -1,6 +1,6 @@
-﻿namespace WindowsFormsApp2
+﻿namespace ExpensesTracker.Models.Enums
 {
-    public enum ExpenseCategorys
+    public enum ExpenseCategory
     {
         Traffic,
         Utilities,

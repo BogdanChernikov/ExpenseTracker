@@ -1,4 +1,4 @@
-﻿namespace WindowsFormsApp2
+﻿namespace ExpensesTracker.Models.Enums
 {
     public enum OperationType
     {

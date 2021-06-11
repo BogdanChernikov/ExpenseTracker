@@ -1,13 +1,14 @@
-﻿using System;
+﻿using ExpensesTracker.Models;
+using System;
 using System.Windows.Forms;
 
-namespace WindowsFormsApp2
+namespace ExpensesTracker.Forms
 {
-    public partial class AddNewIncomeForm : Form
+    public partial class CreateIncomeForm : Form
     {
         public Action<AccountOperation> OnIncomeAdded;
 
-        public AddNewIncomeForm()
+        public CreateIncomeForm()
         {
             InitializeComponent();
         }
@@ -23,7 +24,7 @@ namespace WindowsFormsApp2
             income.Amount = incomeAmountInput.Value;
             income.Comment = incomeCommentTextBox.Text;
             income.Date = incomeDateInput.Value;
-            income.Type = OperationType.Income;
+
             OnIncomeAdded(income);
             this.Close();
         }

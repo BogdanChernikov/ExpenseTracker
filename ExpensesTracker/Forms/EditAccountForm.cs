@@ -1,16 +1,17 @@
-﻿using System;
+﻿using ExpensesTracker.Models;
+using System;
 using System.Windows.Forms;
 
-namespace WindowsFormsApp2
+namespace ExpensesTracker.Forms
 {
-    public partial class EditAccount : Form
+    public partial class EditAccountForm : Form
     {
         public Action OnAccountEdit;
         public Action OnAccountDeleted;
         public Account TargetAccountForEdit;
 
 
-        public EditAccount()
+        public EditAccountForm()
         {
             InitializeComponent();
         }
@@ -25,6 +26,7 @@ namespace WindowsFormsApp2
         {
             TargetAccountForEdit.Name = editAccountNameInput.Text;
             TargetAccountForEdit.InitialBalance = editInitialBalanceInput.Value;
+
             OnAccountEdit();
             this.Close();
         }

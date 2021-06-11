@@ -1,15 +1,16 @@
-﻿using System;
+﻿using ExpensesTracker.Models;
+using System;
 using System.Windows.Forms;
 
-namespace WindowsFormsApp2
+namespace ExpensesTracker.Forms
 {
-    public partial class EditDataFormForExpense : Form
+    public partial class EditExpenseForm : Form
     {
         public Action OnExpenseEdit;
         public Action OnExpenseDeleted;
         public AccountOperation TargetExpense;
 
-        public EditDataFormForExpense()
+        public EditExpenseForm()
         {
             InitializeComponent();
         }
@@ -39,6 +40,7 @@ namespace WindowsFormsApp2
             TargetExpense.Comment = commentInput.Text;
             TargetExpense.Category = Convert.ToString(expenseCategoryBox.SelectedItem);
             TargetExpense.Date = expenseDatePicker.Value;
+
             OnExpenseEdit();
             this.Close();
         }
