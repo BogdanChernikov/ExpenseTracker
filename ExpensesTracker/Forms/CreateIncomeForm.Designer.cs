@@ -79,10 +79,13 @@ namespace ExpensesTracker.Forms
             // 
             // incomeDateInput
             // 
+            this.incomeDateInput.CustomFormat = "dd:MM:yyyy";
+            this.incomeDateInput.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.incomeDateInput.Location = new System.Drawing.Point(31, 211);
             this.incomeDateInput.Name = "incomeDateInput";
             this.incomeDateInput.Size = new System.Drawing.Size(121, 20);
             this.incomeDateInput.TabIndex = 8;
+            this.incomeDateInput.Value = new System.DateTime(2021, 6, 11, 21, 7, 0, 0);
             // 
             // label3
             // 

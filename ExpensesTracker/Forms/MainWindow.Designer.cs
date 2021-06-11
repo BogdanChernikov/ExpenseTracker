@@ -1,4 +1,6 @@
 ﻿
+using System;
+
 namespace ExpensesTracker.Forms
 {
     partial class MainWindow
@@ -105,7 +107,7 @@ namespace ExpensesTracker.Forms
             this.operationsTable.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.operationsTable.Size = new System.Drawing.Size(434, 217);
             this.operationsTable.TabIndex = 4;
-            this.operationsTable.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.ExpensesTable_CellContentDoubleClick);
+            this.operationsTable.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.OperationsTable_CellContentDoubleClick);
             // 
             // dateBox
             // 
@@ -158,7 +160,8 @@ namespace ExpensesTracker.Forms
             this.endDateDisplay.Name = "endDateDisplay";
             this.endDateDisplay.Size = new System.Drawing.Size(95, 20);
             this.endDateDisplay.TabIndex = 6;
-            this.endDateDisplay.Value = new System.DateTime(2021, 6, 9, 23, 59, 0, 0);
+            this.endDateDisplay.Value = new System.DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day,
+                DateTime.MaxValue.Hour, DateTime.MaxValue.Minute, DateTime.Now.Second, DateTime.Now.Millisecond);
             this.endDateDisplay.ValueChanged += new System.EventHandler(this.DateTimePicker2_ValueChanged);
             // 
             // label1
@@ -198,7 +201,7 @@ namespace ExpensesTracker.Forms
             this.accountBox.Name = "accountBox";
             this.accountBox.Size = new System.Drawing.Size(157, 21);
             this.accountBox.TabIndex = 10;
-            this.accountBox.SelectedIndexChanged += new System.EventHandler(this.SelectedAccountBox_SelectedIndexChanged);
+            this.accountBox.SelectedIndexChanged += (SelectedAccountBox_SelectedIndexChanged);
             // 
             // accountBalanceLable
             // 
