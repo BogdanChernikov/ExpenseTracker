@@ -1,4 +1,5 @@
-﻿
+﻿using System;
+
 namespace ExpensesTracker.Forms
 {
     partial class CreateIncomeForm
@@ -85,7 +86,8 @@ namespace ExpensesTracker.Forms
             this.incomeDateInput.Name = "incomeDateInput";
             this.incomeDateInput.Size = new System.Drawing.Size(121, 20);
             this.incomeDateInput.TabIndex = 8;
-            this.incomeDateInput.Value = new System.DateTime(2021, 6, 11, 21, 7, 0, 0);
+            this.incomeDateInput.Value = new System.DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day,
+                DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second, DateTime.Now.Millisecond);
             // 
             // label3
             // 

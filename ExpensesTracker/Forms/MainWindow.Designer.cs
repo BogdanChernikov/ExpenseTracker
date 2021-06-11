@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 
 namespace ExpensesTracker.Forms
 {
@@ -149,7 +148,8 @@ namespace ExpensesTracker.Forms
             this.startDateDisplay.Name = "startDateDisplay";
             this.startDateDisplay.Size = new System.Drawing.Size(91, 20);
             this.startDateDisplay.TabIndex = 5;
-            this.startDateDisplay.Value = new System.DateTime(2021, 6, 1, 0, 0, 0, 0);
+            this.startDateDisplay.Value = new System.DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.MinValue.Day,
+                DateTime.MinValue.Hour, DateTime.MinValue.Minute, DateTime.MinValue.Second, DateTime.MinValue.Millisecond);
             this.startDateDisplay.ValueChanged += new System.EventHandler(this.DateTimePicker1_ValueChanged);
             // 
             // endDateDisplay
