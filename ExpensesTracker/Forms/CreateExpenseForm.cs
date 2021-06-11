@@ -23,23 +23,37 @@ namespace ExpensesTracker.Forms
             var expense = new AccountOperation();
             expense.Amount = Convert.ToDecimal(PriceInput.Value);
             expense.Comment = commentInput.Text;
-
-            if (Convert.ToString(newCostCategory.SelectedItem) == "Traffic")
-                expense.Category = "Traffic";
-            if (Convert.ToString(newCostCategory.SelectedItem) == "Utilities")
-                expense.Category = "Utilities";
-            if (Convert.ToString(newCostCategory.SelectedItem) == "Services Communication")
-                expense.Category = "ServicesCommunication";
-            if (Convert.ToString(newCostCategory.SelectedItem) == "Medicines And Hygiene Products")
-                expense.Category = "MedicinesAndHygieneProducts";
-            if (Convert.ToString(newCostCategory.SelectedItem) == "Food")
-                expense.Category = "Food";
-
+            expense.Category = GetSelectedCategory();
             expense.Date = newCostDate.Value.Date;
+
+            if (expense.Category == null)
+            {
+                MessageBox.Show(@"You don't select a category.To save the expense, select the expense category");
+                return;
+            }
 
             OnExpenseAdded(expense);
 
             this.Close();
+        }
+
+        private string GetSelectedCategory()
+        {
+            switch (Convert.ToString(newCostCategory.SelectedItem))
+            {
+                case "Traffic":
+                    return "Traffic";
+                case "Utilities":
+                    return "Utilities";
+                case "Services Communication":
+                    return "ServicesCommunication";
+                case "Medicines And Hygiene Products":
+                    return "MedicinesAndHygieneProducts";
+                case "Food":
+                    return "Food";
+                default:
+                    return null;
+            }
         }
     }
 }

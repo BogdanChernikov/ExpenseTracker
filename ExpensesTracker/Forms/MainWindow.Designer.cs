@@ -33,7 +33,7 @@ namespace ExpensesTracker.Forms
             this.openAddFormButton = new System.Windows.Forms.Button();
             this.categoryFilterBox = new System.Windows.Forms.ComboBox();
             this.searchNameInput = new System.Windows.Forms.TextBox();
-            this.expensesTable = new System.Windows.Forms.DataGridView();
+            this.operationsTable = new System.Windows.Forms.DataGridView();
             this.dateBox = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.categoryBox = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.amountBox = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -42,7 +42,7 @@ namespace ExpensesTracker.Forms
             this.endDateDisplay = new System.Windows.Forms.DateTimePicker();
             this.label1 = new System.Windows.Forms.Label();
             this.savePdfButton = new System.Windows.Forms.Button();
-            this.editExpenseButton = new System.Windows.Forms.Button();
+            this.editOperationButton = new System.Windows.Forms.Button();
             this.accountBox = new System.Windows.Forms.ComboBox();
             this.accountBalanceLable = new System.Windows.Forms.Label();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -50,7 +50,7 @@ namespace ExpensesTracker.Forms
             this.editAccountButton = new System.Windows.Forms.Button();
             this.openAddIncomeFormButton = new System.Windows.Forms.Button();
             this.accountBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            ((System.ComponentModel.ISupportInitialize)(this.expensesTable)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.operationsTable)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.accountBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
@@ -88,24 +88,24 @@ namespace ExpensesTracker.Forms
             this.searchNameInput.TabIndex = 3;
             this.searchNameInput.TextChanged += new System.EventHandler(this.CommentSearch_TextChanged);
             // 
-            // expensesTable
+            // operationsTable
             // 
-            this.expensesTable.AllowUserToAddRows = false;
-            this.expensesTable.BackgroundColor = System.Drawing.SystemColors.Control;
-            this.expensesTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.expensesTable.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.operationsTable.AllowUserToAddRows = false;
+            this.operationsTable.BackgroundColor = System.Drawing.SystemColors.Control;
+            this.operationsTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.operationsTable.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dateBox,
             this.categoryBox,
             this.amountBox,
             this.commentBox});
-            this.expensesTable.Location = new System.Drawing.Point(24, 142);
-            this.expensesTable.MultiSelect = false;
-            this.expensesTable.Name = "expensesTable";
-            this.expensesTable.RowHeadersVisible = false;
-            this.expensesTable.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.expensesTable.Size = new System.Drawing.Size(434, 217);
-            this.expensesTable.TabIndex = 4;
-            this.expensesTable.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.ExpensesTable_CellContentDoubleClick);
+            this.operationsTable.Location = new System.Drawing.Point(24, 142);
+            this.operationsTable.MultiSelect = false;
+            this.operationsTable.Name = "operationsTable";
+            this.operationsTable.RowHeadersVisible = false;
+            this.operationsTable.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.operationsTable.Size = new System.Drawing.Size(434, 217);
+            this.operationsTable.TabIndex = 4;
+            this.operationsTable.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.ExpensesTable_CellContentDoubleClick);
             // 
             // dateBox
             // 
@@ -181,15 +181,15 @@ namespace ExpensesTracker.Forms
             this.savePdfButton.UseVisualStyleBackColor = true;
             this.savePdfButton.Click += new System.EventHandler(this.SavePdfButton_Click);
             // 
-            // editExpenseButton
+            // editOperationButton
             // 
-            this.editExpenseButton.Location = new System.Drawing.Point(502, 248);
-            this.editExpenseButton.Name = "editExpenseButton";
-            this.editExpenseButton.Size = new System.Drawing.Size(75, 23);
-            this.editExpenseButton.TabIndex = 9;
-            this.editExpenseButton.Text = "Edit";
-            this.editExpenseButton.UseVisualStyleBackColor = true;
-            this.editExpenseButton.Click += new System.EventHandler(this.EditExpenseButton_Click);
+            this.editOperationButton.Location = new System.Drawing.Point(502, 248);
+            this.editOperationButton.Name = "editOperationButton";
+            this.editOperationButton.Size = new System.Drawing.Size(75, 23);
+            this.editOperationButton.TabIndex = 9;
+            this.editOperationButton.Text = "Edit";
+            this.editOperationButton.UseVisualStyleBackColor = true;
+            this.editOperationButton.Click += new System.EventHandler(this.EditOperationButton_Click);
             // 
             // accountBox
             // 
@@ -254,19 +254,19 @@ namespace ExpensesTracker.Forms
             this.Controls.Add(this.openAddAccountFormButton);
             this.Controls.Add(this.accountBalanceLable);
             this.Controls.Add(this.accountBox);
-            this.Controls.Add(this.editExpenseButton);
+            this.Controls.Add(this.editOperationButton);
             this.Controls.Add(this.savePdfButton);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.endDateDisplay);
             this.Controls.Add(this.startDateDisplay);
-            this.Controls.Add(this.expensesTable);
+            this.Controls.Add(this.operationsTable);
             this.Controls.Add(this.searchNameInput);
             this.Controls.Add(this.categoryFilterBox);
             this.Controls.Add(this.openAddFormButton);
             this.Name = "MainWindow";
             this.Text = "Expense Tracker";
             this.Load += new System.EventHandler(this.MainWindow_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.expensesTable)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.operationsTable)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.accountBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -278,12 +278,12 @@ namespace ExpensesTracker.Forms
         public System.Windows.Forms.Button openAddFormButton;
         public System.Windows.Forms.ComboBox categoryFilterBox;
         public System.Windows.Forms.TextBox searchNameInput;
-        public System.Windows.Forms.DataGridView expensesTable;
+        public System.Windows.Forms.DataGridView operationsTable;
         private System.Windows.Forms.DateTimePicker startDateDisplay;
         private System.Windows.Forms.DateTimePicker endDateDisplay;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button savePdfButton;
-        private System.Windows.Forms.Button editExpenseButton;
+        private System.Windows.Forms.Button editOperationButton;
         private System.Windows.Forms.ComboBox accountBox;
         private System.Windows.Forms.Label accountBalanceLable;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;

@@ -61,10 +61,10 @@ namespace ExpensesTracker.Forms
             this.label2.TabIndex = 6;
             this.label2.Text = "Enter amount of income";
             // 
-            // newIncomeCommentTextBox
+            // incomeCommentTextBox
             // 
             this.incomeCommentTextBox.Location = new System.Drawing.Point(32, 57);
-            this.incomeCommentTextBox.Name = "newIncomeCommentTextBox";
+            this.incomeCommentTextBox.Name = "incomeCommentTextBox";
             this.incomeCommentTextBox.Size = new System.Drawing.Size(128, 20);
             this.incomeCommentTextBox.TabIndex = 5;
             // 
@@ -103,10 +103,10 @@ namespace ExpensesTracker.Forms
             this.addIncomeButton.UseVisualStyleBackColor = true;
             this.addIncomeButton.Click += new System.EventHandler(this.AddIncomeButton_Click);
             // 
-            // closeAddIncomeButton
+            // closedFormButton
             // 
             this.closedFormButton.Location = new System.Drawing.Point(115, 264);
-            this.closedFormButton.Name = "closeAddIncomeButton";
+            this.closedFormButton.Name = "closedFormButton";
             this.closedFormButton.Size = new System.Drawing.Size(75, 23);
             this.closedFormButton.TabIndex = 11;
             this.closedFormButton.Text = "Cancel";

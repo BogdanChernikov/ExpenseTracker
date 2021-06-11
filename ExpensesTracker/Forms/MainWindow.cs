@@ -34,7 +34,7 @@ namespace ExpensesTracker.Forms
             accountBox.DisplayMember = "Name";
             accountBox.SelectedIndex = 0;
 
-            expensesTable.AutoGenerateColumns = false;
+            operationsTable.AutoGenerateColumns = false;
             categoryFilterBox.SelectedItem = "All amount";
         }
 
@@ -102,10 +102,10 @@ namespace ExpensesTracker.Forms
 
         public void ActualizeTableRecords()
         {
-            expensesTable.DataSource = null;
-            expensesTable.DataSource = _filteredOperations;
-            expensesTable.Columns[4].Visible = false;
-            expensesTable.Columns[5].Visible = false;
+            operationsTable.DataSource = null;
+            operationsTable.DataSource = _filteredOperations;
+            operationsTable.Columns[4].Visible = false;
+            operationsTable.Columns[5].Visible = false;
         }
 
         private void ColorTable()
@@ -114,12 +114,12 @@ namespace ExpensesTracker.Forms
             {
                 if (_filteredOperations[i].Type == OperationType.Expense)
                 {
-                    expensesTable.Rows[i].DefaultCellStyle.BackColor = Color.Red;
+                    operationsTable.Rows[i].DefaultCellStyle.BackColor = Color.Red;
                 }
 
                 if (_filteredOperations[i].Type == OperationType.Income)
                 {
-                    expensesTable.Rows[i].DefaultCellStyle.BackColor = Color.Green;
+                    operationsTable.Rows[i].DefaultCellStyle.BackColor = Color.Green;
                 }
             }
         }
@@ -223,16 +223,9 @@ namespace ExpensesTracker.Forms
             {
                 OnExpenseAdded = (expense) =>
                 {
-                    if (expense.Category == null)
-                    {
-                        MessageBox.Show(@"You don't select a category.To save the expense, select the expense category");
-                    }
-                    else
-                    {
-                        expense.Account = TargetAccount;
-                        _accountOperations.Add(expense);
-                        RefreshData();
-                    }
+                    expense.Account = TargetAccount;
+                    _accountOperations.Add(expense);
+                    RefreshData();
                 }
             };
             createExpenseForm.Show();
@@ -243,9 +236,9 @@ namespace ExpensesTracker.Forms
             EditOperation();
         }
 
-        private void EditExpenseButton_Click(object sender, EventArgs e)
+        private void EditOperationButton_Click(object sender, EventArgs e)
         {
-            if (expensesTable.SelectedRows.Count == 0)
+            if (operationsTable.SelectedRows.Count == 0)
             {
                 MessageBox.Show(@"You have not selected any operations");
                 return;
@@ -255,7 +248,7 @@ namespace ExpensesTracker.Forms
 
         private void EditOperation()
         {
-            var operation = expensesTable.SelectedRows[0].DataBoundItem as AccountOperation;
+            var operation = operationsTable.SelectedRows[0].DataBoundItem as AccountOperation;
             if (operation == null)
                 return;
 
