@@ -222,8 +222,8 @@ namespace ExpensesTracker.Forms
                         CreateDefaultAccount();
 
                     accountBox.SelectedIndex = 0;
-                    RefreshData();
                     RefreshAccountsData();
+                    RefreshData();
                 }
             };
             editAccountForm.Show();
