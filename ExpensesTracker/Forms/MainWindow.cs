@@ -119,7 +119,6 @@ namespace ExpensesTracker.Forms
         {
             operationsTable.DataSource = null;
             operationsTable.DataSource = _filteredOperations;
-            operationsTable.Columns[4].Visible = false;
         }
 
         private void ColorTable()
