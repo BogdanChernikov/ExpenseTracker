@@ -37,7 +37,6 @@ namespace ExpensesTracker.Forms
 
             operationsTable.AutoGenerateColumns = false;
 
-            accountBox.SelectedIndexChanged -= (SelectedAccountBox_SelectedIndexChanged);
             accountBox.SelectedIndex = 0;
             accountBox.SelectedIndexChanged += (SelectedAccountBox_SelectedIndexChanged);
 
@@ -77,7 +76,7 @@ namespace ExpensesTracker.Forms
             ShowTable();
         }
 
-        public void SelectedAccountBox_SelectedIndexChanged(object sender, EventArgs e)
+        private void SelectedAccountBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             ShowTable();
             ShowBalance();
@@ -116,7 +115,7 @@ namespace ExpensesTracker.Forms
             ShowBalance();
         }
 
-        public void ActualizeTableRecords()
+        private void ActualizeTableRecords()
         {
             operationsTable.DataSource = null;
             operationsTable.DataSource = _filteredOperations;
@@ -162,7 +161,7 @@ namespace ExpensesTracker.Forms
             accountBox.SelectedItem = _accounts.First();
         }
 
-        public void ShowBalance()
+        private void ShowBalance()
         {
             var expensesSum = AccountOperations
                 .Where(x => x.Type == OperationType.Expense)
