@@ -201,8 +201,7 @@ namespace ExpensesTracker.Forms
             this.accountBox.Name = "accountBox";
             this.accountBox.Size = new System.Drawing.Size(157, 21);
             this.accountBox.TabIndex = 10;
-            this.accountBox.SelectedIndexChanged += (SelectedAccountBox_SelectedIndexChanged);
-            // 
+            this.accountBox.SelectedIndexChanged += new System.EventHandler(this.SelectedAccountBox_SelectedIndexChanged);            // 
             // accountBalanceLable
             // 
             this.accountBalanceLable.AutoSize = true;

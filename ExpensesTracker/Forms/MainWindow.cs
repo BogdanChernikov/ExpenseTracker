@@ -28,7 +28,8 @@ namespace ExpensesTracker.Forms
         {
             _accounts = _storage.GetAccounts();
 
-            CreateDefaultAccount();
+            if (!_accounts.Any())
+                CreateDefaultAccount();
 
             accountBox.DataSource = null;
             accountBox.DataSource = _accounts;
@@ -36,23 +37,24 @@ namespace ExpensesTracker.Forms
 
             operationsTable.AutoGenerateColumns = false;
 
+            accountBox.SelectedIndexChanged -= (SelectedAccountBox_SelectedIndexChanged);
             accountBox.SelectedIndex = 0;
+            accountBox.SelectedIndexChanged += (SelectedAccountBox_SelectedIndexChanged);
 
             categoryFilterBox.SelectedItem = "All amount";
+
             ShowBalance();
+            ShowTable();
         }
 
         private void CreateDefaultAccount()
         {
-            if (_accounts.Count == 0)
+            _accounts.Add(new Account()
             {
-                _accounts.Add(new Account()
-                {
-                    Name = "Main",
-                    InitialBalance = 0,
-                    AccountOperations = new List<AccountOperation>()
-                });
-            }
+                Name = "Main",
+                InitialBalance = 0,
+                AccountOperations = new List<AccountOperation>()
+            });
         }
 
         private void CategoryFilter_SelectedIndexChanged(object sender, EventArgs e)
@@ -106,9 +108,8 @@ namespace ExpensesTracker.Forms
             _filteredOperations = _filteredOperations.Where(x => x.Date <= endDateDisplay.Value).ToList();
         }
 
-        public void RefreshData()
+        private void RefreshData()
         {
-            TargetAccount.AccountOperations = AccountOperations;
             _storage.SaveChanges(_accounts);
 
             ShowTable();
@@ -153,10 +154,12 @@ namespace ExpensesTracker.Forms
 
         private void RefreshAccountsData()
         {
+            accountBox.SelectedIndexChanged -= (SelectedAccountBox_SelectedIndexChanged);
             accountBox.DataSource = null;
             accountBox.DataSource = _accounts;
             accountBox.DisplayMember = "Name";
-            accountBox.SelectedItem = TargetAccount;
+            accountBox.SelectedIndexChanged += (SelectedAccountBox_SelectedIndexChanged);
+            accountBox.SelectedItem = _accounts.First();
         }
 
         public void ShowBalance()
@@ -214,7 +217,10 @@ namespace ExpensesTracker.Forms
                 OnAccountDeleted = () =>
                 {
                     _accounts.Remove(TargetAccount);
-                    CreateDefaultAccount();
+
+                    if (!_accounts.Any())
+                        CreateDefaultAccount();
+
                     accountBox.SelectedIndex = 0;
                     RefreshData();
                     RefreshAccountsData();

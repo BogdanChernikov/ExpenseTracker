@@ -20,10 +20,17 @@ namespace ExpensesTracker.Services
 
         public List<Account> GetAccounts()
         {
-            var serializer = new XmlSerializer(typeof(List<Account>));
-            using (var stream = new FileStream(AccountsFileName, FileMode.Open))
+            try
             {
-                return (List<Account>)serializer.Deserialize(stream);
+                var serializer = new XmlSerializer(typeof(List<Account>));
+                using (var stream = new FileStream(AccountsFileName, FileMode.Open))
+                {
+                    return (List<Account>)serializer.Deserialize(stream);
+                }
+            }
+            catch
+            {
+                return new List<Account>();
             }
         }
     }
