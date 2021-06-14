@@ -79,7 +79,6 @@ namespace ExpensesTracker.Forms
             this.categoryFilterBox.Name = "categoryFilterBox";
             this.categoryFilterBox.Size = new System.Drawing.Size(122, 21);
             this.categoryFilterBox.TabIndex = 2;
-            this.categoryFilterBox.SelectedIndexChanged += new System.EventHandler(this.CategoryFilter_SelectedIndexChanged);
             // 
             // searchNameInput
             // 
@@ -148,8 +147,7 @@ namespace ExpensesTracker.Forms
             this.startDateDisplay.Name = "startDateDisplay";
             this.startDateDisplay.Size = new System.Drawing.Size(91, 20);
             this.startDateDisplay.TabIndex = 5;
-            this.startDateDisplay.Value = new System.DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.MinValue.Day,
-                DateTime.MinValue.Hour, DateTime.MinValue.Minute, DateTime.MinValue.Second, DateTime.MinValue.Millisecond);
+            this.startDateDisplay.Value = new System.DateTime(2021, 6, 1, 0, 0, 0, 0);
             this.startDateDisplay.ValueChanged += new System.EventHandler(this.DateTimePicker1_ValueChanged);
             // 
             // endDateDisplay
@@ -160,8 +158,7 @@ namespace ExpensesTracker.Forms
             this.endDateDisplay.Name = "endDateDisplay";
             this.endDateDisplay.Size = new System.Drawing.Size(95, 20);
             this.endDateDisplay.TabIndex = 6;
-            this.endDateDisplay.Value = new System.DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day,
-                DateTime.MaxValue.Hour, DateTime.MaxValue.Minute, DateTime.Now.Second, DateTime.Now.Millisecond);
+            this.endDateDisplay.Value = new System.DateTime(2021, 6, 13, 23, 59, 33, 55);
             this.endDateDisplay.ValueChanged += new System.EventHandler(this.DateTimePicker2_ValueChanged);
             // 
             // label1

@@ -38,9 +38,10 @@ namespace ExpensesTracker.Forms
             operationsTable.AutoGenerateColumns = false;
 
             accountBox.SelectedIndex = 0;
-            accountBox.SelectedIndexChanged += (SelectedAccountBox_SelectedIndexChanged);
+            accountBox.SelectedIndexChanged += SelectedAccountBox_SelectedIndexChanged;
 
             categoryFilterBox.SelectedItem = "All amount";
+            categoryFilterBox.SelectedIndexChanged += CategoryFilter_SelectedIndexChanged;
 
             ShowBalance();
             ShowTable();
