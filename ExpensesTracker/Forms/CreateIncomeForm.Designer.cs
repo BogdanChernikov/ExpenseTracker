@@ -1,4 +1,5 @@
-﻿
+﻿using System;
+
 namespace ExpensesTracker.Forms
 {
     partial class CreateIncomeForm
@@ -79,10 +80,14 @@ namespace ExpensesTracker.Forms
             // 
             // incomeDateInput
             // 
+            this.incomeDateInput.CustomFormat = "dd:MM:yyyy";
+            this.incomeDateInput.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.incomeDateInput.Location = new System.Drawing.Point(31, 211);
             this.incomeDateInput.Name = "incomeDateInput";
             this.incomeDateInput.Size = new System.Drawing.Size(121, 20);
             this.incomeDateInput.TabIndex = 8;
+            this.incomeDateInput.Value = new System.DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day,
+                DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second, DateTime.Now.Millisecond);
             // 
             // label3
             // 

@@ -20,11 +20,13 @@ namespace ExpensesTracker.Forms
 
         public void AddCostButton_Click(object sender, EventArgs e)
         {
-            var expense = new AccountOperation();
-            expense.Amount = Convert.ToDecimal(PriceInput.Value);
-            expense.Comment = commentInput.Text;
-            expense.Category = GetSelectedCategory();
-            expense.Date = newCostDate.Value.Date;
+            var expense = new AccountOperation
+            {
+                Amount = Convert.ToDecimal(PriceInput.Value),
+                Comment = commentInput.Text,
+                Category = GetSelectedCategory(),
+                Date = newCostDate.Value
+            };
 
             if (expense.Category == null)
             {

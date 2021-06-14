@@ -20,10 +20,12 @@ namespace ExpensesTracker.Forms
 
         public void AddIncomeButton_Click(object sender, EventArgs e)
         {
-            var income = new AccountOperation();
-            income.Amount = incomeAmountInput.Value;
-            income.Comment = incomeCommentTextBox.Text;
-            income.Date = incomeDateInput.Value;
+            var income = new AccountOperation
+            {
+                Amount = incomeAmountInput.Value,
+                Comment = incomeCommentTextBox.Text,
+                Date = incomeDateInput.Value
+            };
 
             OnIncomeAdded(income);
             this.Close();

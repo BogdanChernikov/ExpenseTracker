@@ -1,5 +1,6 @@
 ﻿using ExpensesTracker.Models;
 using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace ExpensesTracker.Forms
@@ -20,9 +21,12 @@ namespace ExpensesTracker.Forms
 
         private void AddNewAccountButton_Click(object sender, EventArgs e)
         {
-            var account = new Account();
-            account.InitialBalance = initialBalanceInput.Value;
-            account.Name = newAccountNameTextBox.Text;
+            var account = new Account
+            {
+                InitialBalance = initialBalanceInput.Value,
+                Name = newAccountNameTextBox.Text,
+                AccountOperations = new List<AccountOperation>()
+            };
             OnAccountAdded(account);
 
             this.Close();

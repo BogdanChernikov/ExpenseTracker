@@ -17,6 +17,7 @@ namespace ExpensesTracker.Forms
 
         private void EditDataForm_Load(object sender, EventArgs e)
         {
+            expenseCategoryBox.SelectedItem = TargetExpense.Category;
             expenseSumInput.Value = TargetExpense.Amount;
             commentInput.Text = TargetExpense.Comment;
             expenseCategoryBox.SelectedItem = TargetExpense.Category;
