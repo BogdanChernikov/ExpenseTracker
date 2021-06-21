@@ -44,7 +44,7 @@ namespace ExpensesTracker.Forms
             categoryFilterBox.SelectedIndexChanged += CategoryFilter_SelectedIndexChanged;
 
             ShowBalance();
-            ShowTable();
+
         }
 
         private void CreateDefaultAccount()
@@ -85,6 +85,7 @@ namespace ExpensesTracker.Forms
 
         private void FilterOperations()
         {
+
             _filteredOperations = TargetAccount.AccountOperations.ToList();
 
             //category Filtered
@@ -112,7 +113,7 @@ namespace ExpensesTracker.Forms
         {
             _storage.SaveChanges(_accounts);
 
-            ShowTable();
+            //ShowTable();
             ShowBalance();
         }
 
@@ -126,6 +127,8 @@ namespace ExpensesTracker.Forms
         {
             for (var i = 0; i < _filteredOperations.Count; i++)
             {
+                if (operationsTable.Rows.Count == 0)
+                    break;
                 if (_filteredOperations[i].Type == OperationType.Expense)
                 {
                     operationsTable.Rows[i].DefaultCellStyle.BackColor = Color.Red;
@@ -303,6 +306,153 @@ namespace ExpensesTracker.Forms
                 };
                 editIncomeForm.Show();
             }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Controls.Add(allCategorysFilterButton);
+            Controls.Add(trafficFilterButton);
+            Controls.Add(utilitiesFilterButton);
+            Controls.Add(medicinesAndHygieneProductsFilterButton);
+            Controls.Add(servicesCommunicationFilterButton);
+            Controls.Add(foodFilterButton);
+        }
+
+        private void trafficFilterButton_Click(object sender, EventArgs e)
+        {
+            Controls.Add(operationsTable);
+            Controls.Add(button1);
+            categoryFilterBox.SelectedItem = "Traffic";
+            ShowTable();
+            Controls.Remove(allCategorysFilterButton);
+            Controls.Remove(trafficFilterButton);
+            Controls.Remove(utilitiesFilterButton);
+            Controls.Remove(medicinesAndHygieneProductsFilterButton);
+            Controls.Remove(servicesCommunicationFilterButton);
+            Controls.Remove(foodFilterButton);
+            Controls.Remove(accountBalanceLable);
+            Controls.Remove(openCategorysButton);
+            endDateDisplay.Visible = true;
+            startDateDisplay.Visible = true;
+            searchNameInput.Visible = true;
+        }
+
+        private void medicinesAndHygieneProductsFilterButton_Click(object sender, EventArgs e)
+        {
+            Controls.Add(operationsTable);
+            Controls.Add(button1);
+            categoryFilterBox.SelectedItem = "MedicinesAndHygieneProducts";
+            ShowTable();
+            Controls.Remove(allCategorysFilterButton);
+            Controls.Remove(trafficFilterButton);
+            Controls.Remove(utilitiesFilterButton);
+            Controls.Remove(medicinesAndHygieneProductsFilterButton);
+            Controls.Remove(servicesCommunicationFilterButton);
+            Controls.Remove(foodFilterButton);
+            Controls.Remove(accountBalanceLable);
+            Controls.Remove(openCategorysButton);
+            endDateDisplay.Visible = true;
+            startDateDisplay.Visible = true;
+            searchNameInput.Visible = true;
+        }
+
+        private void utilitiesFilterButton_Click(object sender, EventArgs e)
+        {
+            Controls.Add(operationsTable);
+            Controls.Add(button1);
+            categoryFilterBox.SelectedItem = "Utilities";
+            ShowTable();
+            Controls.Remove(allCategorysFilterButton);
+            Controls.Remove(trafficFilterButton);
+            Controls.Remove(utilitiesFilterButton);
+            Controls.Remove(medicinesAndHygieneProductsFilterButton);
+            Controls.Remove(servicesCommunicationFilterButton);
+            Controls.Remove(foodFilterButton);
+            Controls.Remove(accountBalanceLable);
+            Controls.Remove(openCategorysButton);
+            endDateDisplay.Visible = true;
+            startDateDisplay.Visible = true;
+            searchNameInput.Visible = true;
+        }
+
+        private void allCategorysFilterButton_Click(object sender, EventArgs e)
+        {
+            Controls.Add(operationsTable);
+            Controls.Add(button1);
+            categoryFilterBox.SelectedItem = "All amount";
+            ShowTable();
+            Controls.Remove(allCategorysFilterButton);
+            Controls.Remove(trafficFilterButton);
+            Controls.Remove(utilitiesFilterButton);
+            Controls.Remove(medicinesAndHygieneProductsFilterButton);
+            Controls.Remove(servicesCommunicationFilterButton);
+            Controls.Remove(foodFilterButton);
+            Controls.Remove(accountBalanceLable);
+            Controls.Remove(openCategorysButton);
+            endDateDisplay.Visible = true;
+            startDateDisplay.Visible = true;
+            searchNameInput.Visible = true;
+        }
+
+        private void servicesCommunicationFilterButton_Click(object sender, EventArgs e)
+        {
+            Controls.Add(operationsTable);
+            Controls.Add(button1);
+            categoryFilterBox.SelectedItem = "ServicesCommunication";
+            ShowTable();
+            Controls.Remove(allCategorysFilterButton);
+            Controls.Remove(trafficFilterButton);
+            Controls.Remove(utilitiesFilterButton);
+            Controls.Remove(medicinesAndHygieneProductsFilterButton);
+            Controls.Remove(servicesCommunicationFilterButton);
+            Controls.Remove(foodFilterButton);
+            Controls.Remove(accountBalanceLable);
+            Controls.Remove(openCategorysButton);
+            endDateDisplay.Visible = true;
+            startDateDisplay.Visible = true;
+            searchNameInput.Visible = true;
+        }
+
+        private void foodFilterButton_Click(object sender, EventArgs e)
+        {
+            Controls.Add(operationsTable);
+            Controls.Add(button1);
+            categoryFilterBox.SelectedItem = "Food";
+            ShowTable();
+            Controls.Remove(allCategorysFilterButton);
+            Controls.Remove(trafficFilterButton);
+            Controls.Remove(utilitiesFilterButton);
+            Controls.Remove(medicinesAndHygieneProductsFilterButton);
+            Controls.Remove(servicesCommunicationFilterButton);
+            Controls.Remove(foodFilterButton);
+            Controls.Remove(accountBalanceLable);
+            Controls.Remove(openCategorysButton);
+            endDateDisplay.Visible = true;
+            startDateDisplay.Visible = true;
+            searchNameInput.Visible = true;
+        }
+
+        private void ButtonFiltered()
+        {
+            Controls.Add(operationsTable);
+
+            var chosenCategory = Convert.ToString(categoryFilterBox.SelectedItem);
+
+            if (chosenCategory != "All amount")
+            {
+                _filteredOperations = _filteredOperations.Where(x => Convert.ToString(x.Category) == chosenCategory).ToList();
+            }
+            ShowTable();
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            Controls.Remove(operationsTable);
+            Controls.Add(accountBalanceLable);
+            Controls.Add(openCategorysButton);
+            endDateDisplay.Visible = false;
+            startDateDisplay.Visible = false;
+            searchNameInput.Visible = false;
         }
     }
 }

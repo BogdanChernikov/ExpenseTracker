@@ -140,6 +140,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="packages.config" />
     <None Include="Properties\DataSources\Account.datasource" />
@@ -155,6 +156,57 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\add.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\delete-sign.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\lifecycle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\stack-of-money.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\stack-of-money %281%29.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\tax %281%29.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\plus--v1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pen--v1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pdf--v3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\unchecked-circle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\select-all.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\taxi--v1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\hamburger.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\cell-phone.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\doctors-bag.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\-ouse-keys.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\return--v1.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
