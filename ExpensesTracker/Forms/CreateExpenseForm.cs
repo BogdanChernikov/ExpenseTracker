@@ -11,6 +11,7 @@ namespace ExpensesTracker.Forms
         public CreateExpenseForm()
         {
             InitializeComponent();
+            newCostDate.Value = DateTime.Today;
         }
 
         private void CancelAddButton_Click(object sender, EventArgs e)

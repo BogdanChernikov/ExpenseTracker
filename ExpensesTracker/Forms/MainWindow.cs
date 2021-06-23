@@ -26,6 +26,11 @@ namespace ExpensesTracker.Forms
 
         private void MainWindow_Load(object sender, EventArgs e)
         {
+            startDateDisplay.Value = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+            endDateDisplay.Value = DateTime.Today;
+            startDateDisplay.ValueChanged += DateTimePicker1_ValueChanged;
+            endDateDisplay.ValueChanged += DateTimePicker2_ValueChanged;
+
             _accounts = _storage.GetAccounts();
 
             if (!_accounts.Any())
@@ -40,8 +45,10 @@ namespace ExpensesTracker.Forms
             accountBox.SelectedIndex = 0;
             accountBox.SelectedIndexChanged += SelectedAccountBox_SelectedIndexChanged;
 
-            categoryFilterBox.SelectedItem = "All amount";
+            categoryFilterBox.SelectedItem = "All categories";
             categoryFilterBox.SelectedIndexChanged += CategoryFilter_SelectedIndexChanged;
+
+            SetupPlaceHolder();
 
             ShowBalance();
             ShowTable();
@@ -57,25 +64,13 @@ namespace ExpensesTracker.Forms
             });
         }
 
-        private void CategoryFilter_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            ShowTable();
-        }
+        private void CategoryFilter_SelectedIndexChanged(object sender, EventArgs e) => ShowTable();
 
-        private void CommentSearch_TextChanged(object sender, EventArgs e)
-        {
-            ShowTable();
-        }
+        private void SearchInput_TextChanged(object sender, EventArgs e) => ShowTable();
 
-        private void DateTimePicker1_ValueChanged(object sender, EventArgs e)
-        {
-            ShowTable();
-        }
+        private void DateTimePicker1_ValueChanged(object sender, EventArgs e) => ShowTable();
 
-        private void DateTimePicker2_ValueChanged(object sender, EventArgs e)
-        {
-            ShowTable();
-        }
+        private void DateTimePicker2_ValueChanged(object sender, EventArgs e) => ShowTable();
 
         private void SelectedAccountBox_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -90,15 +85,25 @@ namespace ExpensesTracker.Forms
             //category Filtered
             var chosenCategory = Convert.ToString(categoryFilterBox.SelectedItem);
 
-            if (chosenCategory != "All amount")
+            if (chosenCategory != "All categories" && chosenCategory != "Incomes")
             {
-                _filteredOperations = _filteredOperations.Where(x => Convert.ToString(x.Category) == chosenCategory).ToList();
+                _filteredOperations = _filteredOperations.Where(x => Convert.ToString(x.Category) == chosenCategory)
+                    .ToList();
+            }
+
+            if (chosenCategory == "Incomes")
+            {
+                _filteredOperations = _filteredOperations.Where(x => x.Type == OperationType.Income).ToList();
             }
 
             //name search
-            if (!string.IsNullOrWhiteSpace(searchNameInput.Text))
+            if (!searchInput.IsPlaceHolderActive)
             {
-                _filteredOperations = _filteredOperations.Where(x => x.Comment.Contains(searchNameInput.Text.Trim())).ToList();
+                if (!string.IsNullOrWhiteSpace(searchInput.Text))
+                {
+                    _filteredOperations = _filteredOperations
+                        .Where(x => x.Comment.Contains(searchInput.Text.Trim())).ToList();
+                }
             }
 
             //data filter1
@@ -120,6 +125,7 @@ namespace ExpensesTracker.Forms
         {
             operationsTable.DataSource = null;
             operationsTable.DataSource = _filteredOperations;
+            operationsTable.ClearSelection();
         }
 
         private void ColorTable()
@@ -128,12 +134,12 @@ namespace ExpensesTracker.Forms
             {
                 if (_filteredOperations[i].Type == OperationType.Expense)
                 {
-                    operationsTable.Rows[i].DefaultCellStyle.BackColor = Color.Red;
+                    operationsTable.Rows[i].DefaultCellStyle.BackColor = Color.PaleVioletRed;
                 }
 
                 if (_filteredOperations[i].Type == OperationType.Income)
                 {
-                    operationsTable.Rows[i].DefaultCellStyle.BackColor = Color.Green;
+                    operationsTable.Rows[i].DefaultCellStyle.BackColor = Color.DarkSeaGreen;
                 }
             }
         }
@@ -143,6 +149,7 @@ namespace ExpensesTracker.Forms
             FilterOperations();
             _filteredOperations.Sort((x, y) => x.Date.CompareTo(y.Date));
             ActualizeTableRecords();
+
             ColorTable();
         }
 
@@ -171,7 +178,7 @@ namespace ExpensesTracker.Forms
                 .Where(x => x.Type == OperationType.Income)
                 .Sum(x => x.Amount);
 
-            accountBalanceLable.Text = Convert.ToString
+            accountBalanceLable.Text = @"On your balance  " + Convert.ToString
                 (TargetAccount.InitialBalance - expensesSum + incomesSum, CultureInfo.InvariantCulture);
         }
 
@@ -254,8 +261,11 @@ namespace ExpensesTracker.Forms
             createExpenseForm.Show();
         }
 
-        private void OperationsTable_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
+        private void OperationsTable_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
+            if (e.RowIndex == -1)
+                return;
+
             EditOperation();
         }
 
@@ -266,12 +276,13 @@ namespace ExpensesTracker.Forms
                 MessageBox.Show(@"You have not selected any operations");
                 return;
             }
+
             EditOperation();
         }
 
         private void EditOperation()
         {
-            if (!(operationsTable.SelectedRows[0].DataBoundItem is AccountOperation operation))
+            if (operationsTable.SelectedRows.Count == 0 || !(operationsTable.SelectedRows[0].DataBoundItem is AccountOperation operation))
                 return;
 
             if (operation.Type == OperationType.Expense)
@@ -303,6 +314,23 @@ namespace ExpensesTracker.Forms
                 };
                 editIncomeForm.Show();
             }
+        }
+
+        private void OperationsTable_SelectionChanged(object sender, EventArgs e)
+        {
+            if (operationsTable.SelectedRows.Count == 0 ||
+                !(operationsTable.SelectedRows[0].DataBoundItem is AccountOperation operation))
+                return;
+
+            operationsTable.DefaultCellStyle.SelectionBackColor = operation.Type == OperationType.Expense
+                ? Color.Brown
+                : Color.DarkOliveGreen;
+        }
+
+        private void SetupPlaceHolder()
+        {
+            PlaceHolderTextBox placeHolderTextBox = searchInput;
+            placeHolderTextBox.SetupPlaceHolder("Search", Color.DarkGray);
         }
     }
 }

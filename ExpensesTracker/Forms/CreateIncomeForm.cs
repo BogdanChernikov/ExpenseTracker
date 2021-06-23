@@ -11,6 +11,7 @@ namespace ExpensesTracker.Forms
         public CreateIncomeForm()
         {
             InitializeComponent();
+            incomeDateInput.Value = DateTime.Today;
         }
 
         private void CloseAddIncomeButton_Click(object sender, EventArgs e)
