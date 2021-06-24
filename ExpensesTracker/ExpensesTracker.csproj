@@ -60,6 +60,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="PlaceHolderTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Services\PDFGenerator.cs" />
     <Compile Include="Services\Storage.cs" />
     <Compile Include="Models\Account.cs" />
