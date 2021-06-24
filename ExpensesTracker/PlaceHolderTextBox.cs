@@ -5,7 +5,8 @@ using System.Windows.Forms;
 namespace ExpensesTracker
 {
     /// <summary>
-    /// 
+    /// Initializes a new instance of the System.Windows.Forms.PlaceHolderTextBox class
+    /// Is a text box with a function "placeholder".
     /// </summary>
     internal sealed class PlaceHolderTextBox : TextBox
     {
@@ -16,7 +17,7 @@ namespace ExpensesTracker
         public bool IsPlaceHolderActive => _isPlaceHolder;
 
         /// <summary>
-        /// 
+        /// For correct work it is necessary to call a method and to transfer to it parameters after loading of all basic parameters.
         /// </summary>
         /// <param name="placeHolderText"></param>
         /// <param name="placeHolderTextColor"></param>
