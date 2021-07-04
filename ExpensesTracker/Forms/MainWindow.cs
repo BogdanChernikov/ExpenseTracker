@@ -1,5 +1,4 @@
 ﻿using ExpensesTracker.Services;
-using ExpensesTracker.Models;
 using ExpensesTracker.Models.Enums;
 using System;
 using System.Collections.Generic;
@@ -7,6 +6,9 @@ using System.Drawing;
 using System.Globalization;
 using System.Linq;
 using System.Windows.Forms;
+using ExpensesTracker.DAL;
+using Account = ExpensesTracker.Models.Account;
+using AccountOperation = ExpensesTracker.Models.AccountOperation;
 
 namespace ExpensesTracker.Forms
 {
@@ -14,14 +16,18 @@ namespace ExpensesTracker.Forms
     {
         private Account TargetAccount => (Account)accountBox.SelectedItem;
         private List<AccountOperation> AccountOperations => TargetAccount.AccountOperations;
-        private List<AccountOperation> _filteredOperations = new List<AccountOperation>();
+        private List<AccountOperation> _filteredOperations;
         private List<Account> _accounts = new List<Account>();
         private readonly PdfGenerator _pdfGenerator = new PdfGenerator();
-        private readonly Storage _storage = new Storage();
+        private readonly Storage _storage;
 
         public MainWindow()
         {
             InitializeComponent();
+            var etContext = new EtContext();
+            var accountRepository = new AccountRepository(etContext);
+            var operationRepository = new OperationRepository(etContext);
+            _storage = new Storage(accountRepository, operationRepository, etContext);
         }
 
         private void MainWindow_Load(object sender, EventArgs e)
@@ -31,7 +37,7 @@ namespace ExpensesTracker.Forms
             startDateDisplay.ValueChanged += DateTimePicker1_ValueChanged;
             endDateDisplay.ValueChanged += DateTimePicker2_ValueChanged;
 
-            _accounts = _storage.GetAccounts();
+            _accounts = _storage.GetAccountsList();
 
             if (!_accounts.Any())
                 CreateDefaultAccount();
@@ -56,12 +62,15 @@ namespace ExpensesTracker.Forms
 
         private void CreateDefaultAccount()
         {
-            _accounts.Add(new Account()
+            var account = new Account()
             {
                 Name = "Main",
                 InitialBalance = 0,
                 AccountOperations = new List<AccountOperation>()
-            });
+            };
+
+            _accounts.Add(account);
+            _storage.AddAccountToDb(account);
         }
 
         private void CategoryFilter_SelectedIndexChanged(object sender, EventArgs e) => ShowTable();
@@ -80,7 +89,7 @@ namespace ExpensesTracker.Forms
 
         private void FilterOperations()
         {
-            _filteredOperations = TargetAccount.AccountOperations.ToList();
+            _filteredOperations = AccountOperations;
 
             //category Filtered
             var chosenCategory = Convert.ToString(categoryFilterBox.SelectedItem);
@@ -115,8 +124,6 @@ namespace ExpensesTracker.Forms
 
         private void RefreshData()
         {
-            _storage.SaveChanges(_accounts);
-
             ShowTable();
             ShowBalance();
         }
@@ -147,9 +154,7 @@ namespace ExpensesTracker.Forms
         private void ShowTable()
         {
             FilterOperations();
-            _filteredOperations.Sort((x, y) => x.Date.CompareTo(y.Date));
             ActualizeTableRecords();
-
             ColorTable();
         }
 
@@ -201,7 +206,7 @@ namespace ExpensesTracker.Forms
                     {
                         _accounts.Add(account);
                         RefreshAccountsData();
-                        _storage.SaveChanges(_accounts);
+                        _storage.AddAccountToDb(account);
                     }
                 }
             };
@@ -217,12 +222,13 @@ namespace ExpensesTracker.Forms
                 {
                     RefreshAccountsData();
                     ShowBalance();
-                    _storage.SaveChanges(_accounts);
+                    _storage.EditAccount(TargetAccount);
                 },
 
                 OnAccountDeleted = () =>
                 {
                     _accounts.Remove(TargetAccount);
+                    _storage.DeleteAccount(TargetAccount.Id);
 
                     if (!_accounts.Any())
                         CreateDefaultAccount();
@@ -241,7 +247,8 @@ namespace ExpensesTracker.Forms
             {
                 OnIncomeAdded = (income) =>
                 {
-                    AccountOperations.Add(income);
+                    TargetAccount.AccountOperations.Add(income);
+                    _storage.AddOperationToDb(income, TargetAccount.Name);
                     RefreshData();
                 }
             };
@@ -254,7 +261,8 @@ namespace ExpensesTracker.Forms
             {
                 OnExpenseAdded = (expense) =>
                 {
-                    AccountOperations.Add(expense);
+                    TargetAccount.AccountOperations.Add(expense);
+                    _storage.AddOperationToDb(expense, TargetAccount.Name);
                     RefreshData();
                 }
             };
@@ -290,10 +298,16 @@ namespace ExpensesTracker.Forms
                 var editExpenseForm = new EditExpenseForm
                 {
                     TargetExpense = operation,
-                    OnExpenseEdit = RefreshData,
+                    OnExpenseEdit = () =>
+                    {
+                        RefreshData();
+                        _storage.EditOperation(operation);
+                    },
+
                     OnExpenseDeleted = () =>
                     {
                         AccountOperations.Remove(operation);
+                        _storage.DeleteOperation();
                         RefreshData();
                     }
                 };
@@ -305,14 +319,20 @@ namespace ExpensesTracker.Forms
                 var editIncomeForm = new EditIncomeForm
                 {
                     TargetIncome = operation,
-                    OnIncomeEdit = RefreshData,
+                    OnIncomeEdit = () =>
+                    {
+                        RefreshData();
+                        _storage.EditOperation(operation);
+                    },
                     OnIncomeDeleted = () =>
                     {
                         AccountOperations.Remove(operation);
+                        _storage.DeleteOperation();
                         RefreshData();
                     }
                 };
                 editIncomeForm.Show();
+                _storage.EditOperation(operation);
             }
         }
 
@@ -329,7 +349,7 @@ namespace ExpensesTracker.Forms
 
         private void SetupPlaceHolder()
         {
-            PlaceHolderTextBox placeHolderTextBox = searchInput;
+            var placeHolderTextBox = searchInput;
             placeHolderTextBox.SetupPlaceHolder("Search", Color.DarkGray);
         }
     }

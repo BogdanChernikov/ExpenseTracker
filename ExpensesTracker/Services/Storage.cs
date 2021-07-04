@@ -1,37 +1,112 @@
-﻿using ExpensesTracker.Models;
+﻿using ExpensesTracker.DAL;
+using ExpensesTracker.Models;
+using ExpensesTracker.Models.Enums;
 using System.Collections.Generic;
-using System.IO;
-using System.Xml.Serialization;
+using System.Linq;
+using Account = ExpensesTracker.Models.Account;
 
 namespace ExpensesTracker.Services
 {
     public class Storage
     {
-        private const string AccountsFileName = "account.txt";
+        private readonly AccountRepository _accountRepository;
+        private readonly OperationRepository _operationRepository;
+        private readonly EtContext _dbContext;
+        private readonly List<AccountOperation> _accountOperations;
 
-        public void SaveChanges(List<Account> accounts)
+        public Storage(AccountRepository accountRepository, OperationRepository operationRepository, EtContext etContext)
         {
-            var serializer = new XmlSerializer(typeof(List<Account>));
-            using (var stream = new FileStream(AccountsFileName, FileMode.Create))
-            {
-                serializer.Serialize(stream, accounts);
-            }
+            _accountRepository = accountRepository;
+            _operationRepository = operationRepository;
+            _dbContext = etContext;
+            _accountOperations = GetOperationsList();
         }
 
-        public List<Account> GetAccounts()
+        public List<Account> GetAccountsList()
         {
-            try
+            var accounts = new List<Account>();
+
+            foreach (var dbAccount in _dbContext.Account)
             {
-                var serializer = new XmlSerializer(typeof(List<Account>));
-                using (var stream = new FileStream(AccountsFileName, FileMode.Open))
+                var account = new Account
                 {
-                    return (List<Account>)serializer.Deserialize(stream);
-                }
+                    Name = dbAccount.Name,
+                    Id = dbAccount.Id,
+                    InitialBalance = dbAccount.InitialBalance,
+                    AccountOperations = _accountOperations.Where(x => x.AccountId == dbAccount.Id).ToList()
+                };
+                accounts.Add(account);
             }
-            catch
+
+            return accounts;
+        }
+
+        public List<AccountOperation> GetOperationsList()
+        {
+            return _dbContext.Operation.Select(dbOperation => new AccountOperation
             {
-                return new List<Account>();
+                Id = dbOperation.Id,
+                Amount = dbOperation.Amount,
+                Category = dbOperation.Category,
+                Comment = dbOperation.Comment,
+                Date = dbOperation.Date,
+                AccountId = dbOperation.AccountId,
+                Type = dbOperation.Category == "Incomes" ? OperationType.Income : OperationType.Expense
+            })
+                .ToList();
+        }
+
+        public void AddAccountToDb(Account account)
+        {
+            var accountDb = new DAL.Account { Name = account.Name, InitialBalance = account.InitialBalance };
+
+            _accountRepository.CreateAccount(accountDb);
+        }
+
+        public void DeleteAccount(int id)
+        {
+            _accountRepository.DeleteAccount(id);
+        }
+
+        public void EditAccount(Account account)
+        {
+            foreach (var dbAccount in _dbContext.Account)
+            {
+                if (dbAccount.Id != account.Id) continue;
+                dbAccount.Name = account.Name;
+                dbAccount.InitialBalance = account.InitialBalance;
             }
+            _dbContext.SaveChanges();
+        }
+
+        public void AddOperationToDb(AccountOperation operation, string targetAccount)
+        {
+            var operationDb = new Operation
+            {
+                Amount = operation.Amount,
+                Category = operation.Category,
+                Comment = operation.Comment,
+                Date = operation.Date,
+            };
+            _operationRepository.CreateOperation(operationDb, targetAccount);
+        }
+
+        public void DeleteOperation()
+        {
+            _operationRepository.DeleteOperation();
+        }
+
+        public void EditOperation(AccountOperation operation)
+        {
+            foreach (var dbOperation in _dbContext.Operation)
+            {
+                if (dbOperation.Id != operation.Id) continue;
+                dbOperation.Amount = operation.Amount;
+                dbOperation.Category = operation.Category;
+                dbOperation.Comment = operation.Comment;
+                dbOperation.Date = operation.Date;
+            }
+            _dbContext.SaveChanges();
         }
     }
 }

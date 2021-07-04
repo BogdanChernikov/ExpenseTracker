@@ -68,6 +68,7 @@ namespace ExpensesTracker.Forms
             // 
             // categoryFilterBox
             // 
+            this.categoryFilterBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.categoryFilterBox.FormattingEnabled = true;
             this.categoryFilterBox.Items.AddRange(new object[] {
             "All categories",
@@ -186,6 +187,7 @@ namespace ExpensesTracker.Forms
             // 
             // accountBox
             // 
+            this.accountBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.accountBox.FormattingEnabled = true;
             this.accountBox.Location = new System.Drawing.Point(126, 10);
             this.accountBox.Name = "accountBox";

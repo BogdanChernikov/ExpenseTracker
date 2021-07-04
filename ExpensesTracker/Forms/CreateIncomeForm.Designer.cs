@@ -131,7 +131,7 @@ namespace ExpensesTracker.Forms
             this.Controls.Add(this.incomeCommentTextBox);
             this.Controls.Add(this.label1);
             this.Name = "CreateIncomeForm";
-            this.Text = "CreateIncomeForm";
+            this.Text = "Add new income";
             ((System.ComponentModel.ISupportInitialize)(this.incomeAmountInput)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

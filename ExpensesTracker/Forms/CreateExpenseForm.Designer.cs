@@ -37,11 +37,13 @@ namespace ExpensesTracker.Forms
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.newCostDate = new System.Windows.Forms.DateTimePicker();
+            this.categoryBoxLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.PriceInput)).BeginInit();
             this.SuspendLayout();
             // 
             // newCostCategory
             // 
+            this.newCostCategory.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.newCostCategory.FormattingEnabled = true;
             this.newCostCategory.Items.AddRange(new object[] {
             "Traffic",
@@ -53,7 +55,6 @@ namespace ExpensesTracker.Forms
             this.newCostCategory.Name = "newCostCategory";
             this.newCostCategory.Size = new System.Drawing.Size(121, 21);
             this.newCostCategory.TabIndex = 0;
-            this.newCostCategory.Text = "Select a category";
             // 
             // PriceInput
             // 
@@ -121,11 +122,21 @@ namespace ExpensesTracker.Forms
             this.newCostDate.Size = new System.Drawing.Size(121, 20);
             this.newCostDate.TabIndex = 9;
             // 
+            // categoryBoxLabel
+            // 
+            this.categoryBoxLabel.AutoSize = true;
+            this.categoryBoxLabel.Location = new System.Drawing.Point(49, 26);
+            this.categoryBoxLabel.Name = "categoryBoxLabel";
+            this.categoryBoxLabel.Size = new System.Drawing.Size(90, 13);
+            this.categoryBoxLabel.TabIndex = 10;
+            this.categoryBoxLabel.Text = "Select a category";
+            // 
             // CreateExpenseForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(305, 380);
+            this.Controls.Add(this.categoryBoxLabel);
             this.Controls.Add(this.newCostDate);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
@@ -135,7 +146,7 @@ namespace ExpensesTracker.Forms
             this.Controls.Add(this.PriceInput);
             this.Controls.Add(this.newCostCategory);
             this.Name = "CreateExpenseForm";
-            this.Text = "AddCostForm";
+            this.Text = "Add new expense";
             ((System.ComponentModel.ISupportInitialize)(this.PriceInput)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -152,5 +163,6 @@ namespace ExpensesTracker.Forms
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.DateTimePicker newCostDate;
+        private System.Windows.Forms.Label categoryBoxLabel;
     }
 }

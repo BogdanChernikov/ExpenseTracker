@@ -1,17 +1,18 @@
-﻿using ExpensesTracker.Models.Enums;
-using System;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
-namespace ExpensesTracker.Models
+namespace ExpensesTracker.DAL
 {
-    public class AccountOperation
+    public class Operation
     {
+        [Key]
+        public int Id { get; set; }
         public DateTime Date { get; set; }
         public string Category { get; set; }
         public decimal Amount { get; set; }
         public string Comment { get; set; }
-        public OperationType Type { get; set; }
 
-        public int Id { get; set; }
         public int AccountId { get; set; }
+        public Account Account { get; set; }
     }
 }
