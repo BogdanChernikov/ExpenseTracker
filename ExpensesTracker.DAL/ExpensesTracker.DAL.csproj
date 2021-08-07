@@ -51,17 +51,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Account.cs" />
-    <Compile Include="Operation.cs" />
-    <Compile Include="AccountRepository.cs" />
+    <Compile Include="Models\AccountEntity.cs" />
+    <Compile Include="Models\OperationEntity.cs" />
+    <Compile Include="Repositories\AccountRepository.cs" />
     <Compile Include="EtContext.cs" />
-    <Compile Include="OperationRepisitory.cs" />
+    <Compile Include="Repositories\OperationRepisitory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

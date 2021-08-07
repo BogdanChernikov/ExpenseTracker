@@ -8,7 +8,7 @@ namespace ExpensesTracker.DAL
             : base("DbConnection")
         {
         }
-        public DbSet<Account> Account { get; set; }
-        public DbSet<Operation> Operation { get; set; }
+        public DbSet<AccountEntity> Account { get; set; }
+        public DbSet<OperationEntity> Operation { get; set; }
     }
 }

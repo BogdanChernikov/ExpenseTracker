@@ -71,7 +71,10 @@
     <Compile Include="PlaceHolderTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Services\DbStorage.cs" />
     <Compile Include="Services\PDFGenerator.cs" />
+    <Compile Include="Services\Scope.cs" />
+    <Compile Include="Services\ScopeFactory.cs" />
     <Compile Include="Services\Storage.cs" />
     <Compile Include="Models\Account.cs" />
     <Compile Include="Models\AccountOperation.cs" />
@@ -117,7 +120,6 @@
     <Compile Include="Forms\MainWindow.Designer.cs">
       <DependentUpon>MainWindow.cs</DependentUpon>
     </Compile>
-    <Compile Include="Models\Enums\ExpenseCategory.cs" />
     <Compile Include="Models\Enums\OperationType.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

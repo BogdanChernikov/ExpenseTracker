@@ -93,6 +93,7 @@ namespace ExpensesTracker.Forms
             this.categoryBox,
             this.amountBox,
             this.commentBox});
+            this.operationsTable.AutoGenerateColumns = false;
             this.operationsTable.Location = new System.Drawing.Point(24, 142);
             this.operationsTable.MultiSelect = false;
             this.operationsTable.Name = "operationsTable";

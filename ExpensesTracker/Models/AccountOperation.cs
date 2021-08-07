@@ -12,6 +12,5 @@ namespace ExpensesTracker.Models
         public OperationType Type { get; set; }
 
         public int Id { get; set; }
-        public int AccountId { get; set; }
     }
 }

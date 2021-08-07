@@ -1,9 +1,11 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ExpensesTracker.DAL
 {
-    public class Operation
+    [Table("Operations")]
+    public class OperationEntity
     {
         [Key]
         public int Id { get; set; }
@@ -13,6 +15,5 @@ namespace ExpensesTracker.DAL
         public string Comment { get; set; }
 
         public int AccountId { get; set; }
-        public Account Account { get; set; }
     }
 }
