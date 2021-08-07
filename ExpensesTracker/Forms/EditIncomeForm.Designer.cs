@@ -139,7 +139,7 @@ namespace ExpensesTracker.Forms
             this.Controls.Add(this.IncomeCommentTextBox);
             this.Controls.Add(this.label1);
             this.Name = "EditIncomeForm";
-            this.Text = "EditIncomeForm";
+            this.Text = "Edit income";
             this.Load += new System.EventHandler(this.EditDataFormForIncome_Load);
             ((System.ComponentModel.ISupportInitialize)(this.incomeAmountInput)).EndInit();
             this.ResumeLayout(false);

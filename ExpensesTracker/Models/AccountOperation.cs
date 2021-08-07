@@ -9,6 +9,8 @@ namespace ExpensesTracker.Models
         public string Category { get; set; }
         public decimal Amount { get; set; }
         public string Comment { get; set; }
-        public OperationType Type => Category == null ? OperationType.Income : OperationType.Expense;
+        public OperationType Type { get; set; }
+
+        public int Id { get; set; }
     }
 }

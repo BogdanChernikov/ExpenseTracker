@@ -119,7 +119,7 @@ namespace ExpensesTracker.Forms
             this.Controls.Add(this.editAccountNameInput);
             this.Controls.Add(this.label1);
             this.Name = "EditAccountForm";
-            this.Text = "EditAccountForm";
+            this.Text = "Edit account";
             this.Load += new System.EventHandler(this.EditAccount_Load);
             ((System.ComponentModel.ISupportInitialize)(this.editInitialBalanceInput)).EndInit();
             this.ResumeLayout(false);

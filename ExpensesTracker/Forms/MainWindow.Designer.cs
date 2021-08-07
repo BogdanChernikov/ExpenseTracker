@@ -68,6 +68,7 @@ namespace ExpensesTracker.Forms
             // 
             // categoryFilterBox
             // 
+            this.categoryFilterBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.categoryFilterBox.FormattingEnabled = true;
             this.categoryFilterBox.Items.AddRange(new object[] {
             "All categories",
@@ -92,6 +93,7 @@ namespace ExpensesTracker.Forms
             this.categoryBox,
             this.amountBox,
             this.commentBox});
+            this.operationsTable.AutoGenerateColumns = false;
             this.operationsTable.Location = new System.Drawing.Point(24, 142);
             this.operationsTable.MultiSelect = false;
             this.operationsTable.Name = "operationsTable";
@@ -186,6 +188,7 @@ namespace ExpensesTracker.Forms
             // 
             // accountBox
             // 
+            this.accountBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.accountBox.FormattingEnabled = true;
             this.accountBox.Location = new System.Drawing.Point(126, 10);
             this.accountBox.Name = "accountBox";

@@ -1,37 +1,50 @@
 ﻿using ExpensesTracker.Models;
 using System.Collections.Generic;
-using System.IO;
-using System.Xml.Serialization;
+using System.Linq;
 
 namespace ExpensesTracker.Services
 {
     public class Storage
     {
-        private const string AccountsFileName = "account.txt";
+        private readonly List<Account> _accounts;
+        public readonly DbStorage DbStorage;
 
-        public void SaveChanges(List<Account> accounts)
+        public IReadOnlyCollection<Account> Accounts => _accounts.AsReadOnly();
+
+        public Storage()
         {
-            var serializer = new XmlSerializer(typeof(List<Account>));
-            using (var stream = new FileStream(AccountsFileName, FileMode.Create))
-            {
-                serializer.Serialize(stream, accounts);
-            }
+            DbStorage = new DbStorage();
+            _accounts = DbStorage.GetAccounts();
         }
 
-        public List<Account> GetAccounts()
+        public void AddAccount(Account account)
         {
-            try
+            _accounts.Add(account);
+            DbStorage.CreateAccount(account);
+        }
+
+        public void DeleteAccount(Account account)
+        {
+            _accounts.Remove(account);
+            DbStorage.DeleteAccount(account.Id);
+        }
+
+        public void EnsureAccountExists()
+        {
+            if (!Accounts.Any())
+                CreateDefaultAccount();
+        }
+
+        private void CreateDefaultAccount()
+        {
+            var account = new Account()
             {
-                var serializer = new XmlSerializer(typeof(List<Account>));
-                using (var stream = new FileStream(AccountsFileName, FileMode.Open))
-                {
-                    return (List<Account>)serializer.Deserialize(stream);
-                }
-            }
-            catch
-            {
-                return new List<Account>();
-            }
+                Name = "Main",
+                InitialBalance = 0,
+                AccountOperations = new List<AccountOperation>()
+            };
+
+            AddAccount(account);
         }
     }
 }

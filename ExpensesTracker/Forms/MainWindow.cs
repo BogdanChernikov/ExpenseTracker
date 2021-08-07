@@ -1,5 +1,4 @@
 ﻿using ExpensesTracker.Services;
-using ExpensesTracker.Models;
 using ExpensesTracker.Models.Enums;
 using System;
 using System.Collections.Generic;
@@ -7,21 +6,25 @@ using System.Drawing;
 using System.Globalization;
 using System.Linq;
 using System.Windows.Forms;
+using Account = ExpensesTracker.Models.Account;
+using AccountOperation = ExpensesTracker.Models.AccountOperation;
 
 namespace ExpensesTracker.Forms
 {
     public partial class MainWindow : Form
     {
-        private Account TargetAccount => (Account)accountBox.SelectedItem;
-        private List<AccountOperation> AccountOperations => TargetAccount.AccountOperations;
-        private List<AccountOperation> _filteredOperations = new List<AccountOperation>();
-        private List<Account> _accounts = new List<Account>();
+        private List<AccountOperation> _filteredOperations;
         private readonly PdfGenerator _pdfGenerator = new PdfGenerator();
-        private readonly Storage _storage = new Storage();
+        private readonly Storage _storage;
+
+        private Account GetSelectedAccount() => (Account)accountBox.SelectedItem;
+        private List<AccountOperation> GetSelectedAccountOperations() => GetSelectedAccount().AccountOperations;
 
         public MainWindow()
         {
             InitializeComponent();
+
+            _storage = new Storage();
         }
 
         private void MainWindow_Load(object sender, EventArgs e)
@@ -31,63 +34,41 @@ namespace ExpensesTracker.Forms
             startDateDisplay.ValueChanged += DateTimePicker1_ValueChanged;
             endDateDisplay.ValueChanged += DateTimePicker2_ValueChanged;
 
-            _accounts = _storage.GetAccounts();
-
-            if (!_accounts.Any())
-                CreateDefaultAccount();
-
-            accountBox.DataSource = null;
-            accountBox.DataSource = _accounts;
-            accountBox.DisplayMember = "Name";
-
-            operationsTable.AutoGenerateColumns = false;
-
-            accountBox.SelectedIndex = 0;
-            accountBox.SelectedIndexChanged += SelectedAccountBox_SelectedIndexChanged;
+            _storage.EnsureAccountExists();
 
             categoryFilterBox.SelectedItem = "All categories";
             categoryFilterBox.SelectedIndexChanged += CategoryFilter_SelectedIndexChanged;
 
+            RefreshListOfAccountsInAccountsBox();
+
+            RefreshTableAndBalance();
+
             SetupPlaceHolder();
-
-            ShowBalance();
-            ShowTable();
         }
 
-        private void CreateDefaultAccount()
-        {
-            _accounts.Add(new Account()
-            {
-                Name = "Main",
-                InitialBalance = 0,
-                AccountOperations = new List<AccountOperation>()
-            });
-        }
+        private void CategoryFilter_SelectedIndexChanged(object sender, EventArgs e) => RefreshTable();
 
-        private void CategoryFilter_SelectedIndexChanged(object sender, EventArgs e) => ShowTable();
+        private void SearchInput_TextChanged(object sender, EventArgs e) => RefreshTable();
 
-        private void SearchInput_TextChanged(object sender, EventArgs e) => ShowTable();
+        private void DateTimePicker1_ValueChanged(object sender, EventArgs e) => RefreshTable();
 
-        private void DateTimePicker1_ValueChanged(object sender, EventArgs e) => ShowTable();
-
-        private void DateTimePicker2_ValueChanged(object sender, EventArgs e) => ShowTable();
+        private void DateTimePicker2_ValueChanged(object sender, EventArgs e) => RefreshTable();
 
         private void SelectedAccountBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            ShowTable();
-            ShowBalance();
+            RefreshTableAndBalance();
         }
 
         private void FilterOperations()
         {
-            _filteredOperations = TargetAccount.AccountOperations.ToList();
+            _filteredOperations = GetSelectedAccountOperations();
 
             //category Filtered
             var chosenCategory = Convert.ToString(categoryFilterBox.SelectedItem);
 
             if (chosenCategory != "All categories" && chosenCategory != "Incomes")
             {
-                _filteredOperations = _filteredOperations.Where(x => Convert.ToString(x.Category) == chosenCategory)
+                _filteredOperations = _filteredOperations.Where(x => x.Category == chosenCategory)
                     .ToList();
             }
 
@@ -113,12 +94,10 @@ namespace ExpensesTracker.Forms
             _filteredOperations = _filteredOperations.Where(x => x.Date <= endDateDisplay.Value).ToList();
         }
 
-        private void RefreshData()
+        private void RefreshTableAndBalance()
         {
-            _storage.SaveChanges(_accounts);
-
-            ShowTable();
-            ShowBalance();
+            RefreshTable();
+            RefreshBalance();
         }
 
         private void ActualizeTableRecords()
@@ -144,12 +123,11 @@ namespace ExpensesTracker.Forms
             }
         }
 
-        private void ShowTable()
+        private void RefreshTable()
         {
             FilterOperations();
-            _filteredOperations.Sort((x, y) => x.Date.CompareTo(y.Date));
-            ActualizeTableRecords();
 
+            ActualizeTableRecords();
             ColorTable();
         }
 
@@ -158,28 +136,34 @@ namespace ExpensesTracker.Forms
             _pdfGenerator.GeneratePdf(_filteredOperations);
         }
 
-        private void RefreshAccountsData()
+        private void RefreshListOfAccountsInAccountsBox(Account accountToUse = null)
         {
-            accountBox.SelectedIndexChanged -= (SelectedAccountBox_SelectedIndexChanged);
+            accountToUse = accountToUse ?? _storage.Accounts.First();
+
+            accountBox.SelectedIndexChanged -= SelectedAccountBox_SelectedIndexChanged;
+
             accountBox.DataSource = null;
-            accountBox.DataSource = _accounts;
+            accountBox.DataSource = _storage.Accounts;
+
             accountBox.DisplayMember = "Name";
-            accountBox.SelectedIndexChanged += (SelectedAccountBox_SelectedIndexChanged);
-            accountBox.SelectedItem = _accounts.First();
+
+            accountBox.SelectedItem = accountToUse;
+
+            accountBox.SelectedIndexChanged += SelectedAccountBox_SelectedIndexChanged;
         }
 
-        private void ShowBalance()
+        private void RefreshBalance()
         {
-            var expensesSum = AccountOperations
+            var expensesSum = GetSelectedAccountOperations()
                 .Where(x => x.Type == OperationType.Expense)
                 .Sum(x => x.Amount);
 
-            var incomesSum = AccountOperations
+            var incomesSum = GetSelectedAccountOperations()
                 .Where(x => x.Type == OperationType.Income)
                 .Sum(x => x.Amount);
 
             accountBalanceLable.Text = @"On your balance  " + Convert.ToString
-                (TargetAccount.InitialBalance - expensesSum + incomesSum, CultureInfo.InvariantCulture);
+                (GetSelectedAccount().InitialBalance - expensesSum + incomesSum, CultureInfo.InvariantCulture);
         }
 
         private void CreateAccountForm_Click(object sender, EventArgs e)
@@ -193,15 +177,14 @@ namespace ExpensesTracker.Forms
             {
                 OnAccountAdded = (account) =>
                 {
-                    if (_accounts.Any(x => x.Name == account.Name))
+                    if (_storage.Accounts.Any(x => x.Name == account.Name))
                     {
                         MessageBox.Show(@"This account name is already in use. Choose another name");
                     }
                     else
                     {
-                        _accounts.Add(account);
-                        RefreshAccountsData();
-                        _storage.SaveChanges(_accounts);
+                        _storage.AddAccount(account);
+                        RefreshListOfAccountsInAccountsBox(GetSelectedAccount());
                     }
                 }
             };
@@ -212,24 +195,21 @@ namespace ExpensesTracker.Forms
         {
             var editAccountForm = new EditAccountForm
             {
-                TargetAccountForEdit = TargetAccount,
+                TargetAccountForEdit = GetSelectedAccount(),
                 OnAccountEdit = () =>
                 {
-                    RefreshAccountsData();
-                    ShowBalance();
-                    _storage.SaveChanges(_accounts);
+                    RefreshListOfAccountsInAccountsBox(GetSelectedAccount());
+                    RefreshBalance();
+                    _storage.DbStorage.EditAccount(GetSelectedAccount());
                 },
 
                 OnAccountDeleted = () =>
                 {
-                    _accounts.Remove(TargetAccount);
+                    _storage.DeleteAccount(GetSelectedAccount());
+                    _storage.EnsureAccountExists();
 
-                    if (!_accounts.Any())
-                        CreateDefaultAccount();
-
-                    accountBox.SelectedIndex = 0;
-                    RefreshAccountsData();
-                    RefreshData();
+                    RefreshListOfAccountsInAccountsBox();
+                    RefreshTableAndBalance();
                 }
             };
             editAccountForm.Show();
@@ -241,8 +221,9 @@ namespace ExpensesTracker.Forms
             {
                 OnIncomeAdded = (income) =>
                 {
-                    AccountOperations.Add(income);
-                    RefreshData();
+                    GetSelectedAccount().AccountOperations.Add(income);
+                    _storage.DbStorage.CreateOperation(income, GetSelectedAccount().Id);
+                    RefreshTableAndBalance();
                 }
             };
             createIncomeForm.Show();
@@ -254,8 +235,9 @@ namespace ExpensesTracker.Forms
             {
                 OnExpenseAdded = (expense) =>
                 {
-                    AccountOperations.Add(expense);
-                    RefreshData();
+                    GetSelectedAccount().AccountOperations.Add(expense);
+                    _storage.DbStorage.CreateOperation(expense, GetSelectedAccount().Id);
+                    RefreshTableAndBalance();
                 }
             };
             createExpenseForm.Show();
@@ -290,29 +272,40 @@ namespace ExpensesTracker.Forms
                 var editExpenseForm = new EditExpenseForm
                 {
                     TargetExpense = operation,
-                    OnExpenseEdit = RefreshData,
+                    OnExpenseEdit = () =>
+                    {
+                        RefreshTableAndBalance();
+                        _storage.DbStorage.EditOperation(operation);
+                    },
+
                     OnExpenseDeleted = () =>
                     {
-                        AccountOperations.Remove(operation);
-                        RefreshData();
+                        GetSelectedAccountOperations().Remove(operation);
+                        _storage.DbStorage.DeleteOperation(operation);
+                        RefreshTableAndBalance();
                     }
                 };
                 editExpenseForm.Show();
             }
-
             else
             {
                 var editIncomeForm = new EditIncomeForm
                 {
                     TargetIncome = operation,
-                    OnIncomeEdit = RefreshData,
+                    OnIncomeEdit = () =>
+                    {
+                        RefreshTableAndBalance();
+                        _storage.DbStorage.EditOperation(operation);
+                    },
                     OnIncomeDeleted = () =>
                     {
-                        AccountOperations.Remove(operation);
-                        RefreshData();
+                        GetSelectedAccountOperations().Remove(operation);
+                        _storage.DbStorage.DeleteOperation(operation);
+                        RefreshTableAndBalance();
                     }
                 };
                 editIncomeForm.Show();
+                _storage.DbStorage.EditOperation(operation);
             }
         }
 
@@ -329,7 +322,7 @@ namespace ExpensesTracker.Forms
 
         private void SetupPlaceHolder()
         {
-            PlaceHolderTextBox placeHolderTextBox = searchInput;
+            var placeHolderTextBox = searchInput;
             placeHolderTextBox.SetupPlaceHolder("Search", Color.DarkGray);
         }
     }

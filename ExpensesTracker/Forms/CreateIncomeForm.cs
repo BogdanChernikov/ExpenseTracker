@@ -1,6 +1,7 @@
 ﻿using ExpensesTracker.Models;
 using System;
 using System.Windows.Forms;
+using ExpensesTracker.Models.Enums;
 
 namespace ExpensesTracker.Forms
 {
@@ -25,7 +26,9 @@ namespace ExpensesTracker.Forms
             {
                 Amount = incomeAmountInput.Value,
                 Comment = incomeCommentTextBox.Text,
-                Date = incomeDateInput.Value
+                Date = incomeDateInput.Value,
+                Category = "Incomes",
+                Type = OperationType.Income
             };
 
             OnIncomeAdded(income);

@@ -10,7 +10,6 @@ namespace ExpensesTracker.Forms
         public Action OnAccountDeleted;
         public Account TargetAccountForEdit;
 
-
         public EditAccountForm()
         {
             InitializeComponent();

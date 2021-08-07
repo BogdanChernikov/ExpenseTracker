@@ -47,10 +47,10 @@ namespace ExpensesTracker.Forms
             this.label1.TabIndex = 0;
             this.label1.Text = "Enter account name";
             // 
-            // newAccountName
+            // newAccountNameTextBox
             // 
             this.newAccountNameTextBox.Location = new System.Drawing.Point(45, 58);
-            this.newAccountNameTextBox.Name = "newAccountName";
+            this.newAccountNameTextBox.Name = "newAccountNameTextBox";
             this.newAccountNameTextBox.Size = new System.Drawing.Size(128, 20);
             this.newAccountNameTextBox.TabIndex = 1;
             // 
@@ -63,7 +63,7 @@ namespace ExpensesTracker.Forms
             this.label2.TabIndex = 2;
             this.label2.Text = "Enter inital balance";
             // 
-            // initialBalance
+            // initialBalanceInput
             // 
             this.initialBalanceInput.Location = new System.Drawing.Point(45, 135);
             this.initialBalanceInput.Maximum = new decimal(new int[] {
@@ -71,7 +71,7 @@ namespace ExpensesTracker.Forms
             0,
             0,
             0});
-            this.initialBalanceInput.Name = "initialBalance";
+            this.initialBalanceInput.Name = "initialBalanceInput";
             this.initialBalanceInput.Size = new System.Drawing.Size(120, 20);
             this.initialBalanceInput.TabIndex = 3;
             // 
@@ -107,7 +107,7 @@ namespace ExpensesTracker.Forms
             this.Controls.Add(this.newAccountNameTextBox);
             this.Controls.Add(this.label1);
             this.Name = "CreateAccountForm";
-            this.Text = "CreateAccountForm";
+            this.Text = "Add new account";
             ((System.ComponentModel.ISupportInitialize)(this.initialBalanceInput)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
