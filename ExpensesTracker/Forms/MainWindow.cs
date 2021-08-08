@@ -183,7 +183,7 @@ namespace ExpensesTracker.Forms
                     }
                     else
                     {
-                        MessageBox.Show(_storage.AddAccount(account));
+                        MessageBox.Show(_storage.AddAccount(account).ErrorMassage);
                     }
                 }
             };
