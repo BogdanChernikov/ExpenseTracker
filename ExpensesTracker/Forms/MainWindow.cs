@@ -177,14 +177,13 @@ namespace ExpensesTracker.Forms
             {
                 OnAccountAdded = (account) =>
                 {
-                    if (_storage.AddAccount(account) == null)
+                    var operationResult = _storage.AddAccount(account);
+                    if (!operationResult.Success)
                     {
-                        RefreshListOfAccountsInAccountsBox(GetSelectedAccount());
+                        MessageBox.Show((operationResult.ErrorMassage));
                     }
-                    else
-                    {
-                        MessageBox.Show(_storage.AddAccount(account).ErrorMassage);
-                    }
+
+                    RefreshListOfAccountsInAccountsBox(GetSelectedAccount());
                 }
             };
             createAccountForm.Show();

@@ -22,20 +22,16 @@ namespace ExpensesTracker.Services
         {
             var operationResult = new OperationResult()
             {
-                Success = Accounts.All(x => x.Name != account.Name),
-                ErrorMassage = null
+                ErrorMassage = @"This account name is already in use.Choose another name",
+                Success = false
             };
-            if (operationResult.Success)
-            {
-                _accounts.Add(account);
-                DbStorage.CreateAccount(account);
-                return null;
-            }
-            else
-            {
-                operationResult.ErrorMassage = @"This account name is already in use.Choose another name";
-                return operationResult;
-            }
+
+            if (Accounts.Any(x => x.Name == account.Name)) return operationResult;
+
+            _accounts.Add(account);
+            DbStorage.CreateAccount(account);
+            operationResult.Success = true;
+            return operationResult;
         }
 
         public void DeleteAccount(Account account)
