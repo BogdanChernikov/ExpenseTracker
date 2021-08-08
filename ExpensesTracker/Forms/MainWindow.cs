@@ -177,14 +177,13 @@ namespace ExpensesTracker.Forms
             {
                 OnAccountAdded = (account) =>
                 {
-                    if (_storage.IsAccountNameIsUnique(account.Name))
+                    if (_storage.AddAccount(account) == null)
                     {
-                        _storage.AddAccount(account);
                         RefreshListOfAccountsInAccountsBox(GetSelectedAccount());
                     }
                     else
                     {
-                        MessageBox.Show(_storage.AccountNameIsNotUnique());
+                        MessageBox.Show(_storage.AddAccount(account));
                     }
                 }
             };

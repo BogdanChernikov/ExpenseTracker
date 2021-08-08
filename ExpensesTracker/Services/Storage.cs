@@ -17,10 +17,20 @@ namespace ExpensesTracker.Services
             _accounts = DbStorage.GetAccounts();
         }
 
-        public void AddAccount(Account account)
+        public string AddAccount(Account account)
         {
-            _accounts.Add(account);
-            DbStorage.CreateAccount(account);
+            var result = Accounts.All(x => x.Name != account.Name);
+
+            if (result)
+            {
+                _accounts.Add(account);
+                DbStorage.CreateAccount(account);
+                return null;
+            }
+            else
+            {
+                return @"This account name is already in use.Choose another name";
+            }
         }
 
         public void DeleteAccount(Account account)
@@ -45,18 +55,6 @@ namespace ExpensesTracker.Services
             };
 
             AddAccount(account);
-        }
-
-        public bool IsAccountNameIsUnique(string accountName)
-        {
-            var result = Accounts.All(x => x.Name != accountName);
-
-            return result;
-        }
-
-        public string AccountNameIsNotUnique()
-        {
-            return @"This account name is already in use.Choose another name";
         }
     }
 }
