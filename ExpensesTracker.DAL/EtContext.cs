@@ -1,4 +1,5 @@
 ﻿using System.Data.Entity;
+using ExpensesTracker.DAL.Models;
 
 namespace ExpensesTracker.DAL
 {

@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace ExpensesTracker.DAL
+namespace ExpensesTracker.DAL.Models
 {
     [Table("Operations")]
     public class OperationEntity

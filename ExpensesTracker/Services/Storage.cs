@@ -46,5 +46,17 @@ namespace ExpensesTracker.Services
 
             AddAccount(account);
         }
+
+        public bool IsAccountNameIsUnique(string accountName)
+        {
+            var result = Accounts.All(x => x.Name != accountName);
+
+            return result;
+        }
+
+        public string AccountNameIsNotUnique()
+        {
+            return @"This account name is already in use.Choose another name";
+        }
     }
 }

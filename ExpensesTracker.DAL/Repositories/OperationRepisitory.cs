@@ -1,30 +1,31 @@
 ﻿using System.Linq;
+using ExpensesTracker.DAL.Models;
 
 namespace ExpensesTracker.DAL
 {
     public class OperationRepository
     {
-        private readonly EtContext _db;
+        private readonly EtContext _dbContext;
 
-        public OperationRepository(EtContext db)
+        public OperationRepository(EtContext dbContext)
         {
-            _db = db;
+            _dbContext = dbContext;
         }
 
         public OperationEntity FindById(int id)
         {
-            return _db.Operation.FirstOrDefault(x => x.Id == id);
+            return _dbContext.Operation.FirstOrDefault(x => x.Id == id);
         }
 
         public void CreateOperation(OperationEntity operation)
         {
-            _db.Operation.Add(operation);
+            _dbContext.Operation.Add(operation);
         }
 
         public void DeleteOperation(int id)
         {
-            var operation = _db.Operation.First(x => x.Id == id);
-            _db.Operation.Remove(operation);
+            var operation = _dbContext.Operation.First(x => x.Id == id);
+            _dbContext.Operation.Remove(operation);
         }
     }
 }
