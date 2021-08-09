@@ -199,13 +199,12 @@ namespace ExpensesTracker.Forms
                 {
                     RefreshListOfAccountsInAccountsBox(GetSelectedAccount());
                     RefreshBalance();
-                    _storage.DbStorage.EditAccount(GetSelectedAccount());
+                    _storage.EditAccount(GetSelectedAccount());
                 },
 
                 OnAccountDeleted = () =>
                 {
                     _storage.DeleteAccount(GetSelectedAccount());
-                    _storage.EnsureAccountExists();
 
                     RefreshListOfAccountsInAccountsBox();
                     RefreshTableAndBalance();
@@ -220,8 +219,8 @@ namespace ExpensesTracker.Forms
             {
                 OnIncomeAdded = (income) =>
                 {
+                    _storage.CreateOperation(income, GetSelectedAccount().Id);
                     GetSelectedAccount().AccountOperations.Add(income);
-                    _storage.DbStorage.CreateOperation(income, GetSelectedAccount().Id);
                     RefreshTableAndBalance();
                 }
             };
@@ -234,8 +233,8 @@ namespace ExpensesTracker.Forms
             {
                 OnExpenseAdded = (expense) =>
                 {
+                    _storage.CreateOperation(expense, GetSelectedAccount().Id);
                     GetSelectedAccount().AccountOperations.Add(expense);
-                    _storage.DbStorage.CreateOperation(expense, GetSelectedAccount().Id);
                     RefreshTableAndBalance();
                 }
             };
@@ -274,13 +273,13 @@ namespace ExpensesTracker.Forms
                     OnExpenseEdit = () =>
                     {
                         RefreshTableAndBalance();
-                        _storage.DbStorage.EditOperation(operation);
+                        _storage.EditOperation(operation);
                     },
 
                     OnExpenseDeleted = () =>
                     {
                         GetSelectedAccountOperations().Remove(operation);
-                        _storage.DbStorage.DeleteOperation(operation);
+                        _storage.DeleteOperation(operation);
                         RefreshTableAndBalance();
                     }
                 };
@@ -294,17 +293,17 @@ namespace ExpensesTracker.Forms
                     OnIncomeEdit = () =>
                     {
                         RefreshTableAndBalance();
-                        _storage.DbStorage.EditOperation(operation);
+                        _storage.EditOperation(operation);
                     },
                     OnIncomeDeleted = () =>
                     {
                         GetSelectedAccountOperations().Remove(operation);
-                        _storage.DbStorage.DeleteOperation(operation);
+                        _storage.DeleteOperation(operation);
                         RefreshTableAndBalance();
                     }
                 };
                 editIncomeForm.Show();
-                _storage.DbStorage.EditOperation(operation);
+                _storage.EditOperation(operation);
             }
         }
 
