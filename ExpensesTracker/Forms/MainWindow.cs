@@ -1,5 +1,5 @@
-﻿using ExpensesTracker.Services;
-using ExpensesTracker.Models.Enums;
+﻿using ExpensesTracker.Models.Enums;
+using ExpensesTracker.Services;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -24,7 +24,7 @@ namespace ExpensesTracker.Forms
         {
             InitializeComponent();
 
-            _storage = new Storage();
+            _storage = new Storage(GetSelectedAccount());
         }
 
         private void MainWindow_Load(object sender, EventArgs e)
@@ -195,11 +195,17 @@ namespace ExpensesTracker.Forms
             var editAccountForm = new EditAccountForm
             {
                 TargetAccountForEdit = GetSelectedAccount(),
-                OnAccountEdit = () =>
+                OnAccountEdit = editedAccountModel =>
                 {
+                    var operationResult = _storage.EditAccount(editedAccountModel);
+                    if (!operationResult.Success)
+                    {
+                        MessageBox.Show(operationResult.ErrorMassage);
+                        return;
+                    }
+
                     RefreshListOfAccountsInAccountsBox(GetSelectedAccount());
                     RefreshBalance();
-                    _storage.EditAccount(GetSelectedAccount());
                 },
 
                 OnAccountDeleted = () =>
@@ -270,10 +276,10 @@ namespace ExpensesTracker.Forms
                 var editExpenseForm = new EditExpenseForm
                 {
                     TargetExpense = operation,
-                    OnExpenseEdit = () =>
+                    OnExpenseEdit = editOperation =>
                     {
+                        _storage.EditOperation(editOperation);
                         RefreshTableAndBalance();
-                        _storage.EditOperation(operation);
                     },
 
                     OnExpenseDeleted = () =>
@@ -290,10 +296,10 @@ namespace ExpensesTracker.Forms
                 var editIncomeForm = new EditIncomeForm
                 {
                     TargetIncome = operation,
-                    OnIncomeEdit = () =>
+                    OnIncomeEdit = editOperation =>
                     {
+                        _storage.EditOperation(editOperation);
                         RefreshTableAndBalance();
-                        _storage.EditOperation(operation);
                     },
                     OnIncomeDeleted = () =>
                     {
@@ -303,7 +309,6 @@ namespace ExpensesTracker.Forms
                     }
                 };
                 editIncomeForm.Show();
-                _storage.EditOperation(operation);
             }
         }
 

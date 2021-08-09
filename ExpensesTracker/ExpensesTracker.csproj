@@ -69,6 +69,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\Infrastructure\OperationResult.cs" />
+    <Compile Include="Models\RequestModels\EditAccountModel.cs" />
+    <Compile Include="Models\RequestModels\EditOperationModel.cs" />
     <Compile Include="PlaceHolderTextBox.cs">
       <SubType>Component</SubType>
     </Compile>

@@ -1,4 +1,5 @@
 ﻿using ExpensesTracker.Models;
+using ExpensesTracker.Models.RequestModels;
 using System;
 using System.Windows.Forms;
 
@@ -6,7 +7,7 @@ namespace ExpensesTracker.Forms
 {
     public partial class EditIncomeForm : Form
     {
-        public Action OnIncomeEdit;
+        public Action<EditOperationModel> OnIncomeEdit;
         public Action OnIncomeDeleted;
         public AccountOperation TargetIncome;
 
@@ -30,11 +31,13 @@ namespace ExpensesTracker.Forms
 
         private void SaveEditedIncomeButton_Click(object sender, EventArgs e)
         {
-            TargetIncome.Comment = IncomeCommentTextBox.Text;
-            TargetIncome.Amount = incomeAmountInput.Value;
-            TargetIncome.Date = incomeDateInput.Value;
-
-            OnIncomeEdit();
+            OnIncomeEdit(new EditOperationModel()
+            {
+                Amount = incomeAmountInput.Value,
+                Date = incomeDateInput.Value,
+                Comment = IncomeCommentTextBox.Text,
+                Id = TargetIncome.Id
+            });
             this.Close();
         }
 

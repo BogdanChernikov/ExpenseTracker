@@ -1,4 +1,5 @@
 ﻿using ExpensesTracker.Models;
+using ExpensesTracker.Models.RequestModels;
 using System;
 using System.Windows.Forms;
 
@@ -6,7 +7,7 @@ namespace ExpensesTracker.Forms
 {
     public partial class EditExpenseForm : Form
     {
-        public Action OnExpenseEdit;
+        public Action<EditOperationModel> OnExpenseEdit;
         public Action OnExpenseDeleted;
         public AccountOperation TargetExpense;
 
@@ -37,12 +38,14 @@ namespace ExpensesTracker.Forms
 
         private void EditDataButton_Click(object sender, EventArgs e)
         {
-            TargetExpense.Amount = expenseSumInput.Value;
-            TargetExpense.Comment = commentInput.Text;
-            TargetExpense.Category = Convert.ToString(expenseCategoryBox.SelectedItem);
-            TargetExpense.Date = expenseDatePicker.Value;
-
-            OnExpenseEdit();
+            OnExpenseEdit(new EditOperationModel()
+            {
+                Amount = expenseSumInput.Value,
+                Category = Convert.ToString(expenseCategoryBox.SelectedItem),
+                Date = expenseDatePicker.Value,
+                Comment = commentInput.Text,
+                Id = TargetExpense.Id
+            });
             this.Close();
         }
     }

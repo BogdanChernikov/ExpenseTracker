@@ -1,4 +1,5 @@
 ﻿using ExpensesTracker.Models;
+using ExpensesTracker.Models.RequestModels;
 using System;
 using System.Windows.Forms;
 
@@ -6,7 +7,7 @@ namespace ExpensesTracker.Forms
 {
     public partial class EditAccountForm : Form
     {
-        public Action OnAccountEdit;
+        public Action<EditAccountModel> OnAccountEdit;
         public Action OnAccountDeleted;
         public Account TargetAccountForEdit;
 
@@ -23,10 +24,12 @@ namespace ExpensesTracker.Forms
 
         public void SaveEditedAccountButton_Click(object sender, EventArgs e)
         {
-            TargetAccountForEdit.Name = editAccountNameInput.Text;
-            TargetAccountForEdit.InitialBalance = editInitialBalanceInput.Value;
-
-            OnAccountEdit();
+            OnAccountEdit(new EditAccountModel()
+            {
+                InitialBalance = editInitialBalanceInput.Value,
+                Name = editAccountNameInput.Text,
+                Id = TargetAccountForEdit.Id
+            });
             this.Close();
         }
 

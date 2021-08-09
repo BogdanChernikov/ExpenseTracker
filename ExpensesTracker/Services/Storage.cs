@@ -1,6 +1,7 @@
 ﻿using ExpensesTracker.DAL.Models;
 using ExpensesTracker.Models;
 using ExpensesTracker.Models.Infrastructure;
+using ExpensesTracker.Models.RequestModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,13 +12,15 @@ namespace ExpensesTracker.Services
     {
         private readonly List<Account> _accounts;
         public readonly DbStorage DbStorage;
+        private readonly Account _selectedAccount;
 
         public IReadOnlyCollection<Account> Accounts => _accounts.AsReadOnly();
 
-        public Storage()
+        public Storage(Account selectedAccount)
         {
             DbStorage = new DbStorage();
             _accounts = DbStorage.GetAccounts();
+            _selectedAccount = selectedAccount;
         }
 
         public OperationResult AddAccount(Account account)
@@ -43,9 +46,26 @@ namespace ExpensesTracker.Services
             return operationResult;
         }
 
-        public void EditAccount(Account account)
+        public OperationResult EditAccount(EditAccountModel editAccountModel)
         {
-            DbStorage.EditAccount(account);
+            var operationResult = new OperationResult();
+
+            if (!Accounts.Any(account => account.Name == editAccountModel.Name && account.Id == editAccountModel.Id))
+            {
+                operationResult.ErrorMassage = @"This account name is already in use.Choose another name";
+                return operationResult;
+            }
+
+            var accountToEdit = Accounts.Single(x => x.Id == editAccountModel.Id);
+
+            accountToEdit.Name = editAccountModel.Name;
+            accountToEdit.InitialBalance = editAccountModel.InitialBalance;
+
+            DbStorage.EditAccount(accountToEdit);
+            
+            operationResult.Success = true;
+
+            return operationResult;
         }
 
         public void DeleteAccount(Account account)
@@ -87,13 +107,21 @@ namespace ExpensesTracker.Services
                 Date = operation.Date,
                 AccountId = accountId,
             };
+
             DbStorage.CreateOperation(operationEntity);
             operation.Id = operationEntity.Id;
         }
 
-        public void EditOperation(AccountOperation operation)
+        public void EditOperation(EditOperationModel editOperationModel)
         {
-            DbStorage.EditOperation(operation);
+            var operationToEdit = _selectedAccount.AccountOperations.Single(x => x.Id == editOperationModel.Id);
+
+            operationToEdit.Amount = editOperationModel.Amount;
+            operationToEdit.Category = editOperationModel.Category;
+            operationToEdit.Comment = editOperationModel.Comment;
+            operationToEdit.Date = editOperationModel.Date;
+
+            DbStorage.EditOperation(operationToEdit);
         }
 
         public void DeleteOperation(AccountOperation operation)

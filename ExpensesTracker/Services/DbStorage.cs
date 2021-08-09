@@ -1,6 +1,5 @@
 ﻿using ExpensesTracker.DAL.Models;
 using ExpensesTracker.Models;
-using ExpensesTracker.Models.Enums;
 using System.Collections.Generic;
 using System.Linq;
 using Account = ExpensesTracker.Models.Account;
@@ -34,7 +33,6 @@ namespace ExpensesTracker.Services
                         Category = dbOperation.Category,
                         Comment = dbOperation.Comment,
                         Date = dbOperation.Date,
-                        Type = dbOperation.Category == "Incomes" ? OperationType.Income : OperationType.Expense
                     }).ToList()
                 }).ToList();
 
