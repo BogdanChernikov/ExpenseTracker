@@ -180,7 +180,8 @@ namespace ExpensesTracker.Forms
                     var operationResult = _storage.AddAccount(account);
                     if (!operationResult.Success)
                     {
-                        MessageBox.Show((operationResult.ErrorMassage));
+                        MessageBox.Show(operationResult.ErrorMassage);
+                        return;
                     }
 
                     RefreshListOfAccountsInAccountsBox(GetSelectedAccount());

@@ -1,7 +1,8 @@
 ﻿using ExpensesTracker.Models;
+using ExpensesTracker.Models.Infrastructure;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using ExpensesTracker.Models.Infrastructure;
 
 namespace ExpensesTracker.Services
 {
@@ -22,14 +23,18 @@ namespace ExpensesTracker.Services
         {
             var operationResult = new OperationResult()
             {
-                ErrorMassage = @"This account name is already in use.Choose another name",
                 Success = false
             };
 
-            if (Accounts.Any(x => x.Name == account.Name)) return operationResult;
+            if (Accounts.Any(x => x.Name == account.Name))
+            {
+                operationResult.ErrorMassage = @"This account name is already in use.Choose another name";
+                return operationResult;
+            }
 
             _accounts.Add(account);
             DbStorage.CreateAccount(account);
+
             operationResult.Success = true;
             return operationResult;
         }
@@ -55,7 +60,11 @@ namespace ExpensesTracker.Services
                 AccountOperations = new List<AccountOperation>()
             };
 
-            AddAccount(account);
+            var operationResult = AddAccount(account);
+            if (!operationResult.Success)
+            {
+                throw new InvalidOperationException(operationResult.ErrorMassage);
+            }
         }
     }
 }
