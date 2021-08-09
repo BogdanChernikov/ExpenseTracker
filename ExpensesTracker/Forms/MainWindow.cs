@@ -24,7 +24,7 @@ namespace ExpensesTracker.Forms
         {
             InitializeComponent();
 
-            _storage = new Storage(GetSelectedAccount());
+            _storage = new Storage();
         }
 
         private void MainWindow_Load(object sender, EventArgs e)
@@ -278,7 +278,7 @@ namespace ExpensesTracker.Forms
                     TargetExpense = operation,
                     OnExpenseEdit = editOperation =>
                     {
-                        _storage.EditOperation(editOperation);
+                        _storage.EditOperation(editOperation, GetSelectedAccount().Id);
                         RefreshTableAndBalance();
                     },
 
@@ -298,7 +298,7 @@ namespace ExpensesTracker.Forms
                     TargetIncome = operation,
                     OnIncomeEdit = editOperation =>
                     {
-                        _storage.EditOperation(editOperation);
+                        _storage.EditOperation(editOperation, GetSelectedAccount().Id);
                         RefreshTableAndBalance();
                     },
                     OnIncomeDeleted = () =>
