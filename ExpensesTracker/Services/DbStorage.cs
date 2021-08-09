@@ -1,6 +1,5 @@
 ﻿using ExpensesTracker.DAL.Models;
 using ExpensesTracker.Models;
-using ExpensesTracker.Models.Enums;
 using System.Collections.Generic;
 using System.Linq;
 using Account = ExpensesTracker.Models.Account;
@@ -34,7 +33,6 @@ namespace ExpensesTracker.Services
                         Category = dbOperation.Category,
                         Comment = dbOperation.Comment,
                         Date = dbOperation.Date,
-                        Type = dbOperation.Category == "Incomes" ? OperationType.Income : OperationType.Expense
                     }).ToList()
                 }).ToList();
 
@@ -42,12 +40,11 @@ namespace ExpensesTracker.Services
             }
         }
 
-        public void CreateAccount(Account account)
+        public void CreateAccount(AccountEntity accountEntity)
         {
             using (var scope = _scopeFactory.CreateScope())
             {
-                var accountDb = new AccountEntity { Name = account.Name, InitialBalance = account.InitialBalance };
-                scope.AccountRepository.CreateAccount(accountDb);
+                scope.AccountRepository.CreateAccount(accountEntity);
                 scope.SaveChanges();
             }
         }
@@ -74,20 +71,11 @@ namespace ExpensesTracker.Services
             }
         }
 
-        public void CreateOperation(AccountOperation operation, int accountId)
+        public void CreateOperation(OperationEntity operationEntity)
         {
-            var operationDb = new OperationEntity
-            {
-                Amount = operation.Amount,
-                Category = operation.Category,
-                Comment = operation.Comment,
-                Date = operation.Date,
-                AccountId = accountId,
-            };
-
             using (var scope = _scopeFactory.CreateScope())
             {
-                scope.OperationRepository.CreateOperation(operationDb);
+                scope.OperationRepository.CreateOperation(operationEntity);
                 scope.SaveChanges();
             }
         }

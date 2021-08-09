@@ -1,5 +1,5 @@
-﻿using ExpensesTracker.Services;
-using ExpensesTracker.Models.Enums;
+﻿using ExpensesTracker.Models.Enums;
+using ExpensesTracker.Services;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -195,17 +195,22 @@ namespace ExpensesTracker.Forms
             var editAccountForm = new EditAccountForm
             {
                 TargetAccountForEdit = GetSelectedAccount(),
-                OnAccountEdit = () =>
+                OnAccountEdit = editedAccountModel =>
                 {
+                    var operationResult = _storage.EditAccount(editedAccountModel);
+                    if (!operationResult.Success)
+                    {
+                        MessageBox.Show(operationResult.ErrorMassage);
+                        return;
+                    }
+
                     RefreshListOfAccountsInAccountsBox(GetSelectedAccount());
                     RefreshBalance();
-                    _storage.DbStorage.EditAccount(GetSelectedAccount());
                 },
 
                 OnAccountDeleted = () =>
                 {
                     _storage.DeleteAccount(GetSelectedAccount());
-                    _storage.EnsureAccountExists();
 
                     RefreshListOfAccountsInAccountsBox();
                     RefreshTableAndBalance();
@@ -220,8 +225,8 @@ namespace ExpensesTracker.Forms
             {
                 OnIncomeAdded = (income) =>
                 {
+                    _storage.CreateOperation(income, GetSelectedAccount().Id);
                     GetSelectedAccount().AccountOperations.Add(income);
-                    _storage.DbStorage.CreateOperation(income, GetSelectedAccount().Id);
                     RefreshTableAndBalance();
                 }
             };
@@ -234,8 +239,8 @@ namespace ExpensesTracker.Forms
             {
                 OnExpenseAdded = (expense) =>
                 {
+                    _storage.CreateOperation(expense, GetSelectedAccount().Id);
                     GetSelectedAccount().AccountOperations.Add(expense);
-                    _storage.DbStorage.CreateOperation(expense, GetSelectedAccount().Id);
                     RefreshTableAndBalance();
                 }
             };
@@ -271,16 +276,16 @@ namespace ExpensesTracker.Forms
                 var editExpenseForm = new EditExpenseForm
                 {
                     TargetExpense = operation,
-                    OnExpenseEdit = () =>
+                    OnExpenseEdit = editOperation =>
                     {
+                        _storage.EditOperation(editOperation, GetSelectedAccount().Id);
                         RefreshTableAndBalance();
-                        _storage.DbStorage.EditOperation(operation);
                     },
 
                     OnExpenseDeleted = () =>
                     {
                         GetSelectedAccountOperations().Remove(operation);
-                        _storage.DbStorage.DeleteOperation(operation);
+                        _storage.DeleteOperation(operation);
                         RefreshTableAndBalance();
                     }
                 };
@@ -291,20 +296,19 @@ namespace ExpensesTracker.Forms
                 var editIncomeForm = new EditIncomeForm
                 {
                     TargetIncome = operation,
-                    OnIncomeEdit = () =>
+                    OnIncomeEdit = editOperation =>
                     {
+                        _storage.EditOperation(editOperation, GetSelectedAccount().Id);
                         RefreshTableAndBalance();
-                        _storage.DbStorage.EditOperation(operation);
                     },
                     OnIncomeDeleted = () =>
                     {
                         GetSelectedAccountOperations().Remove(operation);
-                        _storage.DbStorage.DeleteOperation(operation);
+                        _storage.DeleteOperation(operation);
                         RefreshTableAndBalance();
                     }
                 };
                 editIncomeForm.Show();
-                _storage.DbStorage.EditOperation(operation);
             }
         }
 
