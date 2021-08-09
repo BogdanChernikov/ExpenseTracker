@@ -1,10 +1,9 @@
-﻿using ExpensesTracker.Models;
+﻿using ExpensesTracker.DAL.Models;
+using ExpensesTracker.Models;
 using ExpensesTracker.Models.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Windows.Forms;
-using ExpensesTracker.DAL.Models;
 
 namespace ExpensesTracker.Services
 {
@@ -44,9 +43,9 @@ namespace ExpensesTracker.Services
             return operationResult;
         }
 
-        public void EditAccount(Account selectedAccount)
+        public void EditAccount(Account account)
         {
-            DbStorage.EditAccount(selectedAccount);
+            DbStorage.EditAccount(account);
         }
 
         public void DeleteAccount(Account account)
