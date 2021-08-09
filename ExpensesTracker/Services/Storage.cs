@@ -1,4 +1,6 @@
 ﻿using ExpensesTracker.Models;
+using ExpensesTracker.Models.Infrastructure;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -17,10 +19,24 @@ namespace ExpensesTracker.Services
             _accounts = DbStorage.GetAccounts();
         }
 
-        public void AddAccount(Account account)
+        public OperationResult AddAccount(Account account)
         {
+            var operationResult = new OperationResult()
+            {
+                Success = false
+            };
+
+            if (Accounts.Any(x => x.Name == account.Name))
+            {
+                operationResult.ErrorMassage = @"This account name is already in use.Choose another name";
+                return operationResult;
+            }
+
             _accounts.Add(account);
             DbStorage.CreateAccount(account);
+
+            operationResult.Success = true;
+            return operationResult;
         }
 
         public void DeleteAccount(Account account)
@@ -44,7 +60,11 @@ namespace ExpensesTracker.Services
                 AccountOperations = new List<AccountOperation>()
             };
 
-            AddAccount(account);
+            var operationResult = AddAccount(account);
+            if (!operationResult.Success)
+            {
+                throw new InvalidOperationException(operationResult.ErrorMassage);
+            }
         }
     }
 }

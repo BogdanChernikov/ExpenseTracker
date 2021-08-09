@@ -1,4 +1,4 @@
-﻿using ExpensesTracker.DAL;
+﻿using ExpensesTracker.DAL.Models;
 using ExpensesTracker.Models;
 using ExpensesTracker.Models.Enums;
 using System.Collections.Generic;

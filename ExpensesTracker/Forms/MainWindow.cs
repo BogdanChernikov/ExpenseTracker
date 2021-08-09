@@ -177,15 +177,14 @@ namespace ExpensesTracker.Forms
             {
                 OnAccountAdded = (account) =>
                 {
-                    if (_storage.Accounts.Any(x => x.Name == account.Name))
+                    var operationResult = _storage.AddAccount(account);
+                    if (!operationResult.Success)
                     {
-                        MessageBox.Show(@"This account name is already in use. Choose another name");
+                        MessageBox.Show(operationResult.ErrorMassage);
+                        return;
                     }
-                    else
-                    {
-                        _storage.AddAccount(account);
-                        RefreshListOfAccountsInAccountsBox(GetSelectedAccount());
-                    }
+
+                    RefreshListOfAccountsInAccountsBox(GetSelectedAccount());
                 }
             };
             createAccountForm.Show();
