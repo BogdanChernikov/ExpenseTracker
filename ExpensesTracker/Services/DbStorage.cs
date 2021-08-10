@@ -80,11 +80,11 @@ namespace ExpensesTracker.Services
             }
         }
 
-        public void DeleteOperation(AccountOperation operation)
+        public void DeleteOperation(int id)
         {
             using (var scope = _scopeFactory.CreateScope())
             {
-                scope.OperationRepository.DeleteOperation(operation.Id);
+                scope.OperationRepository.DeleteOperation(id);
                 scope.SaveChanges();
             }
         }
