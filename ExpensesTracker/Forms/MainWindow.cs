@@ -18,7 +18,6 @@ namespace ExpensesTracker.Forms
         private readonly StateManager _stateManager;
 
         private Account GetSelectedAccount() => (Account)accountBox.SelectedItem;
-        private List<AccountOperation> GetSelectedAccountOperations() => GetSelectedAccount().AccountOperations;
 
         public MainWindow()
         {
@@ -134,16 +133,8 @@ namespace ExpensesTracker.Forms
 
         private void RefreshBalance()
         {
-            var expensesSum = GetSelectedAccountOperations()
-                .Where(x => x.Type == OperationType.Expense)
-                .Sum(x => x.Amount);
-
-            var incomesSum = GetSelectedAccountOperations()
-                .Where(x => x.Type == OperationType.Income)
-                .Sum(x => x.Amount);
-
-            accountBalanceLable.Text = @"On your balance  " + Convert.ToString
-                (GetSelectedAccount().InitialBalance - expensesSum + incomesSum, CultureInfo.InvariantCulture);
+            var balance = _stateManager.GetAccountBalance(GetSelectedAccount().Id);
+            accountBalanceLable.Text = "On your balance  " + Convert.ToString(balance, CultureInfo.InvariantCulture);
         }
 
         private void CreateAccountForm_Click(object sender, EventArgs e)
@@ -190,7 +181,7 @@ namespace ExpensesTracker.Forms
 
                 OnAccountDeleted = () =>
                 {
-                    _stateManager.DeleteAccount(GetSelectedAccount());
+                    _stateManager.DeleteAccount(GetSelectedAccount().Id);
 
                     RefreshListOfAccountsInAccountsBox();
                     RefreshTableAndBalance();
@@ -256,13 +247,13 @@ namespace ExpensesTracker.Forms
                     TargetExpense = operation,
                     OnExpenseEdit = editOperation =>
                     {
-                        _stateManager.EditOperation(editOperation, GetSelectedAccount().Id);
+                        _stateManager.EditOperation(editOperation);
                         RefreshTableAndBalance();
                     },
 
                     OnExpenseDeleted = () =>
                     {
-                        _stateManager.DeleteOperation(operation, GetSelectedAccount().Id);
+                        _stateManager.DeleteOperation(operation.Id);
                         RefreshTableAndBalance();
                     }
                 };
@@ -275,12 +266,12 @@ namespace ExpensesTracker.Forms
                     TargetIncome = operation,
                     OnIncomeEdit = editOperation =>
                     {
-                        _stateManager.EditOperation(editOperation, GetSelectedAccount().Id);
+                        _stateManager.EditOperation(editOperation);
                         RefreshTableAndBalance();
                     },
                     OnIncomeDeleted = () =>
                     {
-                        _stateManager.DeleteOperation(operation, GetSelectedAccount().Id);
+                        _stateManager.DeleteOperation(operation.Id);
                         RefreshTableAndBalance();
                     }
                 };

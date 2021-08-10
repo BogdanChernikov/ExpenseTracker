@@ -1,5 +1,6 @@
 ﻿using ExpensesTracker.DAL.Models;
 using ExpensesTracker.Models;
+using ExpensesTracker.Models.Enums;
 using ExpensesTracker.Models.Infrastructure;
 using ExpensesTracker.Models.RequestModels;
 using System;
@@ -70,10 +71,10 @@ namespace ExpensesTracker.Services
             return operationResult;
         }
 
-        public void DeleteAccount(Account account)
+        public void DeleteAccount(int accountId)
         {
-            _accounts.Remove(account);
-            _dbStorage.DeleteAccount(account.Id);
+            _accounts.Remove(Accounts.Single(x => x.Id == accountId));
+            _dbStorage.DeleteAccount(accountId);
             EnsureAccountExists();
         }
 
@@ -99,10 +100,12 @@ namespace ExpensesTracker.Services
             operation.Id = operationEntity.Id;
         }
 
-        public void EditOperation(EditOperationModel editOperationModel, int selectedAccountId)
+        public void EditOperation(EditOperationModel editOperationModel)
         {
-            var operationToEdit = Accounts.Single(x => x.Id == selectedAccountId)
-                .AccountOperations.Single(x => x.Id == editOperationModel.Id);
+            var account = Accounts.Single(x =>
+                x.AccountOperations.Any(a => a.Id == editOperationModel.Id));
+
+            var operationToEdit = account.AccountOperations.Single(x => x.Id == editOperationModel.Id);
 
             operationToEdit.Amount = editOperationModel.Amount;
             operationToEdit.Category = editOperationModel.Category;
@@ -112,10 +115,15 @@ namespace ExpensesTracker.Services
             _dbStorage.EditOperation(operationToEdit);
         }
 
-        public void DeleteOperation(AccountOperation operation, int accountId)
+        public void DeleteOperation(int operationId)
         {
-            Accounts.Single(x => x.Id == accountId).AccountOperations.Remove(operation);
-            _dbStorage.DeleteOperation(operation.Id);
+            var account = Accounts.Single(x =>
+                x.AccountOperations.Any(y => y.Id == operationId));
+
+            var operationToDelete = account.AccountOperations.Single(x => x.Id == operationId);
+
+            account.AccountOperations.Remove(operationToDelete);
+            _dbStorage.DeleteOperation(operationId);
         }
 
         public List<AccountOperation> GetFilteredOperations(OperationsQueryFilter filteredOperationModel)
@@ -138,6 +146,20 @@ namespace ExpensesTracker.Services
             filteredOperations = filteredOperations.Where(x => x.Date >= filteredOperationModel.StartDate);
             filteredOperations = filteredOperations.Where(x => x.Date <= filteredOperationModel.EndDate);
             return filteredOperations.ToList();
+        }
+
+        public decimal GetAccountBalance(int accountId)
+        {
+            var account = Accounts.Single(x => x.Id == accountId);
+
+            var sum = account.InitialBalance
+                      + account.AccountOperations
+                          .Where(x => x.Type == OperationType.Income)
+                          .Sum(x => x.Amount)
+                      - account.AccountOperations.Where(x => x.Type == OperationType.Expense)
+                          .Sum(x => x.Amount);
+
+            return sum;
         }
 
         private void CreateDefaultAccount()
