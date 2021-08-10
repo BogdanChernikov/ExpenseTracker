@@ -1,4 +1,5 @@
 ﻿using ExpensesTracker.Models.Enums;
+using ExpensesTracker.Models.RequestModels;
 using ExpensesTracker.Services;
 using System;
 using System.Collections.Generic;
@@ -13,7 +14,6 @@ namespace ExpensesTracker.Forms
 {
     public partial class MainWindow : Form
     {
-        private List<AccountOperation> _filteredOperations;
         private readonly PdfGenerator _pdfGenerator = new PdfGenerator();
         private readonly Storage _storage;
 
@@ -59,39 +59,16 @@ namespace ExpensesTracker.Forms
             RefreshTableAndBalance();
         }
 
-        private void FilterOperations()
+        private List<AccountOperation> GetFilteredOperations()
         {
-            _filteredOperations = GetSelectedAccountOperations();
-
-            //category Filtered
-            var chosenCategory = Convert.ToString(categoryFilterBox.SelectedItem);
-
-            if (chosenCategory != "All categories" && chosenCategory != "Incomes")
+            return _storage.GetFilteredOperations(new OperationsQueryFilter
             {
-                _filteredOperations = _filteredOperations.Where(x => x.Category == chosenCategory)
-                    .ToList();
-            }
-
-            if (chosenCategory == "Incomes")
-            {
-                _filteredOperations = _filteredOperations.Where(x => x.Type == OperationType.Income).ToList();
-            }
-
-            //name search
-            if (!searchInput.IsPlaceHolderActive)
-            {
-                if (!string.IsNullOrWhiteSpace(searchInput.Text))
-                {
-                    _filteredOperations = _filteredOperations
-                        .Where(x => x.Comment.Contains(searchInput.Text.Trim())).ToList();
-                }
-            }
-
-            //data filter1
-            _filteredOperations = _filteredOperations.Where(x => x.Date >= startDateDisplay.Value).ToList();
-
-            //data filter2
-            _filteredOperations = _filteredOperations.Where(x => x.Date <= endDateDisplay.Value).ToList();
+                Category = Convert.ToString(categoryFilterBox.SelectedItem),
+                EndDate = endDateDisplay.Value,
+                StartDate = startDateDisplay.Value,
+                Id = GetSelectedAccount().Id,
+                SearchText = !searchInput.IsPlaceHolderActive ? searchInput.Text : null
+            });
         }
 
         private void RefreshTableAndBalance()
@@ -103,20 +80,21 @@ namespace ExpensesTracker.Forms
         private void ActualizeTableRecords()
         {
             operationsTable.DataSource = null;
-            operationsTable.DataSource = _filteredOperations;
+            operationsTable.DataSource = GetFilteredOperations();
             operationsTable.ClearSelection();
         }
 
         private void ColorTable()
         {
-            for (var i = 0; i < _filteredOperations.Count; i++)
+            var filteredOperations = GetFilteredOperations();
+            for (var i = 0; i < filteredOperations.Count; i++)
             {
-                if (_filteredOperations[i].Type == OperationType.Expense)
+                if (filteredOperations[i].Type == OperationType.Expense)
                 {
                     operationsTable.Rows[i].DefaultCellStyle.BackColor = Color.PaleVioletRed;
                 }
 
-                if (_filteredOperations[i].Type == OperationType.Income)
+                if (filteredOperations[i].Type == OperationType.Income)
                 {
                     operationsTable.Rows[i].DefaultCellStyle.BackColor = Color.DarkSeaGreen;
                 }
@@ -125,7 +103,7 @@ namespace ExpensesTracker.Forms
 
         private void RefreshTable()
         {
-            FilterOperations();
+            GetFilteredOperations();
 
             ActualizeTableRecords();
             ColorTable();
@@ -133,7 +111,7 @@ namespace ExpensesTracker.Forms
 
         private void SavePdfButton_Click(object sender, EventArgs e)
         {
-            _pdfGenerator.GeneratePdf(_filteredOperations);
+            _pdfGenerator.GeneratePdf(GetFilteredOperations());
         }
 
         private void RefreshListOfAccountsInAccountsBox(Account accountToUse = null)
@@ -177,7 +155,7 @@ namespace ExpensesTracker.Forms
             {
                 OnAccountAdded = (account) =>
                 {
-                    var operationResult = _storage.AddAccount(account);
+                    var operationResult = _storage.CreateAccount(account);
                     if (!operationResult.Success)
                     {
                         MessageBox.Show(operationResult.ErrorMassage);

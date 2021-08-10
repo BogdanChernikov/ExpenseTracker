@@ -15,5 +15,6 @@ namespace ExpensesTracker.DAL.Models
         public string Comment { get; set; }
 
         public int AccountId { get; set; }
+        public AccountEntity Account { get; set; }
     }
 }

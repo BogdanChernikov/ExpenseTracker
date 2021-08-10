@@ -21,7 +21,7 @@ namespace ExpensesTracker.Services
             _accounts = DbStorage.GetAccounts();
         }
 
-        public OperationResult AddAccount(Account account)
+        public OperationResult CreateAccount(Account account)
         {
             var operationResult = new OperationResult()
             {
@@ -79,22 +79,6 @@ namespace ExpensesTracker.Services
                 CreateDefaultAccount();
         }
 
-        private void CreateDefaultAccount()
-        {
-            var account = new Account()
-            {
-                Name = "Main",
-                InitialBalance = 0,
-                AccountOperations = new List<AccountOperation>()
-            };
-
-            var operationResult = AddAccount(account);
-            if (!operationResult.Success)
-            {
-                throw new InvalidOperationException(operationResult.ErrorMassage);
-            }
-        }
-
         public void CreateOperation(AccountOperation operation, int accountId)
         {
             var operationEntity = new OperationEntity
@@ -126,6 +110,44 @@ namespace ExpensesTracker.Services
         public void DeleteOperation(AccountOperation operation)
         {
             DbStorage.DeleteOperation(operation);
+        }
+
+        public List<AccountOperation> GetFilteredOperations(OperationsQueryFilter filteredOperationModel)
+        {
+            IEnumerable<AccountOperation> filteredOperations = _accounts.Single(x => x.Id == filteredOperationModel.Id).AccountOperations;
+
+            var chosenCategory = filteredOperationModel.Category;
+
+            if (chosenCategory != "All categories")
+            {
+                filteredOperations = filteredOperations.Where(x => x.Category == chosenCategory);
+            }
+
+            if (!string.IsNullOrWhiteSpace(filteredOperationModel.SearchText))
+            {
+                filteredOperations = filteredOperations
+                    .Where(x => x.Comment.Contains(filteredOperationModel.SearchText.Trim()));
+            }
+
+            filteredOperations = filteredOperations.Where(x => x.Date >= filteredOperationModel.StartDate);
+            filteredOperations = filteredOperations.Where(x => x.Date <= filteredOperationModel.EndDate);
+            return filteredOperations.ToList();
+        }
+
+        private void CreateDefaultAccount()
+        {
+            var account = new Account()
+            {
+                Name = "Main",
+                InitialBalance = 0,
+                AccountOperations = new List<AccountOperation>()
+            };
+
+            var operationResult = CreateAccount(account);
+            if (!operationResult.Success)
+            {
+                throw new InvalidOperationException(operationResult.ErrorMassage);
+            }
         }
     }
 }
