@@ -79,7 +79,7 @@
     <Compile Include="Services\PDFGenerator.cs" />
     <Compile Include="Services\Scope.cs" />
     <Compile Include="Services\ScopeFactory.cs" />
-    <Compile Include="Services\Storage.cs" />
+    <Compile Include="Services\StateManager.cs" />
     <Compile Include="Models\Account.cs" />
     <Compile Include="Models\AccountOperation.cs" />
     <Compile Include="Forms\CreateExpenseForm.cs">

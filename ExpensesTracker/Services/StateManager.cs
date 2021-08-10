@@ -8,17 +8,21 @@ using System.Linq;
 
 namespace ExpensesTracker.Services
 {
-    public class Storage
+    public class StateManager
     {
-        private readonly List<Account> _accounts;
-        public readonly DbStorage DbStorage;
+        private List<Account> _accounts;
+        private readonly DbStorage _dbStorage;
 
         public IReadOnlyCollection<Account> Accounts => _accounts.AsReadOnly();
 
-        public Storage()
+        public StateManager()
         {
-            DbStorage = new DbStorage();
-            _accounts = DbStorage.GetAccounts();
+            _dbStorage = new DbStorage();
+        }
+
+        public void Initialize()
+        {
+            _accounts = _dbStorage.GetAccounts();
         }
 
         public OperationResult CreateAccount(Account account)
@@ -35,7 +39,7 @@ namespace ExpensesTracker.Services
             }
 
             var accountEntity = new AccountEntity { Name = account.Name, InitialBalance = account.InitialBalance };
-            DbStorage.CreateAccount(accountEntity);
+            _dbStorage.CreateAccount(accountEntity);
 
             account.Id = accountEntity.Id;
             _accounts.Add(account);
@@ -59,7 +63,7 @@ namespace ExpensesTracker.Services
             accountToEdit.Name = editAccountModel.Name;
             accountToEdit.InitialBalance = editAccountModel.InitialBalance;
 
-            DbStorage.EditAccount(accountToEdit);
+            _dbStorage.EditAccount(accountToEdit);
 
             operationResult.Success = true;
 
@@ -69,7 +73,7 @@ namespace ExpensesTracker.Services
         public void DeleteAccount(Account account)
         {
             _accounts.Remove(account);
-            DbStorage.DeleteAccount(account.Id);
+            _dbStorage.DeleteAccount(account.Id);
             EnsureAccountExists();
         }
 
@@ -90,7 +94,8 @@ namespace ExpensesTracker.Services
                 AccountId = accountId,
             };
 
-            DbStorage.CreateOperation(operationEntity);
+            _accounts.Single(x => x.Id == accountId).AccountOperations.Add(operation);
+            _dbStorage.CreateOperation(operationEntity);
             operation.Id = operationEntity.Id;
         }
 
@@ -104,12 +109,13 @@ namespace ExpensesTracker.Services
             operationToEdit.Comment = editOperationModel.Comment;
             operationToEdit.Date = editOperationModel.Date;
 
-            DbStorage.EditOperation(operationToEdit);
+            _dbStorage.EditOperation(operationToEdit);
         }
 
-        public void DeleteOperation(AccountOperation operation)
+        public void DeleteOperation(AccountOperation operation, int accountId)
         {
-            DbStorage.DeleteOperation(operation);
+            Accounts.Single(x => x.Id == accountId).AccountOperations.Remove(operation);
+            _dbStorage.DeleteOperation(operation.Id);
         }
 
         public List<AccountOperation> GetFilteredOperations(OperationsQueryFilter filteredOperationModel)

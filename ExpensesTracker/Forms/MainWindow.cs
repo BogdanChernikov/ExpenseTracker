@@ -14,8 +14,8 @@ namespace ExpensesTracker.Forms
 {
     public partial class MainWindow : Form
     {
-        private readonly PdfGenerator _pdfGenerator = new PdfGenerator();
-        private readonly Storage _storage;
+        private readonly PdfGenerator _pdfGenerator;
+        private readonly StateManager _stateManager;
 
         private Account GetSelectedAccount() => (Account)accountBox.SelectedItem;
         private List<AccountOperation> GetSelectedAccountOperations() => GetSelectedAccount().AccountOperations;
@@ -24,7 +24,8 @@ namespace ExpensesTracker.Forms
         {
             InitializeComponent();
 
-            _storage = new Storage();
+            _pdfGenerator = new PdfGenerator();
+            _stateManager = new StateManager();
         }
 
         private void MainWindow_Load(object sender, EventArgs e)
@@ -34,7 +35,8 @@ namespace ExpensesTracker.Forms
             startDateDisplay.ValueChanged += DateTimePicker1_ValueChanged;
             endDateDisplay.ValueChanged += DateTimePicker2_ValueChanged;
 
-            _storage.EnsureAccountExists();
+            _stateManager.Initialize();
+            _stateManager.EnsureAccountExists();
 
             categoryFilterBox.SelectedItem = "All categories";
             categoryFilterBox.SelectedIndexChanged += CategoryFilter_SelectedIndexChanged;
@@ -61,7 +63,7 @@ namespace ExpensesTracker.Forms
 
         private List<AccountOperation> GetFilteredOperations()
         {
-            return _storage.GetFilteredOperations(new OperationsQueryFilter
+            return _stateManager.GetFilteredOperations(new OperationsQueryFilter
             {
                 Category = Convert.ToString(categoryFilterBox.SelectedItem),
                 EndDate = endDateDisplay.Value,
@@ -116,12 +118,12 @@ namespace ExpensesTracker.Forms
 
         private void RefreshListOfAccountsInAccountsBox(Account accountToUse = null)
         {
-            accountToUse = accountToUse ?? _storage.Accounts.First();
+            accountToUse = accountToUse ?? _stateManager.Accounts.First();
 
             accountBox.SelectedIndexChanged -= SelectedAccountBox_SelectedIndexChanged;
 
             accountBox.DataSource = null;
-            accountBox.DataSource = _storage.Accounts;
+            accountBox.DataSource = _stateManager.Accounts;
 
             accountBox.DisplayMember = "Name";
 
@@ -155,7 +157,7 @@ namespace ExpensesTracker.Forms
             {
                 OnAccountAdded = (account) =>
                 {
-                    var operationResult = _storage.CreateAccount(account);
+                    var operationResult = _stateManager.CreateAccount(account);
                     if (!operationResult.Success)
                     {
                         MessageBox.Show(operationResult.ErrorMassage);
@@ -175,7 +177,7 @@ namespace ExpensesTracker.Forms
                 TargetAccountForEdit = GetSelectedAccount(),
                 OnAccountEdit = editedAccountModel =>
                 {
-                    var operationResult = _storage.EditAccount(editedAccountModel);
+                    var operationResult = _stateManager.EditAccount(editedAccountModel);
                     if (!operationResult.Success)
                     {
                         MessageBox.Show(operationResult.ErrorMassage);
@@ -188,7 +190,7 @@ namespace ExpensesTracker.Forms
 
                 OnAccountDeleted = () =>
                 {
-                    _storage.DeleteAccount(GetSelectedAccount());
+                    _stateManager.DeleteAccount(GetSelectedAccount());
 
                     RefreshListOfAccountsInAccountsBox();
                     RefreshTableAndBalance();
@@ -203,8 +205,7 @@ namespace ExpensesTracker.Forms
             {
                 OnIncomeAdded = (income) =>
                 {
-                    _storage.CreateOperation(income, GetSelectedAccount().Id);
-                    GetSelectedAccount().AccountOperations.Add(income);
+                    _stateManager.CreateOperation(income, GetSelectedAccount().Id);
                     RefreshTableAndBalance();
                 }
             };
@@ -217,8 +218,7 @@ namespace ExpensesTracker.Forms
             {
                 OnExpenseAdded = (expense) =>
                 {
-                    _storage.CreateOperation(expense, GetSelectedAccount().Id);
-                    GetSelectedAccount().AccountOperations.Add(expense);
+                    _stateManager.CreateOperation(expense, GetSelectedAccount().Id);
                     RefreshTableAndBalance();
                 }
             };
@@ -256,14 +256,13 @@ namespace ExpensesTracker.Forms
                     TargetExpense = operation,
                     OnExpenseEdit = editOperation =>
                     {
-                        _storage.EditOperation(editOperation, GetSelectedAccount().Id);
+                        _stateManager.EditOperation(editOperation, GetSelectedAccount().Id);
                         RefreshTableAndBalance();
                     },
 
                     OnExpenseDeleted = () =>
                     {
-                        GetSelectedAccountOperations().Remove(operation);
-                        _storage.DeleteOperation(operation);
+                        _stateManager.DeleteOperation(operation, GetSelectedAccount().Id);
                         RefreshTableAndBalance();
                     }
                 };
@@ -276,13 +275,12 @@ namespace ExpensesTracker.Forms
                     TargetIncome = operation,
                     OnIncomeEdit = editOperation =>
                     {
-                        _storage.EditOperation(editOperation, GetSelectedAccount().Id);
+                        _stateManager.EditOperation(editOperation, GetSelectedAccount().Id);
                         RefreshTableAndBalance();
                     },
                     OnIncomeDeleted = () =>
                     {
-                        GetSelectedAccountOperations().Remove(operation);
-                        _storage.DeleteOperation(operation);
+                        _stateManager.DeleteOperation(operation, GetSelectedAccount().Id);
                         RefreshTableAndBalance();
                     }
                 };
