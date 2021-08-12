@@ -71,6 +71,7 @@
     <Compile Include="Models\Infrastructure\OperationResult.cs" />
     <Compile Include="Models\RequestModels\EditAccountModel.cs" />
     <Compile Include="Models\RequestModels\EditOperationModel.cs" />
+    <Compile Include="Models\ViewModels\AccountViewModel.cs" />
     <Compile Include="Models\RequestModels\OperationsQueryFilter.cs" />
     <Compile Include="PlaceHolderTextBox.cs">
       <SubType>Component</SubType>

@@ -3,6 +3,7 @@ using ExpensesTracker.Models;
 using ExpensesTracker.Models.Enums;
 using ExpensesTracker.Models.Infrastructure;
 using ExpensesTracker.Models.RequestModels;
+using ExpensesTracker.Models.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,6 +25,15 @@ namespace ExpensesTracker.Services
         public void Initialize()
         {
             _accounts = _dbStorage.GetAccounts();
+        }
+
+        public List<AccountViewModel> GetAccountViewModels()
+        {
+            return Accounts.Select(account => new AccountViewModel
+            {
+                Name = account.Name,
+                Id = account.Id,
+            }).ToList();
         }
 
         public OperationResult CreateAccount(Account account)

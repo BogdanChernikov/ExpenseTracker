@@ -1,5 +1,6 @@
 ﻿using ExpensesTracker.Models.Enums;
 using ExpensesTracker.Models.RequestModels;
+using ExpensesTracker.Models.ViewModels;
 using ExpensesTracker.Services;
 using System;
 using System.Collections.Generic;
@@ -7,7 +8,6 @@ using System.Drawing;
 using System.Globalization;
 using System.Linq;
 using System.Windows.Forms;
-using Account = ExpensesTracker.Models.Account;
 using AccountOperation = ExpensesTracker.Models.AccountOperation;
 
 namespace ExpensesTracker.Forms
@@ -17,7 +17,7 @@ namespace ExpensesTracker.Forms
         private readonly PdfGenerator _pdfGenerator;
         private readonly StateManager _stateManager;
 
-        private Account GetSelectedAccount() => (Account)accountBox.SelectedItem;
+        private int SelectedAccountId => ((AccountViewModel)accountBox.SelectedItem).Id;
 
         public MainWindow()
         {
@@ -67,7 +67,7 @@ namespace ExpensesTracker.Forms
                 Category = Convert.ToString(categoryFilterBox.SelectedItem),
                 EndDate = endDateDisplay.Value,
                 StartDate = startDateDisplay.Value,
-                Id = GetSelectedAccount().Id,
+                Id = SelectedAccountId,
                 SearchText = !searchInput.IsPlaceHolderActive ? searchInput.Text : null
             });
         }
@@ -115,25 +115,27 @@ namespace ExpensesTracker.Forms
             _pdfGenerator.GeneratePdf(GetFilteredOperations());
         }
 
-        private void RefreshListOfAccountsInAccountsBox(Account accountToUse = null)
+        private void RefreshListOfAccountsInAccountsBox(int? selectedAccountId = null)
         {
-            accountToUse = accountToUse ?? _stateManager.Accounts.First();
+            var accountViewModels = _stateManager.GetAccountViewModels();
+            var accountVm = selectedAccountId.HasValue
+                ? accountViewModels.Single(x => x.Id == selectedAccountId.Value)
+                : accountViewModels.First();
 
             accountBox.SelectedIndexChanged -= SelectedAccountBox_SelectedIndexChanged;
 
             accountBox.DataSource = null;
-            accountBox.DataSource = _stateManager.Accounts;
+            accountBox.DataSource = accountViewModels;
 
             accountBox.DisplayMember = "Name";
 
-            accountBox.SelectedItem = accountToUse;
-
+            accountBox.SelectedItem = accountVm;
             accountBox.SelectedIndexChanged += SelectedAccountBox_SelectedIndexChanged;
         }
 
         private void RefreshBalance()
         {
-            var balance = _stateManager.GetAccountBalance(GetSelectedAccount().Id);
+            var balance = _stateManager.GetAccountBalance(SelectedAccountId);
             accountBalanceLable.Text = "On your balance  " + Convert.ToString(balance, CultureInfo.InvariantCulture);
         }
 
@@ -155,7 +157,7 @@ namespace ExpensesTracker.Forms
                         return;
                     }
 
-                    RefreshListOfAccountsInAccountsBox(GetSelectedAccount());
+                    RefreshListOfAccountsInAccountsBox(account.Id);
                 }
             };
             createAccountForm.Show();
@@ -165,7 +167,7 @@ namespace ExpensesTracker.Forms
         {
             var editAccountForm = new EditAccountForm
             {
-                TargetAccountForEdit = GetSelectedAccount(),
+                TargetAccountForEdit = _stateManager.Accounts.Single(x => x.Id == SelectedAccountId),
                 OnAccountEdit = editedAccountModel =>
                 {
                     var operationResult = _stateManager.EditAccount(editedAccountModel);
@@ -175,13 +177,13 @@ namespace ExpensesTracker.Forms
                         return;
                     }
 
-                    RefreshListOfAccountsInAccountsBox(GetSelectedAccount());
+                    RefreshListOfAccountsInAccountsBox(editedAccountModel.Id);
                     RefreshBalance();
                 },
 
                 OnAccountDeleted = () =>
                 {
-                    _stateManager.DeleteAccount(GetSelectedAccount().Id);
+                    _stateManager.DeleteAccount(SelectedAccountId);
 
                     RefreshListOfAccountsInAccountsBox();
                     RefreshTableAndBalance();
@@ -196,7 +198,7 @@ namespace ExpensesTracker.Forms
             {
                 OnIncomeAdded = (income) =>
                 {
-                    _stateManager.CreateOperation(income, GetSelectedAccount().Id);
+                    _stateManager.CreateOperation(income, SelectedAccountId);
                     RefreshTableAndBalance();
                 }
             };
@@ -209,7 +211,7 @@ namespace ExpensesTracker.Forms
             {
                 OnExpenseAdded = (expense) =>
                 {
-                    _stateManager.CreateOperation(expense, GetSelectedAccount().Id);
+                    _stateManager.CreateOperation(expense, SelectedAccountId);
                     RefreshTableAndBalance();
                 }
             };
