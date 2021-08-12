@@ -255,7 +255,6 @@ namespace ExpensesTracker.Forms
             this.searchInput.Name = "searchInput";
             this.searchInput.Size = new System.Drawing.Size(100, 20);
             this.searchInput.TabIndex = 19;
-            this.searchInput.TextChanged += new System.EventHandler(this.SearchInput_TextChanged);
             // 
             // MainWindow
             // 
