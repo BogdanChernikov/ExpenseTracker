@@ -29,22 +29,17 @@ namespace ExpensesTracker.Forms
 
         private void MainWindow_Load(object sender, EventArgs e)
         {
-            startDateDisplay.Value = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
-            endDateDisplay.Value = DateTime.Today;
-            startDateDisplay.ValueChanged += DateTimePicker1_ValueChanged;
-            endDateDisplay.ValueChanged += DateTimePicker2_ValueChanged;
+            InitializeDateRange();
+            InitializeCategoryFilterBox();
 
             _stateManager.Initialize();
             _stateManager.EnsureAccountExists();
-
-            categoryFilterBox.SelectedItem = "All categories";
-            categoryFilterBox.SelectedIndexChanged += CategoryFilter_SelectedIndexChanged;
 
             RefreshListOfAccountsInAccountsBox();
 
             RefreshTableAndBalance();
 
-            SetupPlaceHolder();
+            SetupSearchInput();
         }
 
         private void CategoryFilter_SelectedIndexChanged(object sender, EventArgs e) => RefreshTable();
@@ -55,10 +50,7 @@ namespace ExpensesTracker.Forms
 
         private void DateTimePicker2_ValueChanged(object sender, EventArgs e) => RefreshTable();
 
-        private void SelectedAccountBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            RefreshTableAndBalance();
-        }
+        private void SelectedAccountBox_SelectedIndexChanged(object sender, EventArgs e) => RefreshTableAndBalance();
 
         private List<AccountOperation> GetFilteredOperations()
         {
@@ -78,24 +70,23 @@ namespace ExpensesTracker.Forms
             RefreshBalance();
         }
 
-        private void ActualizeTableRecords()
+        private void ActualizeTableRecords(List<AccountOperation> filterOperations)
         {
             operationsTable.DataSource = null;
-            operationsTable.DataSource = GetFilteredOperations();
+            operationsTable.DataSource = filterOperations;
             operationsTable.ClearSelection();
         }
 
-        private void ColorTable()
+        private void ColorTable(List<AccountOperation> filterOperations)
         {
-            var filteredOperations = GetFilteredOperations();
-            for (var i = 0; i < filteredOperations.Count; i++)
+            for (var i = 0; i < filterOperations.Count; i++)
             {
-                if (filteredOperations[i].Type == OperationType.Expense)
+                if (filterOperations[i].Type == OperationType.Expense)
                 {
                     operationsTable.Rows[i].DefaultCellStyle.BackColor = Color.PaleVioletRed;
                 }
 
-                if (filteredOperations[i].Type == OperationType.Income)
+                if (filterOperations[i].Type == OperationType.Income)
                 {
                     operationsTable.Rows[i].DefaultCellStyle.BackColor = Color.DarkSeaGreen;
                 }
@@ -104,10 +95,9 @@ namespace ExpensesTracker.Forms
 
         private void RefreshTable()
         {
-            GetFilteredOperations();
-
-            ActualizeTableRecords();
-            ColorTable();
+            var filteredOperations = GetFilteredOperations();
+            ActualizeTableRecords(filteredOperations);
+            ColorTable(filteredOperations);
         }
 
         private void SavePdfButton_Click(object sender, EventArgs e)
@@ -140,11 +130,6 @@ namespace ExpensesTracker.Forms
         }
 
         private void CreateAccountForm_Click(object sender, EventArgs e)
-        {
-            CreateAccount();
-        }
-
-        private void CreateAccount()
         {
             var createAccountForm = new CreateAccountForm
             {
@@ -292,10 +277,24 @@ namespace ExpensesTracker.Forms
                 : Color.DarkOliveGreen;
         }
 
-        private void SetupPlaceHolder()
+        private void SetupSearchInput()
         {
-            var placeHolderTextBox = searchInput;
-            placeHolderTextBox.SetupPlaceHolder("Search", Color.DarkGray);
+            searchInput.SetupPlaceHolder("Search", Color.DarkGray);
+            searchInput.TextChanged += SearchInput_TextChanged;
+        }
+
+        private void InitializeDateRange()
+        {
+            startDateDisplay.Value = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+            endDateDisplay.Value = DateTime.Today;
+            startDateDisplay.ValueChanged += DateTimePicker1_ValueChanged;
+            endDateDisplay.ValueChanged += DateTimePicker2_ValueChanged;
+        }
+
+        private void InitializeCategoryFilterBox()
+        {
+            categoryFilterBox.SelectedItem = "All categories";
+            categoryFilterBox.SelectedIndexChanged += CategoryFilter_SelectedIndexChanged;
         }
     }
 }
