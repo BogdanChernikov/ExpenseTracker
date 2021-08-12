@@ -16,6 +16,7 @@ namespace ExpensesTracker.Forms
     {
         private readonly PdfGenerator _pdfGenerator;
         private readonly StateManager _stateManager;
+        private readonly OperationsTableManager _operationsTableManager;
 
         private int SelectedAccountId => ((AccountViewModel)accountBox.SelectedItem).Id;
 
@@ -25,6 +26,7 @@ namespace ExpensesTracker.Forms
 
             _pdfGenerator = new PdfGenerator();
             _stateManager = new StateManager();
+            _operationsTableManager = new OperationsTableManager(operationsTable);
         }
 
         private void MainWindow_Load(object sender, EventArgs e)
@@ -40,6 +42,11 @@ namespace ExpensesTracker.Forms
             RefreshTableAndBalance();
 
             SetupSearchInput();
+        }
+
+        private void RefreshTable()
+        {
+            _operationsTableManager.RefreshTable(GetFilteredOperations());
         }
 
         private void CategoryFilter_SelectedIndexChanged(object sender, EventArgs e) => RefreshTable();
@@ -68,36 +75,6 @@ namespace ExpensesTracker.Forms
         {
             RefreshTable();
             RefreshBalance();
-        }
-
-        private void ActualizeTableRecords(List<AccountOperation> filterOperations)
-        {
-            operationsTable.DataSource = null;
-            operationsTable.DataSource = filterOperations;
-            operationsTable.ClearSelection();
-        }
-
-        private void ColorTable(List<AccountOperation> filterOperations)
-        {
-            for (var i = 0; i < filterOperations.Count; i++)
-            {
-                if (filterOperations[i].Type == OperationType.Expense)
-                {
-                    operationsTable.Rows[i].DefaultCellStyle.BackColor = Color.PaleVioletRed;
-                }
-
-                if (filterOperations[i].Type == OperationType.Income)
-                {
-                    operationsTable.Rows[i].DefaultCellStyle.BackColor = Color.DarkSeaGreen;
-                }
-            }
-        }
-
-        private void RefreshTable()
-        {
-            var filteredOperations = GetFilteredOperations();
-            ActualizeTableRecords(filteredOperations);
-            ColorTable(filteredOperations);
         }
 
         private void SavePdfButton_Click(object sender, EventArgs e)
@@ -208,25 +185,27 @@ namespace ExpensesTracker.Forms
             if (e.RowIndex == -1)
                 return;
 
-            EditOperation();
+            var selectedOperation = _operationsTableManager.GetSelectedAccountOperation();
+            if (selectedOperation == null)
+                return;
+
+            EditOperation(selectedOperation);
         }
 
         private void EditOperationButton_Click(object sender, EventArgs e)
         {
-            if (operationsTable.SelectedRows.Count == 0)
+            var selectedOperation = _operationsTableManager.GetSelectedAccountOperation();
+            if (selectedOperation == null)
             {
                 MessageBox.Show(@"You have not selected any operations");
                 return;
             }
 
-            EditOperation();
+            EditOperation(selectedOperation);
         }
 
-        private void EditOperation()
+        private void EditOperation(AccountOperation operation)
         {
-            if (operationsTable.SelectedRows.Count == 0 || !(operationsTable.SelectedRows[0].DataBoundItem is AccountOperation operation))
-                return;
-
             if (operation.Type == OperationType.Expense)
             {
                 var editExpenseForm = new EditExpenseForm
@@ -268,13 +247,7 @@ namespace ExpensesTracker.Forms
 
         private void OperationsTable_SelectionChanged(object sender, EventArgs e)
         {
-            if (operationsTable.SelectedRows.Count == 0 ||
-                !(operationsTable.SelectedRows[0].DataBoundItem is AccountOperation operation))
-                return;
-
-            operationsTable.DefaultCellStyle.SelectionBackColor = operation.Type == OperationType.Expense
-                ? Color.Brown
-                : Color.DarkOliveGreen;
+            _operationsTableManager.ColorSelectedRow();
         }
 
         private void SetupSearchInput()
