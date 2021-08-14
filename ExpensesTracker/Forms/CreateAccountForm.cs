@@ -1,13 +1,14 @@
 ﻿using ExpensesTracker.Models;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace ExpensesTracker.Forms
 {
     public partial class CreateAccountForm : Form
     {
-        public Action<Account> OnAccountAdded;
+        public Func<Account, Task> OnAccountAdded;
 
         public CreateAccountForm()
         {
@@ -19,7 +20,7 @@ namespace ExpensesTracker.Forms
             this.Close();
         }
 
-        private void AddNewAccountButton_Click(object sender, EventArgs e)
+        private async void AddNewAccountButton_Click(object sender, EventArgs e)
         {
             var account = new Account
             {
@@ -27,7 +28,7 @@ namespace ExpensesTracker.Forms
                 Name = newAccountNameTextBox.Text,
                 AccountOperations = new List<AccountOperation>()
             };
-            OnAccountAdded(account);
+            await OnAccountAdded(account);
 
             this.Close();
         }

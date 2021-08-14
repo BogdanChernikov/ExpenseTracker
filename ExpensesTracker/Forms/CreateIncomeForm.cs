@@ -1,12 +1,13 @@
 ﻿using ExpensesTracker.Models;
 using System;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace ExpensesTracker.Forms
 {
     public partial class CreateIncomeForm : Form
     {
-        public Action<AccountOperation> OnIncomeAdded;
+        public Func<AccountOperation, Task> OnIncomeAdded;
 
         public CreateIncomeForm()
         {
@@ -19,7 +20,7 @@ namespace ExpensesTracker.Forms
             this.Close();
         }
 
-        public void AddIncomeButton_Click(object sender, EventArgs e)
+        public async void AddIncomeButton_Click(object sender, EventArgs e)
         {
             var income = new AccountOperation
             {
@@ -29,7 +30,7 @@ namespace ExpensesTracker.Forms
                 Category = "Incomes",
             };
 
-            OnIncomeAdded(income);
+            await OnIncomeAdded(income);
             this.Close();
         }
     }

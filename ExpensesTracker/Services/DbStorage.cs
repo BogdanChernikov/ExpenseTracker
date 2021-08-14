@@ -2,6 +2,7 @@
 using ExpensesTracker.Models;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Account = ExpensesTracker.Models.Account;
 
 namespace ExpensesTracker.Services
@@ -15,13 +16,12 @@ namespace ExpensesTracker.Services
             _scopeFactory = new ScopeFactory();
         }
 
-        public List<Account> GetAccounts()
+        public async Task<List<Account>> GetAccountsAsync()
         {
             using (var scope = _scopeFactory.CreateScope())
             {
-                var accountEntities = scope.AccountRepository.GetAccounts();
+                var accountEntities = await scope.AccountRepository.GetAccountsAsync();
                 var accounts = accountEntities.Select(account => new Account()
-
                 {
                     Name = account.Name,
                     Id = account.Id,
@@ -40,67 +40,66 @@ namespace ExpensesTracker.Services
             }
         }
 
-        public void CreateAccount(AccountEntity accountEntity)
+        public async Task CreateAccountAsync(AccountEntity accountEntity)
         {
             using (var scope = _scopeFactory.CreateScope())
             {
                 scope.AccountRepository.CreateAccount(accountEntity);
-                scope.SaveChanges();
+                await scope.SaveChangesAsync();
             }
         }
 
-        public void DeleteAccount(int id)
+        public async Task DeleteAccountAsync(int id)
         {
             using (var scope = _scopeFactory.CreateScope())
             {
-                scope.AccountRepository.DeleteAccount(id);
-                scope.SaveChanges();
+                await scope.AccountRepository.DeleteAccountAsync(id);
+                await scope.SaveChangesAsync();
             }
         }
 
-        public void EditAccount(Account account)
+        public async Task EditAccountAsync(Account account)
         {
             using (var scope = _scopeFactory.CreateScope())
             {
-                var accountEntities = scope.AccountRepository.FindById(account.Id);
-
+                var accountEntities = await scope.AccountRepository.FindByIdAsync(account.Id);
                 accountEntities.Name = account.Name;
                 accountEntities.InitialBalance = account.InitialBalance;
 
-                scope.SaveChanges();
+                await scope.SaveChangesAsync();
             }
         }
 
-        public void CreateOperation(OperationEntity operationEntity)
+        public async Task CreateOperationAsync(OperationEntity operationEntity)
         {
             using (var scope = _scopeFactory.CreateScope())
             {
                 scope.OperationRepository.CreateOperation(operationEntity);
-                scope.SaveChanges();
+                await scope.SaveChangesAsync();
             }
         }
 
-        public void DeleteOperation(int id)
+        public async Task DeleteOperationAsync(int id)
         {
             using (var scope = _scopeFactory.CreateScope())
             {
-                scope.OperationRepository.DeleteOperation(id);
-                scope.SaveChanges();
+                await scope.OperationRepository.DeleteOperationAsync(id);
+                await scope.SaveChangesAsync();
             }
         }
 
-        public void EditOperation(AccountOperation operation)
+        public async Task EditOperationAsync(AccountOperation operation)
         {
             using (var scope = _scopeFactory.CreateScope())
             {
-                var operationEntity = scope.OperationRepository.FindById(operation.Id);
+                var operationEntity = await scope.OperationRepository.FindByIdAsync(operation.Id);
 
                 operationEntity.Amount = operation.Amount;
                 operationEntity.Category = operation.Category;
                 operationEntity.Comment = operation.Comment;
                 operationEntity.Date = operation.Date;
 
-                scope.SaveChanges();
+                await scope.SaveChangesAsync();
             }
         }
     }

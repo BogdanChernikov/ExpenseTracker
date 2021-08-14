@@ -1,14 +1,15 @@
 ﻿using ExpensesTracker.Models;
 using ExpensesTracker.Models.RequestModels;
 using System;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace ExpensesTracker.Forms
 {
     public partial class EditAccountForm : Form
     {
-        public Action<EditAccountModel> OnAccountEdit;
-        public Action OnAccountDeleted;
+        public Func<EditAccountModel, Task> OnAccountEdit;
+        public Func<Task> OnAccountDeleted;
         public Account TargetAccountForEdit;
 
         public EditAccountForm()
@@ -22,9 +23,9 @@ namespace ExpensesTracker.Forms
             editInitialBalanceInput.Value = TargetAccountForEdit.InitialBalance;
         }
 
-        public void SaveEditedAccountButton_Click(object sender, EventArgs e)
+        public async void SaveEditedAccountButton_Click(object sender, EventArgs e)
         {
-            OnAccountEdit(new EditAccountModel()
+            await OnAccountEdit(new EditAccountModel()
             {
                 InitialBalance = editInitialBalanceInput.Value,
                 Name = editAccountNameInput.Text,
@@ -38,9 +39,9 @@ namespace ExpensesTracker.Forms
             this.Close();
         }
 
-        private void DeleteAccountButton_Click(object sender, EventArgs e)
+        private async void DeleteAccountButton_Click(object sender, EventArgs e)
         {
-            OnAccountDeleted();
+            await OnAccountDeleted();
             this.Close();
         }
     }

@@ -1,14 +1,15 @@
 ﻿using ExpensesTracker.Models;
 using ExpensesTracker.Models.RequestModels;
 using System;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace ExpensesTracker.Forms
 {
     public partial class EditIncomeForm : Form
     {
-        public Action<EditOperationModel> OnIncomeEdit;
-        public Action OnIncomeDeleted;
+        public Func<EditOperationModel, Task> OnIncomeEdit;
+        public Func<Task> OnIncomeDeleted;
         public AccountOperation TargetIncome;
 
         public EditIncomeForm()
@@ -23,15 +24,15 @@ namespace ExpensesTracker.Forms
             incomeDateInput.Value = TargetIncome.Date;
         }
 
-        private void DeleteTargetIncomeButton_Click(object sender, EventArgs e)
+        private async void DeleteTargetIncomeButton_Click(object sender, EventArgs e)
         {
-            OnIncomeDeleted();
+            await OnIncomeDeleted();
             this.Close();
         }
 
-        private void SaveEditedIncomeButton_Click(object sender, EventArgs e)
+        private async void SaveEditedIncomeButton_Click(object sender, EventArgs e)
         {
-            OnIncomeEdit(new EditOperationModel()
+            await OnIncomeEdit(new EditOperationModel()
             {
                 Amount = incomeAmountInput.Value,
                 Date = incomeDateInput.Value,

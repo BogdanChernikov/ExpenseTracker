@@ -1,5 +1,6 @@
 ﻿using ExpensesTracker.DAL;
 using System;
+using System.Threading.Tasks;
 
 namespace ExpensesTracker.Services
 {
@@ -16,9 +17,9 @@ namespace ExpensesTracker.Services
             _dbContext = dbContext;
         }
 
-        public void SaveChanges()
+        public async Task SaveChangesAsync()
         {
-            _dbContext.SaveChanges();
+            await _dbContext.SaveChangesAsync();
         }
 
         public void Dispose()
