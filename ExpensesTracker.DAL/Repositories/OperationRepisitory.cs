@@ -2,7 +2,7 @@
 using System.Data.Entity;
 using System.Threading.Tasks;
 
-namespace ExpensesTracker.DAL
+namespace ExpensesTracker.DAL.Repositories
 {
     public class OperationRepository
     {
@@ -25,8 +25,8 @@ namespace ExpensesTracker.DAL
 
         public async Task DeleteOperationAsync(int id)
         {
-            var operation = _dbContext.Operation.FirstAsync(x => x.Id == id);
-            _dbContext.Operation.Remove(await operation);
+            var operation = await _dbContext.Operation.FirstAsync(x => x.Id == id);
+            _dbContext.Operation.Remove(operation);
         }
     }
 }

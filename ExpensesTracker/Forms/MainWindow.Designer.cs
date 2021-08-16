@@ -58,9 +58,10 @@ namespace ExpensesTracker.Forms
             // 
             // openAddFormButton
             // 
-            this.openAddFormButton.Location = new System.Drawing.Point(502, 199);
+            this.openAddFormButton.Location = new System.Drawing.Point(753, 306);
+            this.openAddFormButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.openAddFormButton.Name = "openAddFormButton";
-            this.openAddFormButton.Size = new System.Drawing.Size(86, 22);
+            this.openAddFormButton.Size = new System.Drawing.Size(129, 34);
             this.openAddFormButton.TabIndex = 0;
             this.openAddFormButton.Text = "Add expenes";
             this.openAddFormButton.UseVisualStyleBackColor = true;
@@ -78,9 +79,10 @@ namespace ExpensesTracker.Forms
             "MedicinesAndHygieneProducts",
             "Food",
             "Incomes"});
-            this.categoryFilterBox.Location = new System.Drawing.Point(24, 87);
+            this.categoryFilterBox.Location = new System.Drawing.Point(36, 134);
+            this.categoryFilterBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.categoryFilterBox.Name = "categoryFilterBox";
-            this.categoryFilterBox.Size = new System.Drawing.Size(122, 21);
+            this.categoryFilterBox.Size = new System.Drawing.Size(181, 28);
             this.categoryFilterBox.TabIndex = 2;
             // 
             // operationsTable
@@ -93,13 +95,15 @@ namespace ExpensesTracker.Forms
             this.categoryBox,
             this.amountBox,
             this.commentBox});
-            this.operationsTable.AutoGenerateColumns = false;
-            this.operationsTable.Location = new System.Drawing.Point(24, 142);
+            this.operationsTable.Location = new System.Drawing.Point(36, 218);
+            this.operationsTable.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.operationsTable.MultiSelect = false;
             this.operationsTable.Name = "operationsTable";
             this.operationsTable.RowHeadersVisible = false;
+            this.operationsTable.RowHeadersWidth = 62;
+            this.operationsTable.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.operationsTable.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.operationsTable.Size = new System.Drawing.Size(434, 217);
+            this.operationsTable.Size = new System.Drawing.Size(651, 334);
             this.operationsTable.TabIndex = 4;
             this.operationsTable.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.OperationsTable_CellDoubleClick);
             this.operationsTable.SelectionChanged += new System.EventHandler(this.OperationsTable_SelectionChanged);
@@ -108,6 +112,7 @@ namespace ExpensesTracker.Forms
             // 
             this.dateBox.DataPropertyName = "Date";
             this.dateBox.HeaderText = "Date";
+            this.dateBox.MinimumWidth = 8;
             this.dateBox.Name = "dateBox";
             this.dateBox.ReadOnly = true;
             this.dateBox.Width = 90;
@@ -116,6 +121,7 @@ namespace ExpensesTracker.Forms
             // 
             this.categoryBox.DataPropertyName = "Category";
             this.categoryBox.HeaderText = "Category";
+            this.categoryBox.MinimumWidth = 8;
             this.categoryBox.Name = "categoryBox";
             this.categoryBox.ReadOnly = true;
             this.categoryBox.Width = 120;
@@ -124,6 +130,7 @@ namespace ExpensesTracker.Forms
             // 
             this.amountBox.DataPropertyName = "Amount";
             this.amountBox.HeaderText = "Amount";
+            this.amountBox.MinimumWidth = 8;
             this.amountBox.Name = "amountBox";
             this.amountBox.ReadOnly = true;
             this.amountBox.Width = 110;
@@ -132,6 +139,7 @@ namespace ExpensesTracker.Forms
             // 
             this.commentBox.DataPropertyName = "Comment";
             this.commentBox.HeaderText = "Comment";
+            this.commentBox.MinimumWidth = 8;
             this.commentBox.Name = "commentBox";
             this.commentBox.ReadOnly = true;
             this.commentBox.Width = 110;
@@ -140,9 +148,10 @@ namespace ExpensesTracker.Forms
             // 
             this.startDateDisplay.CustomFormat = "dd:MM:yyyy";
             this.startDateDisplay.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.startDateDisplay.Location = new System.Drawing.Point(170, 88);
+            this.startDateDisplay.Location = new System.Drawing.Point(255, 135);
+            this.startDateDisplay.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.startDateDisplay.Name = "startDateDisplay";
-            this.startDateDisplay.Size = new System.Drawing.Size(91, 20);
+            this.startDateDisplay.Size = new System.Drawing.Size(134, 26);
             this.startDateDisplay.TabIndex = 5;
             this.startDateDisplay.Value = new System.DateTime(2021, 6, 22, 0, 0, 0, 0);
             // 
@@ -150,9 +159,10 @@ namespace ExpensesTracker.Forms
             // 
             this.endDateDisplay.CustomFormat = "dd:MM:yyyy";
             this.endDateDisplay.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.endDateDisplay.Location = new System.Drawing.Point(289, 88);
+            this.endDateDisplay.Location = new System.Drawing.Point(434, 135);
+            this.endDateDisplay.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.endDateDisplay.Name = "endDateDisplay";
-            this.endDateDisplay.Size = new System.Drawing.Size(95, 20);
+            this.endDateDisplay.Size = new System.Drawing.Size(140, 26);
             this.endDateDisplay.TabIndex = 6;
             this.endDateDisplay.Value = new System.DateTime(2021, 6, 22, 0, 0, 0, 0);
             // 
@@ -160,17 +170,19 @@ namespace ExpensesTracker.Forms
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label1.Location = new System.Drawing.Point(267, 86);
+            this.label1.Location = new System.Drawing.Point(400, 132);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(16, 24);
+            this.label1.Size = new System.Drawing.Size(25, 33);
             this.label1.TabIndex = 7;
             this.label1.Text = "-";
             // 
             // savePdfButton
             // 
-            this.savePdfButton.Location = new System.Drawing.Point(502, 298);
+            this.savePdfButton.Location = new System.Drawing.Point(753, 458);
+            this.savePdfButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.savePdfButton.Name = "savePdfButton";
-            this.savePdfButton.Size = new System.Drawing.Size(86, 23);
+            this.savePdfButton.Size = new System.Drawing.Size(129, 35);
             this.savePdfButton.TabIndex = 8;
             this.savePdfButton.Text = "Save PDF";
             this.savePdfButton.UseVisualStyleBackColor = true;
@@ -178,9 +190,10 @@ namespace ExpensesTracker.Forms
             // 
             // editOperationButton
             // 
-            this.editOperationButton.Location = new System.Drawing.Point(502, 248);
+            this.editOperationButton.Location = new System.Drawing.Point(753, 382);
+            this.editOperationButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.editOperationButton.Name = "editOperationButton";
-            this.editOperationButton.Size = new System.Drawing.Size(86, 23);
+            this.editOperationButton.Size = new System.Drawing.Size(129, 35);
             this.editOperationButton.TabIndex = 9;
             this.editOperationButton.Text = "Edit";
             this.editOperationButton.UseVisualStyleBackColor = true;
@@ -190,30 +203,34 @@ namespace ExpensesTracker.Forms
             // 
             this.accountBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.accountBox.FormattingEnabled = true;
-            this.accountBox.Location = new System.Drawing.Point(126, 10);
+            this.accountBox.Location = new System.Drawing.Point(189, 15);
+            this.accountBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.accountBox.Name = "accountBox";
-            this.accountBox.Size = new System.Drawing.Size(157, 21);
+            this.accountBox.Size = new System.Drawing.Size(234, 28);
             this.accountBox.TabIndex = 10;
             // 
             // accountBalanceLable
             // 
             this.accountBalanceLable.AutoSize = true;
-            this.accountBalanceLable.Location = new System.Drawing.Point(21, 54);
+            this.accountBalanceLable.Location = new System.Drawing.Point(32, 83);
+            this.accountBalanceLable.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.accountBalanceLable.Name = "accountBalanceLable";
-            this.accountBalanceLable.Size = new System.Drawing.Size(72, 13);
+            this.accountBalanceLable.Size = new System.Drawing.Size(105, 20);
             this.accountBalanceLable.TabIndex = 11;
             this.accountBalanceLable.Text = "accountLabel";
             // 
             // contextMenuStrip1
             // 
+            this.contextMenuStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
             // 
             // openAddAccountFormButton
             // 
-            this.openAddAccountFormButton.Location = new System.Drawing.Point(318, 8);
+            this.openAddAccountFormButton.Location = new System.Drawing.Point(477, 12);
+            this.openAddAccountFormButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.openAddAccountFormButton.Name = "openAddAccountFormButton";
-            this.openAddAccountFormButton.Size = new System.Drawing.Size(75, 23);
+            this.openAddAccountFormButton.Size = new System.Drawing.Size(112, 35);
             this.openAddAccountFormButton.TabIndex = 15;
             this.openAddAccountFormButton.Text = "Add account";
             this.openAddAccountFormButton.UseVisualStyleBackColor = true;
@@ -221,9 +238,10 @@ namespace ExpensesTracker.Forms
             // 
             // editAccountButton
             // 
-            this.editAccountButton.Location = new System.Drawing.Point(410, 8);
+            this.editAccountButton.Location = new System.Drawing.Point(615, 12);
+            this.editAccountButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.editAccountButton.Name = "editAccountButton";
-            this.editAccountButton.Size = new System.Drawing.Size(75, 23);
+            this.editAccountButton.Size = new System.Drawing.Size(112, 35);
             this.editAccountButton.TabIndex = 16;
             this.editAccountButton.Text = "Edit";
             this.editAccountButton.UseVisualStyleBackColor = true;
@@ -231,9 +249,10 @@ namespace ExpensesTracker.Forms
             // 
             // openAddIncomeFormButton
             // 
-            this.openAddIncomeFormButton.Location = new System.Drawing.Point(502, 151);
+            this.openAddIncomeFormButton.Location = new System.Drawing.Point(753, 232);
+            this.openAddIncomeFormButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.openAddIncomeFormButton.Name = "openAddIncomeFormButton";
-            this.openAddIncomeFormButton.Size = new System.Drawing.Size(86, 23);
+            this.openAddIncomeFormButton.Size = new System.Drawing.Size(129, 35);
             this.openAddIncomeFormButton.TabIndex = 17;
             this.openAddIncomeFormButton.Text = "Add Income";
             this.openAddIncomeFormButton.UseVisualStyleBackColor = true;
@@ -242,25 +261,27 @@ namespace ExpensesTracker.Forms
             // accountLabel
             // 
             this.accountLabel.AutoSize = true;
-            this.accountLabel.Location = new System.Drawing.Point(21, 16);
+            this.accountLabel.Location = new System.Drawing.Point(32, 25);
+            this.accountLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.accountLabel.Name = "accountLabel";
-            this.accountLabel.Size = new System.Drawing.Size(91, 13);
+            this.accountLabel.Size = new System.Drawing.Size(133, 20);
             this.accountLabel.TabIndex = 18;
             this.accountLabel.Text = "Selected account";
             // 
             // searchInput
             // 
             this.searchInput.ForeColor = System.Drawing.Color.Black;
-            this.searchInput.Location = new System.Drawing.Point(410, 88);
+            this.searchInput.Location = new System.Drawing.Point(615, 135);
+            this.searchInput.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.searchInput.Name = "searchInput";
-            this.searchInput.Size = new System.Drawing.Size(100, 20);
+            this.searchInput.Size = new System.Drawing.Size(148, 26);
             this.searchInput.TabIndex = 19;
             // 
             // MainWindow
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(623, 450);
+            this.ClientSize = new System.Drawing.Size(934, 692);
             this.Controls.Add(this.searchInput);
             this.Controls.Add(this.accountLabel);
             this.Controls.Add(this.openAddIncomeFormButton);
@@ -276,6 +297,9 @@ namespace ExpensesTracker.Forms
             this.Controls.Add(this.operationsTable);
             this.Controls.Add(this.categoryFilterBox);
             this.Controls.Add(this.openAddFormButton);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.MaximizeBox = false;
             this.Name = "MainWindow";
             this.Text = "Expense Tracker";
             this.Load += new System.EventHandler(this.MainWindow_Load);

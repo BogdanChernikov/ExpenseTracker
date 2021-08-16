@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Threading.Tasks;
 
-namespace ExpensesTracker.DAL
+namespace ExpensesTracker.DAL.Repositories
 {
     public class AccountRepository
     {

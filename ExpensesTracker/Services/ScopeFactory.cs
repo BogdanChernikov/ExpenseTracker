@@ -1,4 +1,5 @@
 ﻿using ExpensesTracker.DAL;
+using ExpensesTracker.DAL.Repositories;
 
 namespace ExpensesTracker.Services
 {
