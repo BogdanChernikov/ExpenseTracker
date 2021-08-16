@@ -29,18 +29,16 @@ namespace ExpensesTracker.Forms
             _operationsTableManager = new OperationsTableManager(operationsTable);
         }
 
-        private void MainWindow_Load(object sender, EventArgs e)
+        private async void MainWindow_Load(object sender, EventArgs e)
         {
             InitializeDateRange();
             InitializeCategoryFilterBox();
 
-            _stateManager.Initialize();
-            _stateManager.EnsureAccountExists();
+            await _stateManager.InitializeAsync();
+            await _stateManager.EnsureAccountExistsAsync();
 
             RefreshListOfAccountsInAccountsBox();
-
             RefreshTableAndBalance();
-
             SetupSearchInput();
         }
 
@@ -110,9 +108,9 @@ namespace ExpensesTracker.Forms
         {
             var createAccountForm = new CreateAccountForm
             {
-                OnAccountAdded = (account) =>
+                OnAccountAdded = async (account) =>
                 {
-                    var operationResult = _stateManager.CreateAccount(account);
+                    var operationResult = await _stateManager.CreateAccountAsync(account);
                     if (!operationResult.Success)
                     {
                         MessageBox.Show(operationResult.ErrorMassage);
@@ -120,6 +118,7 @@ namespace ExpensesTracker.Forms
                     }
 
                     RefreshListOfAccountsInAccountsBox(account.Id);
+                    RefreshTableAndBalance();
                 }
             };
             createAccountForm.Show();
@@ -130,9 +129,9 @@ namespace ExpensesTracker.Forms
             var editAccountForm = new EditAccountForm
             {
                 TargetAccountForEdit = _stateManager.Accounts.Single(x => x.Id == SelectedAccountId),
-                OnAccountEdit = editedAccountModel =>
+                OnAccountEdit = async (editedAccountModel) =>
                 {
-                    var operationResult = _stateManager.EditAccount(editedAccountModel);
+                    var operationResult = await _stateManager.EditAccountAsync(editedAccountModel);
                     if (!operationResult.Success)
                     {
                         MessageBox.Show(operationResult.ErrorMassage);
@@ -143,13 +142,13 @@ namespace ExpensesTracker.Forms
                     RefreshBalance();
                 },
 
-                OnAccountDeleted = () =>
-                {
-                    _stateManager.DeleteAccount(SelectedAccountId);
+                OnAccountDeleted = async () =>
+                 {
+                     await _stateManager.DeleteAccountAsync(SelectedAccountId);
 
-                    RefreshListOfAccountsInAccountsBox();
-                    RefreshTableAndBalance();
-                }
+                     RefreshListOfAccountsInAccountsBox();
+                     RefreshTableAndBalance();
+                 }
             };
             editAccountForm.Show();
         }
@@ -158,11 +157,11 @@ namespace ExpensesTracker.Forms
         {
             var createIncomeForm = new CreateIncomeForm
             {
-                OnIncomeAdded = (income) =>
-                {
-                    _stateManager.CreateOperation(income, SelectedAccountId);
-                    RefreshTableAndBalance();
-                }
+                OnIncomeAdded = async (income) =>
+                 {
+                     await _stateManager.CreateOperationAsync(income, SelectedAccountId);
+                     RefreshTableAndBalance();
+                 }
             };
             createIncomeForm.Show();
         }
@@ -171,11 +170,11 @@ namespace ExpensesTracker.Forms
         {
             var createExpenseForm = new CreateExpenseForm
             {
-                OnExpenseAdded = (expense) =>
-                {
-                    _stateManager.CreateOperation(expense, SelectedAccountId);
-                    RefreshTableAndBalance();
-                }
+                OnExpenseAdded = async (expense) =>
+                 {
+                     await _stateManager.CreateOperationAsync(expense, SelectedAccountId);
+                     RefreshTableAndBalance();
+                 }
             };
             createExpenseForm.Show();
         }
@@ -211,15 +210,15 @@ namespace ExpensesTracker.Forms
                 var editExpenseForm = new EditExpenseForm
                 {
                     TargetExpense = operation,
-                    OnExpenseEdit = editOperation =>
+                    OnExpenseEdit = async editOperation =>
                     {
-                        _stateManager.EditOperation(editOperation);
+                        await _stateManager.EditOperationAsync(editOperation);
                         RefreshTableAndBalance();
                     },
 
-                    OnExpenseDeleted = () =>
+                    OnExpenseDeleted = async () =>
                     {
-                        _stateManager.DeleteOperation(operation.Id);
+                        await _stateManager.DeleteOperationAsync(operation.Id);
                         RefreshTableAndBalance();
                     }
                 };
@@ -230,16 +229,16 @@ namespace ExpensesTracker.Forms
                 var editIncomeForm = new EditIncomeForm
                 {
                     TargetIncome = operation,
-                    OnIncomeEdit = editOperation =>
+                    OnIncomeEdit = async (editOperation) =>
                     {
-                        _stateManager.EditOperation(editOperation);
+                        await _stateManager.EditOperationAsync(editOperation);
                         RefreshTableAndBalance();
                     },
-                    OnIncomeDeleted = () =>
-                    {
-                        _stateManager.DeleteOperation(operation.Id);
-                        RefreshTableAndBalance();
-                    }
+                    OnIncomeDeleted = async () =>
+                     {
+                         await _stateManager.DeleteOperationAsync(operation.Id);
+                         RefreshTableAndBalance();
+                     }
                 };
                 editIncomeForm.Show();
             }

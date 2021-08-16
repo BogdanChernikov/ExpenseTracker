@@ -1,14 +1,15 @@
 ﻿using ExpensesTracker.Models;
 using ExpensesTracker.Models.RequestModels;
 using System;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace ExpensesTracker.Forms
 {
     public partial class EditExpenseForm : Form
     {
-        public Action<EditOperationModel> OnExpenseEdit;
-        public Action OnExpenseDeleted;
+        public Func<EditOperationModel, Task> OnExpenseEdit;
+        public Func<Task> OnExpenseDeleted;
         public AccountOperation TargetExpense;
 
         public EditExpenseForm()
@@ -30,15 +31,15 @@ namespace ExpensesTracker.Forms
             this.Close();
         }
 
-        private void DeleteDataButton_Click(object sender, EventArgs e)
+        private async void DeleteDataButton_Click(object sender, EventArgs e)
         {
-            OnExpenseDeleted();
+            await OnExpenseDeleted();
             this.Close();
         }
 
-        private void EditDataButton_Click(object sender, EventArgs e)
+        private async void EditDataButton_Click(object sender, EventArgs e)
         {
-            OnExpenseEdit(new EditOperationModel()
+            await OnExpenseEdit(new EditOperationModel()
             {
                 Amount = expenseSumInput.Value,
                 Category = Convert.ToString(expenseCategoryBox.SelectedItem),

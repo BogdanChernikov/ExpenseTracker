@@ -7,6 +7,7 @@ using ExpensesTracker.Models.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace ExpensesTracker.Services
 {
@@ -22,9 +23,9 @@ namespace ExpensesTracker.Services
             _dbStorage = new DbStorage();
         }
 
-        public void Initialize()
+        public async Task InitializeAsync()
         {
-            _accounts = _dbStorage.GetAccounts();
+            _accounts = await _dbStorage.GetAccountsAsync();
         }
 
         public List<AccountViewModel> GetAccountViewModels()
@@ -36,7 +37,7 @@ namespace ExpensesTracker.Services
             }).ToList();
         }
 
-        public OperationResult CreateAccount(Account account)
+        public async Task<OperationResult> CreateAccountAsync(Account account)
         {
             var operationResult = new OperationResult()
             {
@@ -50,7 +51,7 @@ namespace ExpensesTracker.Services
             }
 
             var accountEntity = new AccountEntity { Name = account.Name, InitialBalance = account.InitialBalance };
-            _dbStorage.CreateAccount(accountEntity);
+            await _dbStorage.CreateAccountAsync(accountEntity);
 
             account.Id = accountEntity.Id;
             _accounts.Add(account);
@@ -59,7 +60,7 @@ namespace ExpensesTracker.Services
             return operationResult;
         }
 
-        public OperationResult EditAccount(EditAccountModel editAccountModel)
+        public async Task<OperationResult> EditAccountAsync(EditAccountModel editAccountModel)
         {
             var operationResult = new OperationResult();
 
@@ -74,27 +75,27 @@ namespace ExpensesTracker.Services
             accountToEdit.Name = editAccountModel.Name;
             accountToEdit.InitialBalance = editAccountModel.InitialBalance;
 
-            _dbStorage.EditAccount(accountToEdit);
+            await _dbStorage.EditAccountAsync(accountToEdit);
 
             operationResult.Success = true;
 
             return operationResult;
         }
 
-        public void DeleteAccount(int accountId)
+        public async Task DeleteAccountAsync(int accountId)
         {
             _accounts.Remove(Accounts.Single(x => x.Id == accountId));
-            _dbStorage.DeleteAccount(accountId);
-            EnsureAccountExists();
+            await _dbStorage.DeleteAccountAsync(accountId);
+            await EnsureAccountExistsAsync();
         }
 
-        public void EnsureAccountExists()
+        public async Task EnsureAccountExistsAsync()
         {
             if (!Accounts.Any())
-                CreateDefaultAccount();
+                await CreateDefaultAccountAsync();
         }
 
-        public void CreateOperation(AccountOperation operation, int accountId)
+        public async Task CreateOperationAsync(AccountOperation operation, int accountId)
         {
             var operationEntity = new OperationEntity
             {
@@ -106,11 +107,11 @@ namespace ExpensesTracker.Services
             };
 
             _accounts.Single(x => x.Id == accountId).AccountOperations.Add(operation);
-            _dbStorage.CreateOperation(operationEntity);
+            await _dbStorage.CreateOperationAsync(operationEntity);
             operation.Id = operationEntity.Id;
         }
 
-        public void EditOperation(EditOperationModel editOperationModel)
+        public async Task EditOperationAsync(EditOperationModel editOperationModel)
         {
             var account = Accounts.Single(x =>
                 x.AccountOperations.Any(a => a.Id == editOperationModel.Id));
@@ -122,10 +123,10 @@ namespace ExpensesTracker.Services
             operationToEdit.Comment = editOperationModel.Comment;
             operationToEdit.Date = editOperationModel.Date;
 
-            _dbStorage.EditOperation(operationToEdit);
+            await _dbStorage.EditOperationAsync(operationToEdit);
         }
 
-        public void DeleteOperation(int operationId)
+        public async Task DeleteOperationAsync(int operationId)
         {
             var account = Accounts.Single(x =>
                 x.AccountOperations.Any(y => y.Id == operationId));
@@ -133,7 +134,7 @@ namespace ExpensesTracker.Services
             var operationToDelete = account.AccountOperations.Single(x => x.Id == operationId);
 
             account.AccountOperations.Remove(operationToDelete);
-            _dbStorage.DeleteOperation(operationId);
+            await _dbStorage.DeleteOperationAsync(operationId);
         }
 
         public List<AccountOperation> GetFilteredOperations(OperationsQueryFilter filteredOperationModel)
@@ -172,7 +173,7 @@ namespace ExpensesTracker.Services
             return sum;
         }
 
-        private void CreateDefaultAccount()
+        private async Task CreateDefaultAccountAsync()
         {
             var account = new Account()
             {
@@ -181,7 +182,7 @@ namespace ExpensesTracker.Services
                 AccountOperations = new List<AccountOperation>()
             };
 
-            var operationResult = CreateAccount(account);
+            var operationResult = await CreateAccountAsync(account);
             if (!operationResult.Success)
             {
                 throw new InvalidOperationException(operationResult.ErrorMassage);

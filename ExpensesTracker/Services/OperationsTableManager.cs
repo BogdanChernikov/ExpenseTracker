@@ -13,8 +13,10 @@ namespace ExpensesTracker.Services
         public OperationsTableManager(DataGridView operationsTable)
         {
             _operationsTable = operationsTable;
+
             _operationsTable.AllowUserToResizeColumns = false;
             _operationsTable.AllowUserToResizeRows = false;
+            _operationsTable.AutoGenerateColumns = false;
         }
 
         public void RefreshTable(List<AccountOperation> filteredOperations)

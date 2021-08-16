@@ -1,7 +1,8 @@
-﻿using System.Linq;
-using ExpensesTracker.DAL.Models;
+﻿using ExpensesTracker.DAL.Models;
+using System.Data.Entity;
+using System.Threading.Tasks;
 
-namespace ExpensesTracker.DAL
+namespace ExpensesTracker.DAL.Repositories
 {
     public class OperationRepository
     {
@@ -12,9 +13,9 @@ namespace ExpensesTracker.DAL
             _dbContext = dbContext;
         }
 
-        public OperationEntity FindById(int id)
+        public async Task<OperationEntity> FindByIdAsync(int id)
         {
-            return _dbContext.Operation.FirstOrDefault(x => x.Id == id);
+            return await _dbContext.Operation.FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public void CreateOperation(OperationEntity operation)
@@ -22,9 +23,9 @@ namespace ExpensesTracker.DAL
             _dbContext.Operation.Add(operation);
         }
 
-        public void DeleteOperation(int id)
+        public async Task DeleteOperationAsync(int id)
         {
-            var operation = _dbContext.Operation.First(x => x.Id == id);
+            var operation = await _dbContext.Operation.FirstAsync(x => x.Id == id);
             _dbContext.Operation.Remove(operation);
         }
     }
